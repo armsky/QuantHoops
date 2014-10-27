@@ -1,0 +1,678 @@
+/usr/bin/python /Users/armsky/WORKPLACE/QuantHoops/BeautifulSoup/test.py
+<html>
+ <head>
+  <title>
+   Game By Game Stats
+  </title>
+  <link href="/stylesheets/scaffold.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/baseForms.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/pagination.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/menu.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <script src="/javascripts/prototype.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/effects.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/dragdrop.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/controls.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/control.modal.2.2.1.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/livepipe.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/window.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/menu.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/jstz.min.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/calendar_date_select/calendar_date_select.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/calendar_date_select/format_american.js?1409071858" type="text/javascript">
+  </script>
+  <link href="/stylesheets/calendar_date_select/silver.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+  </script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js">
+  </script>
+  <link href="/stylesheets/redmond/jquery-ui-1.8.23.custom.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/overcast/jquery.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/jquery.loadmask.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/table.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/jquery.dataTables.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <script src="/javascripts/jquery.loadmask.min.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/jquery.dataTables.min.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/application.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/numHtmlSort.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/titleNumericSort.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/gradeLevelSort.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/datatable.getColumnData.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/datatable.createSelect.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/datatable.thSelectors.js?1409071858" type="text/javascript">
+  </script>
+  <script language="javascript">
+   var downImage = "/images/down12.gif";
+var rightImage = "/images/right12.gif";
+
+function toggle_row(attr_val){
+	arr = $$('['+attr_val+']');
+	for(x=0; x < arr.length; x++){
+			arr[x].toggle();
+	}
+}
+function show_hide_rows(attr_val, link_id){
+  if (Object.prototype.toString.call(attr_val).match(/^\[object (.*)\]$/)[1] == "Array"){
+    for(y=0; y < attr_val.length; y++){
+       toggle_row(attr_val[y]);
+     }
+  }else{
+    toggle_row(attr_val);
+  }
+	//arr = $$('['+attr_val+']');
+	//for(x=0; x < arr.length; x++){
+			//arr[x].toggle();
+	//}
+	if ( $(link_id).alt == "Add" ){
+		$(link_id).src = downImage; //'/images/down12.gif';
+		$(link_id).alt = 'Delete';
+	}else{
+	    $(link_id).src = rightImage; //'/images/right12.gif';
+		$(link_id).alt = 'Add';
+		
+	}
+}
+  </script>
+  <script>
+   var winHeight = "auto";
+var winWidth = "auto";
+var maxHeight = 700;
+var maxWidth = 1400;
+var minHeight = 100;
+var minWidth = 200;
+
+var modalOptions = {"width": winWidth,
+                    "height": winHeight,
+                    "maxHeight": maxHeight,
+                    "maxWidth": maxWidth,
+                    "minHeight": minHeight,
+                    "minWidth": minWidth};
+
+function dialog(url, title){
+
+  $j("#stats_app_dialog").dialog({modal:true, minWidth:minWidth, minHeight:minHeight, maxWidth:maxWidth, maxHeight:maxHeight, width:winWidth, height:winHeight, title:title, closeOnEscape: false});
+
+  modalOptions.title = title;
+
+  $j("#stats_app_dialog").dialog("option", modalOptions);
+
+  $j("#stats_app_dialog").html("Loading...");
+  $j("#stats_app_dialog").load(url).dialog('open');
+}
+  </script>
+ </head>
+ <body>
+  <div class="header">
+   <div class="logo">
+   </div>
+   <div class="rightSide">
+    <a class="smallFont" href="http://web1.ncaa.org/cgi-bin/ithelp/help.cgi?application=stats" target="_blank" title="To ask a question, report a problem, or to submit ideas to help us improve this website.">
+     Contact Us
+    </a>
+   </div>
+   <div class="appTitle">
+    2013-14 Men's Basketball
+   </div>
+  </div>
+  <p style="color: green">
+  </p>
+  <p style="color: red">
+  </p>
+  <div class="contentArea" id="contentArea">
+   <div id="stats_app_dialog" style="display:none;">
+   </div>
+   <h1>
+    A&amp;M-Corpus Christi Islanders (18-16)
+   </h1>
+   <a href="/team/index/11540?org_id=26172" onclick="window.open(this.href,'_top','scrollbars');return false;">
+    Schedule/Results
+   </a>
+   |
+Roster |
+   <a href="/team/stats?org_id=26172&amp;sport_year_ctl_id=11540">
+    Team Statistics
+   </a>
+   |
+   <a href="/player/game_by_game?game_sport_year_ctl_id=11540&amp;org_id=26172&amp;stats_player_seq=-100">
+    Game By Game
+   </a>
+   |
+   <!--
+<a href="/team/team_game_highs?org_id=26172&amp;sport_year_ctl_id=11540">Game Highs</a> |
+<a href="/team/conf_game_highs?org_id=26172&amp;sport_year_ctl_id=11540">Conf Game Highs</a> |
+-->
+   <a href="/player/player_rank_history?game_sport_year_ctl_id=11540&amp;index_start=0&amp;org_id=26172&amp;stat_seq_to_chart=0&amp;stats_player_seq=-100">
+    Ranking Trends
+   </a>
+   |
+   <a href="/player/team_player_rank_yearly_history?game_sport_year_ctl_id=11540&amp;index_start=0&amp;org_id=26172&amp;stat_seq_to_chart=0&amp;stats_player_seq=-100">
+    Team Final Trends
+   </a>
+   |
+   <a href="/team/inst_team_list/11540?conf_id=914.0&amp;division=1.0">
+    Conf Team List
+   </a>
+   |
+   <a href="/team/schedule_list?academic_year=2014&amp;division=1.0&amp;sport_code=MBB" target="NCAA_SCHEDS">
+    Scoreboard
+   </a>
+   |
+   <a href="/rankings/change_sport_year_div?academic_year=2014&amp;division=1.0&amp;sport_code=MBB">
+    National Rankings
+   </a>
+   |
+   <a href="/rankings/ranking_summary?academic_year=2014&amp;division=1.0&amp;org_id=26172&amp;ranking_period=49&amp;sport_code=MBB">
+    Ranking Summary
+   </a>
+   <!--
+<a href="http://web1.ncaa.org/stats/StatsSrv/rankings?sportCode=MBB&academicYear=2014">National Rankings</a>
+-->
+   <br/>
+   <script>
+    $j(document).ready(function() {
+          var oTable = $j('#stat_grid').dataTable({
+                "bPaginate": false,
+                "bProcessing": true,
+                "aoColumns": [
+             
+               null,
+             
+               null,
+             
+               null,
+             
+               null,
+             
+                 {"sType": "grade-level"},
+
+                 {"sType": "num-html", "asSorting": ["desc","asc"]},
+                 {"sType": "num-html", "asSorting": ["desc","asc"]}
+                 ],
+                 "aaSorting": [[1, 'asc']]
+             });
+             thSelectors(oTable);
+       } );
+   </script>
+   <table align="center" class="mytable" id="stat_grid" width="90%">
+    <thead>
+     <tr class="heading">
+      <td colspan="7">
+       Roster
+      </td>
+     </tr>
+     <tr class="heading">
+      <th>
+       Jersey
+      </th>
+      <th>
+       Player
+      </th>
+      <th allowselectfilter="true">
+       Pos
+      </th>
+      <th>
+       Ht
+      </th>
+      <th allowselectfilter="true" selectlist="Fr,So,Jr,Sr,N/A">
+       Yr
+      </th>
+      <th>
+       GP
+      </th>
+      <th>
+       GS
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       01
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1289295.0" target="_TOP">
+        Ali, Hameed
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-2
+      </td>
+      <td sortval="3.0">
+       Jr
+      </td>
+      <td>
+       34
+      </td>
+      <td>
+       30
+      </td>
+     </tr>
+     <tr>
+      <td>
+       30
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1510029.0" target="_TOP">
+        Beverly, Jeff
+       </a>
+      </td>
+      <td>
+       F
+      </td>
+      <td>
+       6-6
+      </td>
+      <td sortval="1.0">
+       Fr
+      </td>
+      <td>
+       34
+      </td>
+      <td>
+       34
+      </td>
+     </tr>
+     <tr>
+      <td>
+       11
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1402236.0" target="_TOP">
+        Currie, Jelani
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-4
+      </td>
+      <td sortval="2.0">
+       So
+      </td>
+      <td>
+       26
+      </td>
+      <td>
+       6
+      </td>
+     </tr>
+     <tr>
+      <td>
+       23
+      </td>
+      <td>
+       Douvier, Bryce
+      </td>
+      <td>
+       F
+      </td>
+      <td>
+       6-7
+      </td>
+      <td sortval="3.0">
+       Jr
+      </td>
+      <td>
+       0
+      </td>
+      <td>
+       0
+      </td>
+     </tr>
+     <tr>
+      <td>
+       4
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1510026.0" target="_TOP">
+        Ellison, Marcus
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-1
+      </td>
+      <td sortval="1.0">
+       Fr
+      </td>
+      <td>
+       1
+      </td>
+      <td>
+       0
+      </td>
+     </tr>
+     <tr>
+      <td>
+       34
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1402237.0" target="_TOP">
+        Francis, Dale
+       </a>
+      </td>
+      <td>
+       F
+      </td>
+      <td>
+       6-9
+      </td>
+      <td sortval="2.0">
+       So
+      </td>
+      <td>
+       26
+      </td>
+      <td>
+       0
+      </td>
+     </tr>
+     <tr>
+      <td>
+       10
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1289299.0" target="_TOP">
+        Jordan, Johnathan
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       5-10
+      </td>
+      <td sortval="3.0">
+       Jr
+      </td>
+      <td>
+       33
+      </td>
+      <td>
+       33
+      </td>
+     </tr>
+     <tr>
+      <td>
+       32
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1289300.0" target="_TOP">
+        King, James
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-0
+      </td>
+      <td sortval="3.0">
+       Jr
+      </td>
+      <td>
+       19
+      </td>
+      <td>
+       1
+      </td>
+     </tr>
+     <tr>
+      <td>
+       03
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1402239.0" target="_TOP">
+        Knowles, Zane
+       </a>
+      </td>
+      <td>
+       F
+      </td>
+      <td>
+       6-10
+      </td>
+      <td sortval="4.0">
+       Sr
+      </td>
+      <td>
+       34
+      </td>
+      <td>
+       34
+      </td>
+     </tr>
+     <tr>
+      <td>
+       12
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1289301.0" target="_TOP">
+        Kocher, Jake
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-3
+      </td>
+      <td sortval="2.0">
+       So
+      </td>
+      <td>
+       32
+      </td>
+      <td>
+       3
+      </td>
+     </tr>
+     <tr>
+      <td>
+       44
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1521439.0" target="_TOP">
+        Lynch, Kevin
+       </a>
+      </td>
+      <td>
+      </td>
+      <td>
+       -
+      </td>
+      <td sortval="0.0">
+       N/A
+      </td>
+      <td>
+       11
+      </td>
+      <td>
+       0
+      </td>
+     </tr>
+     <tr>
+      <td>
+       02
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1402240.0" target="_TOP">
+        Martinez, Cole
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-2
+      </td>
+      <td sortval="2.0">
+       So
+      </td>
+      <td>
+       32
+      </td>
+      <td>
+       0
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1402242.0" target="_TOP">
+        Pye, Brandon
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-0
+      </td>
+      <td sortval="2.0">
+       So
+      </td>
+      <td>
+       33
+      </td>
+      <td>
+       23
+      </td>
+     </tr>
+     <tr>
+      <td>
+       25
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1510028.0" target="_TOP">
+        Thomas, Rashawn
+       </a>
+      </td>
+      <td>
+       F
+      </td>
+      <td>
+       6-7
+      </td>
+      <td sortval="1.0">
+       Fr
+      </td>
+      <td>
+       25
+      </td>
+      <td>
+       0
+      </td>
+     </tr>
+     <tr>
+      <td>
+       14
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1510027.0" target="_TOP">
+        Toney, Emmanuel
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-3
+      </td>
+      <td sortval="1.0">
+       Fr
+      </td>
+      <td>
+       2
+      </td>
+      <td>
+       0
+      </td>
+     </tr>
+     <tr>
+      <td>
+       31
+      </td>
+      <td>
+       <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1402243.0" target="_TOP">
+        Williamson, Joy
+       </a>
+      </td>
+      <td>
+       G
+      </td>
+      <td>
+       6-3
+      </td>
+      <td sortval="4.0">
+       Sr
+      </td>
+      <td>
+       33
+      </td>
+      <td>
+       6
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="footer" id="footer">
+   <div>
+    © 2014 NCAA
+    <span>
+     <a href="http://web1.ncaa.org/web_files/terms_and_conditions.html" target="_blank">
+      Terms and Conditions
+     </a>
+     |
+     <a href="http://web1.ncaa.org/web_files/privacy.html" target="_blank" title="Our Privacy Policy">
+      Privacy
+     </a>
+    </span>
+   </div>
+  </div>
+  <script type="text/javascript">
+   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+   try {
+var pageTracker = _gat._getTracker("UA-2045383-4");
+pageTracker._trackPageview();
+} catch(err) {}
+  </script>
+ </body>
+ <script>
+  $j("body").on("click", ".showMask", (function() {
+       $j('#contentArea').mask('Loading...');
+    }));
+ </script>
+</html>
+
+
+Process finished with exit code 0

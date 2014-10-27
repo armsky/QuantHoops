@@ -1,0 +1,1059 @@
+/usr/bin/python /Users/armsky/WORKPLACE/QuantHoops/BeautifulSoup/test.py
+<html>
+ <head>
+  <title>
+   Game By Game Stats
+  </title>
+  <link href="/stylesheets/scaffold.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/baseForms.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/pagination.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/menu.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <script src="/javascripts/prototype.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/effects.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/dragdrop.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/controls.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/control.modal.2.2.1.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/livepipe.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/window.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/menu.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/jstz.min.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/calendar_date_select/calendar_date_select.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/calendar_date_select/format_american.js?1409071858" type="text/javascript">
+  </script>
+  <link href="/stylesheets/calendar_date_select/silver.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+  </script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js">
+  </script>
+  <link href="/stylesheets/redmond/jquery-ui-1.8.23.custom.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/overcast/jquery.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/jquery.loadmask.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/table.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/jquery.dataTables.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
+  <script src="/javascripts/jquery.loadmask.min.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/jquery.dataTables.min.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/application.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/numHtmlSort.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/titleNumericSort.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/gradeLevelSort.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/datatable.getColumnData.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/datatable.createSelect.js?1409071858" type="text/javascript">
+  </script>
+  <script src="/javascripts/datatable.thSelectors.js?1409071858" type="text/javascript">
+  </script>
+  <script language="javascript">
+   var downImage = "/images/down12.gif";
+var rightImage = "/images/right12.gif";
+
+function toggle_row(attr_val){
+	arr = $$('['+attr_val+']');
+	for(x=0; x < arr.length; x++){
+			arr[x].toggle();
+	}
+}
+function show_hide_rows(attr_val, link_id){
+  if (Object.prototype.toString.call(attr_val).match(/^\[object (.*)\]$/)[1] == "Array"){
+    for(y=0; y < attr_val.length; y++){
+       toggle_row(attr_val[y]);
+     }
+  }else{
+    toggle_row(attr_val);
+  }
+	//arr = $$('['+attr_val+']');
+	//for(x=0; x < arr.length; x++){
+			//arr[x].toggle();
+	//}
+	if ( $(link_id).alt == "Add" ){
+		$(link_id).src = downImage; //'/images/down12.gif';
+		$(link_id).alt = 'Delete';
+	}else{
+	    $(link_id).src = rightImage; //'/images/right12.gif';
+		$(link_id).alt = 'Add';
+		
+	}
+}
+  </script>
+  <script>
+   var winHeight = "auto";
+var winWidth = "auto";
+var maxHeight = 700;
+var maxWidth = 1400;
+var minHeight = 100;
+var minWidth = 200;
+
+var modalOptions = {"width": winWidth,
+                    "height": winHeight,
+                    "maxHeight": maxHeight,
+                    "maxWidth": maxWidth,
+                    "minHeight": minHeight,
+                    "minWidth": minWidth};
+
+function dialog(url, title){
+
+  $j("#stats_app_dialog").dialog({modal:true, minWidth:minWidth, minHeight:minHeight, maxWidth:maxWidth, maxHeight:maxHeight, width:winWidth, height:winHeight, title:title, closeOnEscape: false});
+
+  modalOptions.title = title;
+
+  $j("#stats_app_dialog").dialog("option", modalOptions);
+
+  $j("#stats_app_dialog").html("Loading...");
+  $j("#stats_app_dialog").load(url).dialog('open');
+}
+  </script>
+ </head>
+ <body>
+  <div class="header">
+   <div class="logo">
+   </div>
+   <div class="rightSide">
+    <a class="smallFont" href="http://web1.ncaa.org/cgi-bin/ithelp/help.cgi?application=stats" target="_blank" title="To ask a question, report a problem, or to submit ideas to help us improve this website.">
+     Contact Us
+    </a>
+   </div>
+   <div class="appTitle">
+    2013-14 Men's Basketball
+   </div>
+  </div>
+  <p style="color: green">
+  </p>
+  <p style="color: red">
+  </p>
+  <div class="contentArea" id="contentArea">
+   <div id="stats_app_dialog" style="display:none;">
+   </div>
+   <h1>
+    A&amp;M-Corpus Christi Islanders (18-16)
+   </h1>
+   Schedule/Results |
+   <a href="/team/roster/11540?org_id=26172">
+    Roster
+   </a>
+   |
+   <a href="/team/stats?org_id=26172&amp;sport_year_ctl_id=11540">
+    Team Statistics
+   </a>
+   |
+   <a href="/player/game_by_game?game_sport_year_ctl_id=11540&amp;org_id=26172&amp;stats_player_seq=-100">
+    Game By Game
+   </a>
+   |
+   <!--
+<a href="/team/team_game_highs?org_id=26172&amp;sport_year_ctl_id=11540">Game Highs</a> |
+<a href="/team/conf_game_highs?org_id=26172&amp;sport_year_ctl_id=11540">Conf Game Highs</a> |
+-->
+   <a href="/player/player_rank_history?game_sport_year_ctl_id=11540&amp;index_start=0&amp;org_id=26172&amp;stat_seq_to_chart=0&amp;stats_player_seq=-100">
+    Ranking Trends
+   </a>
+   |
+   <a href="/player/team_player_rank_yearly_history?game_sport_year_ctl_id=11540&amp;index_start=0&amp;org_id=26172&amp;stat_seq_to_chart=0&amp;stats_player_seq=-100">
+    Team Final Trends
+   </a>
+   |
+   <a href="/team/inst_team_list/11540?conf_id=914.0&amp;division=1.0">
+    Conf Team List
+   </a>
+   |
+   <a href="/team/schedule_list?academic_year=2014&amp;division=1.0&amp;sport_code=MBB" target="NCAA_SCHEDS">
+    Scoreboard
+   </a>
+   |
+   <a href="/rankings/change_sport_year_div?academic_year=2014&amp;division=1.0&amp;sport_code=MBB">
+    National Rankings
+   </a>
+   |
+   <a href="/rankings/ranking_summary?academic_year=2014&amp;division=1.0&amp;org_id=26172&amp;ranking_period=49&amp;sport_code=MBB">
+    Ranking Summary
+   </a>
+   <!--
+<a href="http://web1.ncaa.org/stats/StatsSrv/rankings?sportCode=MBB&academicYear=2014">National Rankings</a>
+-->
+   <table width="90%">
+    <tr>
+     <td colspan="2">
+      <br/>
+      <div>
+       <span style="color: #000000;">
+        2013-14
+       </span>
+       <span>
+        |
+       </span>
+       <span>
+        <a href="/team/index/11220?org_id=26172&amp;sport_year_ctl_id=11220">
+         2012-13
+        </a>
+       </span>
+       <!--
+                     <span><a href="#" onclick="new Ajax.Updater('stats_div', '/team/stats?org_id=26172&amp;sport_year_ctl_id=11220', {asynchronous:true, evalScripts:true, onComplete:function(request){$j('#contentArea').unmask();}, onLoading:function(request){$j('#contentArea').mask('Loading...');}}); return false;">2012-13</a></span> 
+                     -->
+       <span>
+        |
+       </span>
+       <span>
+        <a href="/team/index/10740?org_id=26172&amp;sport_year_ctl_id=10740">
+         2011-12
+        </a>
+       </span>
+       <!--
+                     <span><a href="#" onclick="new Ajax.Updater('stats_div', '/team/stats?org_id=26172&amp;sport_year_ctl_id=10740', {asynchronous:true, evalScripts:true, onComplete:function(request){$j('#contentArea').unmask();}, onLoading:function(request){$j('#contentArea').mask('Loading...');}}); return false;">2011-12</a></span> 
+                     -->
+       <span>
+        |
+       </span>
+       <span>
+        <a href="/team/index/10440?org_id=26172&amp;sport_year_ctl_id=10440">
+         2010-11
+        </a>
+       </span>
+       <!--
+                     <span><a href="#" onclick="new Ajax.Updater('stats_div', '/team/stats?org_id=26172&amp;sport_year_ctl_id=10440', {asynchronous:true, evalScripts:true, onComplete:function(request){$j('#contentArea').unmask();}, onLoading:function(request){$j('#contentArea').mask('Loading...');}}); return false;">2010-11</a></span> 
+                     -->
+       <span>
+        |
+       </span>
+       <span>
+        <a href="/team/index/10260?org_id=26172&amp;sport_year_ctl_id=10260">
+         2009-10
+        </a>
+       </span>
+       <!--
+                     <span><a href="#" onclick="new Ajax.Updater('stats_div', '/team/stats?org_id=26172&amp;sport_year_ctl_id=10260', {asynchronous:true, evalScripts:true, onComplete:function(request){$j('#contentArea').unmask();}, onLoading:function(request){$j('#contentArea').mask('Loading...');}}); return false;">2009-10</a></span> 
+                     -->
+       <span>
+       </span>
+      </div>
+     </td>
+    </tr>
+    <tr>
+     <td valign="top" width="50%">
+      <table align="center" class="mytable" width="100%">
+       <tr class="heading">
+        <td colspan="3">
+         Schedule/Results
+        </td>
+       </tr>
+       <tr class="grey_heading">
+        <td width="8%">
+         Date
+        </td>
+        <td align="center" width="20%">
+         Opponent
+        </td>
+        <td align="center" width="6%">
+         Result
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/08/2013
+        </td>
+        <td class="smtext">
+         Huston-Tillotson
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2697614?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 79 - 45
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/12/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=311" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Iowa St.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2705650?org_id=311" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 50 - 80
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/15/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=308" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          IPFW
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2740894?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 72 - 71
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/16/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=692" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Tennessee Tech
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2727142?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 60 - 62
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/17/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=536" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Tex.-Pan American
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2740333?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 72 - 61
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/20/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=574" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Rice
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2766553?org_id=574" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 61 - 63
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/23/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=706" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ UTSA
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2768693?org_id=706" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 76 - 87
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/26/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=129" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Central Mich.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2786953?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 64 - 68
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         11/30/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=288" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Houston
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2793857?org_id=288" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 67 - 78
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         12/05/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=522" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Oklahoma
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2805893?org_id=522" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 56 - 78
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         12/08/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=30088" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Tex. Permian Basin
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2811773?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 77 - 82
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         12/20/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=101" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          CSUN
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2835047?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 66 - 67
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         12/28/2013
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=428" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Minnesota
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2838573?org_id=428" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 44 - 65
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/02/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=1004" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Central Ark.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2845510?org_id=1004" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 81 - 66
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/04/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=527" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Oral Roberts
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2850813?org_id=527" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 71 - 64
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/09/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=508" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Northwestern St.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2859375?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 101 - 87
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/11/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=676" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Stephen F. Austin
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2876493?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 70 - 80
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/16/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=402" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ McNeese St.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2889118?org_id=402" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 77 - 61
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/18/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=483" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Nicholls St.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2895894?org_id=483" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 70 - 67
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/23/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=655" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Southeastern La.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2914713?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 74 - 71
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/25/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=474" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          New Orleans
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2921214?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 62 - 70
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         01/30/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=624" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Sam Houston St.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2947713?org_id=624" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 74 - 78
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         02/01/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=346" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Lamar
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2943640?org_id=346" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 58 - 35
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         02/06/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=2743" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Incarnate Word
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2967105?org_id=2743" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 78 - 82
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         02/08/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=2" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Abilene Christian
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/2975593?org_id=2" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 71 - 69
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         02/13/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=1004" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Central Ark.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3012053?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 84 - 73
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         02/15/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=527" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Oral Roberts
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3022876?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 74 - 72 (1OT)
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         02/22/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=287" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Houston Baptist
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3081083?org_id=287" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 66 - 61
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         03/01/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=287" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Houston Baptist
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3119217?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 65 - 45
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         03/06/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=402" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          McNeese St.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3148930?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 67 - 51
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         03/08/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=483" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Nicholls St.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3159466?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 58 - 44
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         03/14/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=624" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          Sam Houston St.
+          <br/>
+          @ Leonard E. Merrell Center (Katy,TX)
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3208545?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 63 - 69
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         03/19/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=502" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Northern Colo.
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3245862?org_id=502" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          W 82 - 71
+         </a>
+        </td>
+       </tr>
+       <tr>
+        <td class="smtext">
+         03/22/2014
+        </td>
+        <td class="smtext">
+         <a href="/team/index/11540?org_id=534" onclick="window.open(this.href,'_top','scrollbars');return false;">
+          @ Pacific
+         </a>
+        </td>
+        <td class="smtext">
+         <a href="/game/index/3249318?org_id=534" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
+          L 60 - 89
+         </a>
+        </td>
+       </tr>
+      </table>
+     </td>
+     <td valign="top" width="50%">
+      <table class="mytable" width="100%">
+       <tr class="heading">
+        <td colspan="3">
+         Team Stats - Through games 04/07/2014
+        </td>
+       </tr>
+       <tr class="grey_heading">
+        <td>
+         Stat
+        </td>
+        <td>
+         Rank
+        </td>
+        <td>
+         Value
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=145.0" target="Rankings">
+          Scoring Offense
+         </a>
+        </td>
+        <td align="right">
+         222
+        </td>
+        <td align="right">
+         69.1
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=146.0" target="Rankings">
+          Scoring Defense
+         </a>
+        </td>
+        <td align="right">
+         116
+        </td>
+        <td align="right">
+         68.0
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=147.0" target="Rankings">
+          Scoring Margin
+         </a>
+        </td>
+        <td align="right">
+         173
+        </td>
+        <td align="right">
+         1.1
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=151.0" target="Rankings">
+          Rebound Margin
+         </a>
+        </td>
+        <td align="right">
+         113
+        </td>
+        <td align="right">
+         2.2
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=216.0" target="Rankings">
+          Assists Per Game
+         </a>
+        </td>
+        <td align="right">
+         183
+        </td>
+        <td align="right">
+         12.5
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=214.0" target="Rankings">
+          Blocked Shots Per Game
+         </a>
+        </td>
+        <td align="right">
+         250
+        </td>
+        <td align="right">
+         2.9
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=215.0" target="Rankings">
+          Steals Per Game
+         </a>
+        </td>
+        <td align="right">
+         121
+        </td>
+        <td align="right">
+         6.6
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=519.0" target="Rankings">
+          Turnover Margin
+         </a>
+        </td>
+        <td align="right">
+         193
+        </td>
+        <td align="right">
+         -0.2
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=474.0" target="Rankings">
+          Assist Turnover Ratio
+         </a>
+        </td>
+        <td align="right">
+         178
+        </td>
+        <td align="right">
+         1.03
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=148.0" target="Rankings">
+          Field-Goal Percentage
+         </a>
+        </td>
+        <td align="right">
+         28
+        </td>
+        <td align="right">
+         47.4
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=149.0" target="Rankings">
+          Field-Goal Percentage Defense
+         </a>
+        </td>
+        <td align="right">
+         205
+        </td>
+        <td align="right">
+         44.3
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=153.0" target="Rankings">
+          Three-Point Field Goals Per Game
+         </a>
+        </td>
+        <td align="right">
+         337
+        </td>
+        <td align="right">
+         4.4
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=150.0" target="Rankings">
+          Free-Throw Percentage
+         </a>
+        </td>
+        <td align="right">
+         286
+        </td>
+        <td align="right">
+         66.2
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=168.0" target="Rankings">
+          Won-Lost Percentage
+         </a>
+        </td>
+        <td align="right">
+         T-162
+        </td>
+        <td align="right">
+         52.9
+        </td>
+       </tr>
+       <tr class="grey_heading">
+        <td colspan="3">
+         <a href="/rankings/ranking_summary?academic_year=2014.0&amp;division=1.0&amp;game_high=N&amp;org_id=26172&amp;ranking_period=49&amp;sport_code=MBB&amp;team_individual=T" target="RANKINGS_WIN">
+          View Complete Ranking Summary
+         </a>
+        </td>
+       </tr>
+      </table>
+      <br/>
+      <table class="mytable" width="100%">
+       <tr class="heading">
+        <td colspan="3">
+         Individual Leaders
+        </td>
+       </tr>
+       <tr class="grey_heading">
+        <td>
+         Stat
+        </td>
+        <td>
+         Player
+        </td>
+        <td>
+         Value
+        </td>
+       </tr>
+       <tr>
+        <td>
+         PTS
+        </td>
+        <td>
+         <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1289299" target="_TOP">
+          Johnathan Jordan
+         </a>
+        </td>
+        <td align="right">
+         477
+        </td>
+       </tr>
+       <tr class="grey_heading">
+        <td colspan="3">
+         <a href="#" onclick='$j("#tabs").tabs( "select" , 1);; return false;'>
+          Team Stats
+         </a>
+        </td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+   </table>
+  </div>
+  <div class="footer" id="footer">
+   <div>
+    © 2014 NCAA
+    <span>
+     <a href="http://web1.ncaa.org/web_files/terms_and_conditions.html" target="_blank">
+      Terms and Conditions
+     </a>
+     |
+     <a href="http://web1.ncaa.org/web_files/privacy.html" target="_blank" title="Our Privacy Policy">
+      Privacy
+     </a>
+    </span>
+   </div>
+  </div>
+  <script type="text/javascript">
+   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+   try {
+var pageTracker = _gat._getTracker("UA-2045383-4");
+pageTracker._trackPageview();
+} catch(err) {}
+  </script>
+ </body>
+ <script>
+  $j("body").on("click", ".showMask", (function() {
+       $j('#contentArea').mask('Loading...');
+    }));
+ </script>
+</html>
+
+
+Process finished with exit code 0
