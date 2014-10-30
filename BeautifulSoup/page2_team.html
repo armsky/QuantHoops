@@ -1,1059 +1,422 @@
 /usr/bin/python /Users/armsky/WORKPLACE/QuantHoops/BeautifulSoup/test.py
-<html>
- <head>
-  <title>
-   Game By Game Stats
-  </title>
-  <link href="/stylesheets/scaffold.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <link href="/stylesheets/baseForms.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <link href="/stylesheets/pagination.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <link href="/stylesheets/menu.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <script src="/javascripts/prototype.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/effects.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/dragdrop.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/controls.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/control.modal.2.2.1.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/livepipe.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/window.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/menu.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/jstz.min.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/calendar_date_select/calendar_date_select.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/calendar_date_select/format_american.js?1409071858" type="text/javascript">
-  </script>
-  <link href="/stylesheets/calendar_date_select/silver.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
-  </script>
-  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js">
-  </script>
-  <link href="/stylesheets/redmond/jquery-ui-1.8.23.custom.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <link href="/stylesheets/overcast/jquery.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <link href="/stylesheets/jquery.loadmask.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <link href="/stylesheets/table.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <link href="/stylesheets/jquery.dataTables.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-  <script src="/javascripts/jquery.loadmask.min.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/jquery.dataTables.min.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/application.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/numHtmlSort.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/titleNumericSort.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/gradeLevelSort.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/datatable.getColumnData.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/datatable.createSelect.js?1409071858" type="text/javascript">
-  </script>
-  <script src="/javascripts/datatable.thSelectors.js?1409071858" type="text/javascript">
-  </script>
-  <script language="javascript">
-   var downImage = "/images/down12.gif";
-var rightImage = "/images/right12.gif";
-
-function toggle_row(attr_val){
-	arr = $$('['+attr_val+']');
-	for(x=0; x < arr.length; x++){
-			arr[x].toggle();
-	}
-}
-function show_hide_rows(attr_val, link_id){
-  if (Object.prototype.toString.call(attr_val).match(/^\[object (.*)\]$/)[1] == "Array"){
-    for(y=0; y < attr_val.length; y++){
-       toggle_row(attr_val[y]);
-     }
-  }else{
-    toggle_row(attr_val);
-  }
-	//arr = $$('['+attr_val+']');
-	//for(x=0; x < arr.length; x++){
-			//arr[x].toggle();
-	//}
-	if ( $(link_id).alt == "Add" ){
-		$(link_id).src = downImage; //'/images/down12.gif';
-		$(link_id).alt = 'Delete';
-	}else{
-	    $(link_id).src = rightImage; //'/images/right12.gif';
-		$(link_id).alt = 'Add';
-		
-	}
-}
-  </script>
-  <script>
-   var winHeight = "auto";
-var winWidth = "auto";
-var maxHeight = 700;
-var maxWidth = 1400;
-var minHeight = 100;
-var minWidth = 200;
-
-var modalOptions = {"width": winWidth,
-                    "height": winHeight,
-                    "maxHeight": maxHeight,
-                    "maxWidth": maxWidth,
-                    "minHeight": minHeight,
-                    "minWidth": minWidth};
-
-function dialog(url, title){
-
-  $j("#stats_app_dialog").dialog({modal:true, minWidth:minWidth, minHeight:minHeight, maxWidth:maxWidth, maxHeight:maxHeight, width:winWidth, height:winHeight, title:title, closeOnEscape: false});
-
-  modalOptions.title = title;
-
-  $j("#stats_app_dialog").dialog("option", modalOptions);
-
-  $j("#stats_app_dialog").html("Loading...");
-  $j("#stats_app_dialog").load(url).dialog('open');
-}
-  </script>
- </head>
- <body>
-  <div class="header">
-   <div class="logo">
-   </div>
-   <div class="rightSide">
-    <a class="smallFont" href="http://web1.ncaa.org/cgi-bin/ithelp/help.cgi?application=stats" target="_blank" title="To ask a question, report a problem, or to submit ideas to help us improve this website.">
-     Contact Us
-    </a>
-   </div>
-   <div class="appTitle">
-    2013-14 Men's Basketball
-   </div>
-  </div>
-  <p style="color: green">
-  </p>
-  <p style="color: red">
-  </p>
-  <div class="contentArea" id="contentArea">
-   <div id="stats_app_dialog" style="display:none;">
-   </div>
-   <h1>
-    A&amp;M-Corpus Christi Islanders (18-16)
-   </h1>
-   Schedule/Results |
-   <a href="/team/roster/11540?org_id=26172">
-    Roster
-   </a>
-   |
-   <a href="/team/stats?org_id=26172&amp;sport_year_ctl_id=11540">
-    Team Statistics
-   </a>
-   |
-   <a href="/player/game_by_game?game_sport_year_ctl_id=11540&amp;org_id=26172&amp;stats_player_seq=-100">
-    Game By Game
-   </a>
-   |
-   <!--
-<a href="/team/team_game_highs?org_id=26172&amp;sport_year_ctl_id=11540">Game Highs</a> |
-<a href="/team/conf_game_highs?org_id=26172&amp;sport_year_ctl_id=11540">Conf Game Highs</a> |
--->
-   <a href="/player/player_rank_history?game_sport_year_ctl_id=11540&amp;index_start=0&amp;org_id=26172&amp;stat_seq_to_chart=0&amp;stats_player_seq=-100">
-    Ranking Trends
-   </a>
-   |
-   <a href="/player/team_player_rank_yearly_history?game_sport_year_ctl_id=11540&amp;index_start=0&amp;org_id=26172&amp;stat_seq_to_chart=0&amp;stats_player_seq=-100">
-    Team Final Trends
-   </a>
-   |
-   <a href="/team/inst_team_list/11540?conf_id=914.0&amp;division=1.0">
-    Conf Team List
-   </a>
-   |
-   <a href="/team/schedule_list?academic_year=2014&amp;division=1.0&amp;sport_code=MBB" target="NCAA_SCHEDS">
-    Scoreboard
-   </a>
-   |
-   <a href="/rankings/change_sport_year_div?academic_year=2014&amp;division=1.0&amp;sport_code=MBB">
-    National Rankings
-   </a>
-   |
-   <a href="/rankings/ranking_summary?academic_year=2014&amp;division=1.0&amp;org_id=26172&amp;ranking_period=49&amp;sport_code=MBB">
-    Ranking Summary
-   </a>
-   <!--
-<a href="http://web1.ncaa.org/stats/StatsSrv/rankings?sportCode=MBB&academicYear=2014">National Rankings</a>
--->
-   <table width="90%">
-    <tr>
-     <td colspan="2">
-      <br/>
-      <div>
-       <span style="color: #000000;">
-        2013-14
-       </span>
-       <span>
-        |
-       </span>
-       <span>
-        <a href="/team/index/11220?org_id=26172&amp;sport_year_ctl_id=11220">
-         2012-13
-        </a>
-       </span>
-       <!--
-                     <span><a href="#" onclick="new Ajax.Updater('stats_div', '/team/stats?org_id=26172&amp;sport_year_ctl_id=11220', {asynchronous:true, evalScripts:true, onComplete:function(request){$j('#contentArea').unmask();}, onLoading:function(request){$j('#contentArea').mask('Loading...');}}); return false;">2012-13</a></span> 
-                     -->
-       <span>
-        |
-       </span>
-       <span>
-        <a href="/team/index/10740?org_id=26172&amp;sport_year_ctl_id=10740">
-         2011-12
-        </a>
-       </span>
-       <!--
-                     <span><a href="#" onclick="new Ajax.Updater('stats_div', '/team/stats?org_id=26172&amp;sport_year_ctl_id=10740', {asynchronous:true, evalScripts:true, onComplete:function(request){$j('#contentArea').unmask();}, onLoading:function(request){$j('#contentArea').mask('Loading...');}}); return false;">2011-12</a></span> 
-                     -->
-       <span>
-        |
-       </span>
-       <span>
-        <a href="/team/index/10440?org_id=26172&amp;sport_year_ctl_id=10440">
-         2010-11
-        </a>
-       </span>
-       <!--
-                     <span><a href="#" onclick="new Ajax.Updater('stats_div', '/team/stats?org_id=26172&amp;sport_year_ctl_id=10440', {asynchronous:true, evalScripts:true, onComplete:function(request){$j('#contentArea').unmask();}, onLoading:function(request){$j('#contentArea').mask('Loading...');}}); return false;">2010-11</a></span> 
-                     -->
-       <span>
-        |
-       </span>
-       <span>
-        <a href="/team/index/10260?org_id=26172&amp;sport_year_ctl_id=10260">
-         2009-10
-        </a>
-       </span>
-       <!--
-                     <span><a href="#" onclick="new Ajax.Updater('stats_div', '/team/stats?org_id=26172&amp;sport_year_ctl_id=10260', {asynchronous:true, evalScripts:true, onComplete:function(request){$j('#contentArea').unmask();}, onLoading:function(request){$j('#contentArea').mask('Loading...');}}); return false;">2009-10</a></span> 
-                     -->
-       <span>
-       </span>
-      </div>
-     </td>
-    </tr>
-    <tr>
-     <td valign="top" width="50%">
-      <table align="center" class="mytable" width="100%">
-       <tr class="heading">
-        <td colspan="3">
-         Schedule/Results
-        </td>
-       </tr>
-       <tr class="grey_heading">
-        <td width="8%">
-         Date
-        </td>
-        <td align="center" width="20%">
-         Opponent
-        </td>
-        <td align="center" width="6%">
-         Result
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/08/2013
-        </td>
-        <td class="smtext">
-         Huston-Tillotson
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2697614?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 79 - 45
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/12/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=311" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Iowa St.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2705650?org_id=311" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 50 - 80
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/15/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=308" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          IPFW
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2740894?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 72 - 71
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/16/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=692" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Tennessee Tech
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2727142?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 60 - 62
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/17/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=536" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Tex.-Pan American
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2740333?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 72 - 61
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/20/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=574" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Rice
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2766553?org_id=574" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 61 - 63
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/23/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=706" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ UTSA
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2768693?org_id=706" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 76 - 87
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/26/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=129" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Central Mich.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2786953?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 64 - 68
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         11/30/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=288" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Houston
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2793857?org_id=288" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 67 - 78
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         12/05/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=522" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Oklahoma
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2805893?org_id=522" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 56 - 78
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         12/08/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=30088" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Tex. Permian Basin
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2811773?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 77 - 82
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         12/20/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=101" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          CSUN
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2835047?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 66 - 67
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         12/28/2013
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=428" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Minnesota
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2838573?org_id=428" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 44 - 65
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/02/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=1004" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Central Ark.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2845510?org_id=1004" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 81 - 66
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/04/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=527" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Oral Roberts
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2850813?org_id=527" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 71 - 64
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/09/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=508" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Northwestern St.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2859375?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 101 - 87
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/11/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=676" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Stephen F. Austin
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2876493?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 70 - 80
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/16/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=402" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ McNeese St.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2889118?org_id=402" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 77 - 61
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/18/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=483" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Nicholls St.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2895894?org_id=483" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 70 - 67
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/23/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=655" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Southeastern La.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2914713?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 74 - 71
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/25/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=474" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          New Orleans
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2921214?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 62 - 70
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         01/30/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=624" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Sam Houston St.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2947713?org_id=624" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 74 - 78
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         02/01/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=346" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Lamar
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2943640?org_id=346" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 58 - 35
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         02/06/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=2743" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Incarnate Word
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2967105?org_id=2743" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 78 - 82
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         02/08/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=2" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Abilene Christian
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/2975593?org_id=2" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 71 - 69
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         02/13/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=1004" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Central Ark.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3012053?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 84 - 73
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         02/15/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=527" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Oral Roberts
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3022876?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 74 - 72 (1OT)
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         02/22/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=287" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Houston Baptist
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3081083?org_id=287" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 66 - 61
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         03/01/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=287" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Houston Baptist
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3119217?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 65 - 45
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         03/06/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=402" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          McNeese St.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3148930?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 67 - 51
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         03/08/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=483" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Nicholls St.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3159466?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 58 - 44
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         03/14/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=624" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          Sam Houston St.
-          <br/>
-          @ Leonard E. Merrell Center (Katy,TX)
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3208545?org_id=26172" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 63 - 69
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         03/19/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=502" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Northern Colo.
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3245862?org_id=502" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          W 82 - 71
-         </a>
-        </td>
-       </tr>
-       <tr>
-        <td class="smtext">
-         03/22/2014
-        </td>
-        <td class="smtext">
-         <a href="/team/index/11540?org_id=534" onclick="window.open(this.href,'_top','scrollbars');return false;">
-          @ Pacific
-         </a>
-        </td>
-        <td class="smtext">
-         <a href="/game/index/3249318?org_id=534" onclick="window.open(this.href,'TEAM_WIN','scrollbars');return false;">
-          L 60 - 89
-         </a>
-        </td>
-       </tr>
-      </table>
-     </td>
-     <td valign="top" width="50%">
-      <table class="mytable" width="100%">
-       <tr class="heading">
-        <td colspan="3">
-         Team Stats - Through games 04/07/2014
-        </td>
-       </tr>
-       <tr class="grey_heading">
-        <td>
-         Stat
-        </td>
-        <td>
-         Rank
-        </td>
-        <td>
-         Value
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=145.0" target="Rankings">
-          Scoring Offense
-         </a>
-        </td>
-        <td align="right">
-         222
-        </td>
-        <td align="right">
-         69.1
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=146.0" target="Rankings">
-          Scoring Defense
-         </a>
-        </td>
-        <td align="right">
-         116
-        </td>
-        <td align="right">
-         68.0
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=147.0" target="Rankings">
-          Scoring Margin
-         </a>
-        </td>
-        <td align="right">
-         173
-        </td>
-        <td align="right">
-         1.1
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=151.0" target="Rankings">
-          Rebound Margin
-         </a>
-        </td>
-        <td align="right">
-         113
-        </td>
-        <td align="right">
-         2.2
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=216.0" target="Rankings">
-          Assists Per Game
-         </a>
-        </td>
-        <td align="right">
-         183
-        </td>
-        <td align="right">
-         12.5
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=214.0" target="Rankings">
-          Blocked Shots Per Game
-         </a>
-        </td>
-        <td align="right">
-         250
-        </td>
-        <td align="right">
-         2.9
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=215.0" target="Rankings">
-          Steals Per Game
-         </a>
-        </td>
-        <td align="right">
-         121
-        </td>
-        <td align="right">
-         6.6
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=519.0" target="Rankings">
-          Turnover Margin
-         </a>
-        </td>
-        <td align="right">
-         193
-        </td>
-        <td align="right">
-         -0.2
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=474.0" target="Rankings">
-          Assist Turnover Ratio
-         </a>
-        </td>
-        <td align="right">
-         178
-        </td>
-        <td align="right">
-         1.03
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=148.0" target="Rankings">
-          Field-Goal Percentage
-         </a>
-        </td>
-        <td align="right">
-         28
-        </td>
-        <td align="right">
-         47.4
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=149.0" target="Rankings">
-          Field-Goal Percentage Defense
-         </a>
-        </td>
-        <td align="right">
-         205
-        </td>
-        <td align="right">
-         44.3
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=153.0" target="Rankings">
-          Three-Point Field Goals Per Game
-         </a>
-        </td>
-        <td align="right">
-         337
-        </td>
-        <td align="right">
-         4.4
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=150.0" target="Rankings">
-          Free-Throw Percentage
-         </a>
-        </td>
-        <td align="right">
-         286
-        </td>
-        <td align="right">
-         66.2
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <a href="/rankings?academic_year=2014.0&amp;division=1.0&amp;ranking_period=49&amp;sport_code=MBB&amp;stat_seq=168.0" target="Rankings">
-          Won-Lost Percentage
-         </a>
-        </td>
-        <td align="right">
-         T-162
-        </td>
-        <td align="right">
-         52.9
-        </td>
-       </tr>
-       <tr class="grey_heading">
-        <td colspan="3">
-         <a href="/rankings/ranking_summary?academic_year=2014.0&amp;division=1.0&amp;game_high=N&amp;org_id=26172&amp;ranking_period=49&amp;sport_code=MBB&amp;team_individual=T" target="RANKINGS_WIN">
-          View Complete Ranking Summary
-         </a>
-        </td>
-       </tr>
-      </table>
-      <br/>
-      <table class="mytable" width="100%">
-       <tr class="heading">
-        <td colspan="3">
-         Individual Leaders
-        </td>
-       </tr>
-       <tr class="grey_heading">
-        <td>
-         Stat
-        </td>
-        <td>
-         Player
-        </td>
-        <td>
-         Value
-        </td>
-       </tr>
-       <tr>
-        <td>
-         PTS
-        </td>
-        <td>
-         <a href="/player?game_sport_year_ctl_id=11540&amp;stats_player_seq=1289299" target="_TOP">
-          Johnathan Jordan
-         </a>
-        </td>
-        <td align="right">
-         477
-        </td>
-       </tr>
-       <tr class="grey_heading">
-        <td colspan="3">
-         <a href="#" onclick='$j("#tabs").tabs( "select" , 1);; return false;'>
-          Team Stats
-         </a>
-        </td>
-       </tr>
-      </table>
-     </td>
-    </tr>
-   </table>
-  </div>
-  <div class="footer" id="footer">
-   <div>
-    © 2014 NCAA
-    <span>
-     <a href="http://web1.ncaa.org/web_files/terms_and_conditions.html" target="_blank">
-      Terms and Conditions
-     </a>
-     |
-     <a href="http://web1.ncaa.org/web_files/privacy.html" target="_blank" title="Our Privacy Policy">
-      Privacy
-     </a>
-    </span>
-   </div>
-  </div>
-  <script type="text/javascript">
-   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-  </script>
-  <script type="text/javascript">
-   try {
-var pageTracker = _gat._getTracker("UA-2045383-4");
-pageTracker._trackPageview();
-} catch(err) {}
-  </script>
- </body>
- <script>
-  $j("body").on("click", ".showMask", (function() {
-       $j('#contentArea').mask('Loading...');
-    }));
- </script>
-</html>
-
+<a class="smallFont" href="http://web1.ncaa.org/cgi-bin/ithelp/help.cgi?application=stats" target="_blank" title="To ask a question, report a problem, or to submit ideas to help us improve this website.">Contact Us</a>
+<a href="/rankings?academic_year=2014&amp;division=1&amp;sport_code=MBB">National Rankings</a>
+<a href="/active_career_leaders/show_summary_from_rankings?academic_year=2014&amp;division=1&amp;sport_code=MBB">Active Career Leaders</a>
+<a href="http://twitter.com/ncaastats" target="TWITTER"><img alt="Twitter" height="17" src="/images/twitter.png?1409071858" width="46"/></a>
+<a href="#">Men's Basketball</a>
+<a href="javascript:changeSports('MBA');">Baseball</a>
+<a href="javascript:changeSports('MBB');">Men's Basketball</a>
+<a href="javascript:changeSports('MFB');">Football</a>
+<a href="javascript:changeSports('MLA');">Men's Lacrosse</a>
+<a href="javascript:changeSports('MSO');">Men's Soccer</a>
+<a href="javascript:changeSports('MTE');">Men's Tennis</a>
+<a href="javascript:changeSports('MVB');">Men's Volleyball</a>
+<a href="javascript:changeSports('WBB');">Women's Basketball</a>
+<a href="javascript:changeSports('WFH');">Field Hockey</a>
+<a href="javascript:changeSports('WLA');">Women's Lacrosse</a>
+<a href="javascript:changeSports('WSB');">Women's Softball</a>
+<a href="javascript:changeSports('WSO');">Women's Soccer</a>
+<a href="javascript:changeSports('WTE');">Women's Tennis</a>
+<a href="javascript:changeSports('WVB');">Women's Volleyball</a>
+<a href="#">2013-14</a>
+<a href="javascript:changeYears(2014);">2013-14</a>
+<a href="javascript:changeYears(2013);">2012-13</a>
+<a href="javascript:changeYears(2012);">2011-12</a>
+<a href="javascript:changeYears(2011);">2010-11</a>
+<a href="javascript:changeYears(2010);">2009-10</a>
+<a href="#">I</a>
+<a href="javascript:changeDivisions(1);">I</a>
+<a href="javascript:changeDivisions(2);">II</a>
+<a href="javascript:changeDivisions(3);">III</a>
+<a href="#">ALL TEAMS</a>
+<a href="javascript:changeConference(-1);">ALL TEAMS</a>
+<a href="javascript:changeConference(823.0);">AAC</a>
+<a href="javascript:changeConference(845.0);">America East</a>
+<a href="javascript:changeConference(820.0);">Atlantic 10</a>
+<a href="javascript:changeConference(821.0);">Atlantic Coast</a>
+<a href="javascript:changeConference(920.0);">Atlantic Sun</a>
+<a href="javascript:changeConference(25354.0);">Big 12</a>
+<a href="javascript:changeConference(30184.0);">Big East</a>
+<a href="javascript:changeConference(825.0);">Big Sky</a>
+<a href="javascript:changeConference(826.0);">Big South</a>
+<a href="javascript:changeConference(827.0);">Big Ten</a>
+<a href="javascript:changeConference(904.0);">Big West</a>
+<a href="javascript:changeConference(837.0);">Colonial</a>
+<a href="javascript:changeConference(24312.0);">Conference USA</a>
+<a href="javascript:changeConference(881.0);">Horizon</a>
+<a href="javascript:changeConference(0.0);">Independent</a>
+<a href="javascript:changeConference(865.0);">Ivy</a>
+<a href="javascript:changeConference(871.0);">Metro Atlantic</a>
+<a href="javascript:changeConference(875.0);">Mid-American</a>
+<a href="javascript:changeConference(876.0);">Mid-Eastern</a>
+<a href="javascript:changeConference(884.0);">Missouri Valley</a>
+<a href="javascript:changeConference(5486.0);">Mountain West</a>
+<a href="javascript:changeConference(846.0);">Northeast</a>
+<a href="javascript:changeConference(902.0);">OVC</a>
+<a href="javascript:changeConference(905.0);">Pac-12</a>
+<a href="javascript:changeConference(838.0);">Patriot</a>
+<a href="javascript:changeConference(911.0);">Southeastern</a>
+<a href="javascript:changeConference(912.0);">Southern</a>
+<a href="javascript:changeConference(914.0);">Southland</a>
+<a href="javascript:changeConference(916.0);">Southwestern</a>
+<a href="javascript:changeConference(819.0);">Summit</a>
+<a href="javascript:changeConference(818.0);">Sun Belt</a>
+<a href="javascript:changeConference(922.0);">West Coast</a>
+<a href="javascript:changeConference(923.0);">Western Athletic</a>
+<a href="/team/inst_team_list/11540?academic_year=2014&amp;conf_id=-1&amp;division=1&amp;sport_code=MBB" id="available_teams_tab">Available Teams</a>
+<a href="/team/schedule_list?academic_year=2014&amp;conf_id=-1&amp;division=1&amp;sport_code=MBB" id="scoreboard_tab">Scoreboard</a>
+<a href="/team/index/11540?org_id=26172" onclick="window.open(this.href,'_top','scrollbars');return false;">A&amp;M-Corpus Chris</a>
+<a href="/team/index/11540?org_id=2" onclick="window.open(this.href,'_top','scrollbars');return false;">Abilene Christian</a>
+<a href="/team/index/11540?org_id=721" onclick="window.open(this.href,'_top','scrollbars');return false;">Air Force</a>
+<a href="/team/index/11540?org_id=5" onclick="window.open(this.href,'_top','scrollbars');return false;">Akron</a>
+<a href="/team/index/11540?org_id=8" onclick="window.open(this.href,'_top','scrollbars');return false;">Alabama</a>
+<a href="/team/index/11540?org_id=6" onclick="window.open(this.href,'_top','scrollbars');return false;">Alabama A&amp;M</a>
+<a href="/team/index/11540?org_id=7" onclick="window.open(this.href,'_top','scrollbars');return false;">Alabama St.</a>
+<a href="/team/index/11540?org_id=14" onclick="window.open(this.href,'_top','scrollbars');return false;">Albany (NY)</a>
+<a href="/team/index/11540?org_id=17" onclick="window.open(this.href,'_top','scrollbars');return false;">Alcorn</a>
+<a href="/team/index/11540?org_id=23" onclick="window.open(this.href,'_top','scrollbars');return false;">American</a>
+<a href="/team/index/11540?org_id=27" onclick="window.open(this.href,'_top','scrollbars');return false;">Appalachian St.</a>
+<a href="/team/index/11540?org_id=29" onclick="window.open(this.href,'_top','scrollbars');return false;">Arizona</a>
+<a href="/team/index/11540?org_id=28" onclick="window.open(this.href,'_top','scrollbars');return false;">Arizona St.</a>
+<a href="/team/index/11540?org_id=2678" onclick="window.open(this.href,'_top','scrollbars');return false;">Ark.-Pine Bluff</a>
+<a href="/team/index/11540?org_id=31" onclick="window.open(this.href,'_top','scrollbars');return false;">Arkansas</a>
+<a href="/team/index/11540?org_id=30" onclick="window.open(this.href,'_top','scrollbars');return false;">Arkansas St.</a>
+<a href="/team/index/11540?org_id=725" onclick="window.open(this.href,'_top','scrollbars');return false;">Army</a>
+<a href="/team/index/11540?org_id=37" onclick="window.open(this.href,'_top','scrollbars');return false;">Auburn</a>
+<a href="/team/index/11540?org_id=43" onclick="window.open(this.href,'_top','scrollbars');return false;">Austin Peay</a>
+<a href="/team/index/11540?org_id=77" onclick="window.open(this.href,'_top','scrollbars');return false;">BYU</a>
+<a href="/team/index/11540?org_id=94" onclick="window.open(this.href,'_top','scrollbars');return false;">Bakersfield</a>
+<a href="/team/index/11540?org_id=47" onclick="window.open(this.href,'_top','scrollbars');return false;">Ball St.</a>
+<a href="/team/index/11540?org_id=51" onclick="window.open(this.href,'_top','scrollbars');return false;">Baylor</a>
+<a href="/team/index/11540?org_id=14927" onclick="window.open(this.href,'_top','scrollbars');return false;">Belmont</a>
+<a href="/team/index/11540?org_id=61" onclick="window.open(this.href,'_top','scrollbars');return false;">Bethune-Cookman</a>
+<a href="/team/index/11540?org_id=62" onclick="window.open(this.href,'_top','scrollbars');return false;">Binghamton</a>
+<a href="/team/index/11540?org_id=66" onclick="window.open(this.href,'_top','scrollbars');return false;">Boise St.</a>
+<a href="/team/index/11540?org_id=67" onclick="window.open(this.href,'_top','scrollbars');return false;">Boston College</a>
+<a href="/team/index/11540?org_id=68" onclick="window.open(this.href,'_top','scrollbars');return false;">Boston U.</a>
+<a href="/team/index/11540?org_id=71" onclick="window.open(this.href,'_top','scrollbars');return false;">Bowling Green</a>
+<a href="/team/index/11540?org_id=72" onclick="window.open(this.href,'_top','scrollbars');return false;">Bradley</a>
+<a href="/team/index/11540?org_id=80" onclick="window.open(this.href,'_top','scrollbars');return false;">Brown</a>
+<a href="/team/index/11540?org_id=81" onclick="window.open(this.href,'_top','scrollbars');return false;">Bryant</a>
+<a href="/team/index/11540?org_id=83" onclick="window.open(this.href,'_top','scrollbars');return false;">Bucknell</a>
+<a href="/team/index/11540?org_id=86" onclick="window.open(this.href,'_top','scrollbars');return false;">Buffalo</a>
+<a href="/team/index/11540?org_id=87" onclick="window.open(this.href,'_top','scrollbars');return false;">Butler</a>
+<a href="/team/index/11540?org_id=101" onclick="window.open(this.href,'_top','scrollbars');return false;">CSUN</a>
+<a href="/team/index/11540?org_id=90" onclick="window.open(this.href,'_top','scrollbars');return false;">Cal Poly</a>
+<a href="/team/index/11540?org_id=97" onclick="window.open(this.href,'_top','scrollbars');return false;">Cal St. Fullerton</a>
+<a href="/team/index/11540?org_id=107" onclick="window.open(this.href,'_top','scrollbars');return false;">California</a>
+<a href="/team/index/11540?org_id=115" onclick="window.open(this.href,'_top','scrollbars');return false;">Campbell</a>
+<a href="/team/index/11540?org_id=116" onclick="window.open(this.href,'_top','scrollbars');return false;">Canisius</a>
+<a href="/team/index/11540?org_id=1004" onclick="window.open(this.href,'_top','scrollbars');return false;">Central Ark.</a>
+<a href="/team/index/11540?org_id=127" onclick="window.open(this.href,'_top','scrollbars');return false;">Central Conn. St.</a>
+<a href="/team/index/11540?org_id=129" onclick="window.open(this.href,'_top','scrollbars');return false;">Central Mich.</a>
+<a href="/team/index/11540?org_id=48" onclick="window.open(this.href,'_top','scrollbars');return false;">Charleston So.</a>
+<a href="/team/index/11540?org_id=458" onclick="window.open(this.href,'_top','scrollbars');return false;">Charlotte</a>
+<a href="/team/index/11540?org_id=693" onclick="window.open(this.href,'_top','scrollbars');return false;">Chattanooga</a>
+<a href="/team/index/11540?org_id=136" onclick="window.open(this.href,'_top','scrollbars');return false;">Chicago St.</a>
+<a href="/team/index/11540?org_id=140" onclick="window.open(this.href,'_top','scrollbars');return false;">Cincinnati</a>
+<a href="/team/index/11540?org_id=141" onclick="window.open(this.href,'_top','scrollbars');return false;">Citadel</a>
+<a href="/team/index/11540?org_id=147" onclick="window.open(this.href,'_top','scrollbars');return false;">Clemson</a>
+<a href="/team/index/11540?org_id=148" onclick="window.open(this.href,'_top','scrollbars');return false;">Cleveland St.</a>
+<a href="/team/index/11540?org_id=149" onclick="window.open(this.href,'_top','scrollbars');return false;">Coastal Caro.</a>
+<a href="/team/index/11540?org_id=1014" onclick="window.open(this.href,'_top','scrollbars');return false;">Col. of Charleston</a>
+<a href="/team/index/11540?org_id=153" onclick="window.open(this.href,'_top','scrollbars');return false;">Colgate</a>
+<a href="/team/index/11540?org_id=157" onclick="window.open(this.href,'_top','scrollbars');return false;">Colorado</a>
+<a href="/team/index/11540?org_id=156" onclick="window.open(this.href,'_top','scrollbars');return false;">Colorado St.</a>
+<a href="/team/index/11540?org_id=158" onclick="window.open(this.href,'_top','scrollbars');return false;">Columbia</a>
+<a href="/team/index/11540?org_id=165" onclick="window.open(this.href,'_top','scrollbars');return false;">Coppin St.</a>
+<a href="/team/index/11540?org_id=167" onclick="window.open(this.href,'_top','scrollbars');return false;">Cornell</a>
+<a href="/team/index/11540?org_id=169" onclick="window.open(this.href,'_top','scrollbars');return false;">Creighton</a>
+<a href="/team/index/11540?org_id=172" onclick="window.open(this.href,'_top','scrollbars');return false;">Dartmouth</a>
+<a href="/team/index/11540?org_id=173" onclick="window.open(this.href,'_top','scrollbars');return false;">Davidson</a>
+<a href="/team/index/11540?org_id=175" onclick="window.open(this.href,'_top','scrollbars');return false;">Dayton</a>
+<a href="/team/index/11540?org_id=176" onclick="window.open(this.href,'_top','scrollbars');return false;">DePaul</a>
+<a href="/team/index/11540?org_id=180" onclick="window.open(this.href,'_top','scrollbars');return false;">Delaware</a>
+<a href="/team/index/11540?org_id=178" onclick="window.open(this.href,'_top','scrollbars');return false;">Delaware St.</a>
+<a href="/team/index/11540?org_id=183" onclick="window.open(this.href,'_top','scrollbars');return false;">Denver</a>
+<a href="/team/index/11540?org_id=184" onclick="window.open(this.href,'_top','scrollbars');return false;">Detroit</a>
+<a href="/team/index/11540?org_id=189" onclick="window.open(this.href,'_top','scrollbars');return false;">Drake</a>
+<a href="/team/index/11540?org_id=191" onclick="window.open(this.href,'_top','scrollbars');return false;">Drexel</a>
+<a href="/team/index/11540?org_id=193" onclick="window.open(this.href,'_top','scrollbars');return false;">Duke</a>
+<a href="/team/index/11540?org_id=194" onclick="window.open(this.href,'_top','scrollbars');return false;">Duquesne</a>
+<a href="/team/index/11540?org_id=196" onclick="window.open(this.href,'_top','scrollbars');return false;">East Carolina</a>
+<a href="/team/index/11540?org_id=198" onclick="window.open(this.href,'_top','scrollbars');return false;">East Tenn. St.</a>
+<a href="/team/index/11540?org_id=201" onclick="window.open(this.href,'_top','scrollbars');return false;">Eastern Ill.</a>
+<a href="/team/index/11540?org_id=202" onclick="window.open(this.href,'_top','scrollbars');return false;">Eastern Ky.</a>
+<a href="/team/index/11540?org_id=204" onclick="window.open(this.href,'_top','scrollbars');return false;">Eastern Mich.</a>
+<a href="/team/index/11540?org_id=207" onclick="window.open(this.href,'_top','scrollbars');return false;">Eastern Wash.</a>
+<a href="/team/index/11540?org_id=1068" onclick="window.open(this.href,'_top','scrollbars');return false;">Elon</a>
+<a href="/team/index/11540?org_id=219" onclick="window.open(this.href,'_top','scrollbars');return false;">Evansville</a>
+<a href="/team/index/11540?org_id=28755" onclick="window.open(this.href,'_top','scrollbars');return false;">FGCU</a>
+<a href="/team/index/11540?org_id=231" onclick="window.open(this.href,'_top','scrollbars');return false;">FIU</a>
+<a href="/team/index/11540?org_id=220" onclick="window.open(this.href,'_top','scrollbars');return false;">Fairfield</a>
+<a href="/team/index/11540?org_id=222" onclick="window.open(this.href,'_top','scrollbars');return false;">Fairleigh Dickinson</a>
+<a href="/team/index/11540?org_id=229" onclick="window.open(this.href,'_top','scrollbars');return false;">Fla. Atlantic</a>
+<a href="/team/index/11540?org_id=235" onclick="window.open(this.href,'_top','scrollbars');return false;">Florida</a>
+<a href="/team/index/11540?org_id=228" onclick="window.open(this.href,'_top','scrollbars');return false;">Florida A&amp;M</a>
+<a href="/team/index/11540?org_id=234" onclick="window.open(this.href,'_top','scrollbars');return false;">Florida St.</a>
+<a href="/team/index/11540?org_id=236" onclick="window.open(this.href,'_top','scrollbars');return false;">Fordham</a>
+<a href="/team/index/11540?org_id=96" onclick="window.open(this.href,'_top','scrollbars');return false;">Fresno St.</a>
+<a href="/team/index/11540?org_id=244" onclick="window.open(this.href,'_top','scrollbars');return false;">Furman</a>
+<a href="/team/index/11540?org_id=253" onclick="window.open(this.href,'_top','scrollbars');return false;">Ga. Southern</a>
+<a href="/team/index/11540?org_id=1092" onclick="window.open(this.href,'_top','scrollbars');return false;">Gardner-Webb</a>
+<a href="/team/index/11540?org_id=248" onclick="window.open(this.href,'_top','scrollbars');return false;">George Mason</a>
+<a href="/team/index/11540?org_id=249" onclick="window.open(this.href,'_top','scrollbars');return false;">George Washington</a>
+<a href="/team/index/11540?org_id=251" onclick="window.open(this.href,'_top','scrollbars');return false;">Georgetown</a>
+<a href="/team/index/11540?org_id=257" onclick="window.open(this.href,'_top','scrollbars');return false;">Georgia</a>
+<a href="/team/index/11540?org_id=254" onclick="window.open(this.href,'_top','scrollbars');return false;">Georgia St.</a>
+<a href="/team/index/11540?org_id=255" onclick="window.open(this.href,'_top','scrollbars');return false;">Georgia Tech</a>
+<a href="/team/index/11540?org_id=260" onclick="window.open(this.href,'_top','scrollbars');return false;">Gonzaga</a>
+<a href="/team/index/11540?org_id=261" onclick="window.open(this.href,'_top','scrollbars');return false;">Grambling</a>
+<a href="/team/index/11540?org_id=1104" onclick="window.open(this.href,'_top','scrollbars');return false;">Grand Canyon</a>
+<a href="/team/index/11540?org_id=794" onclick="window.open(this.href,'_top','scrollbars');return false;">Green Bay</a>
+<a href="/team/index/11540?org_id=270" onclick="window.open(this.href,'_top','scrollbars');return false;">Hampton</a>
+<a href="/team/index/11540?org_id=272" onclick="window.open(this.href,'_top','scrollbars');return false;">Hartford</a>
+<a href="/team/index/11540?org_id=275" onclick="window.open(this.href,'_top','scrollbars');return false;">Harvard</a>
+<a href="/team/index/11540?org_id=277" onclick="window.open(this.href,'_top','scrollbars');return false;">Hawaii</a>
+<a href="/team/index/11540?org_id=19651" onclick="window.open(this.href,'_top','scrollbars');return false;">High Point</a>
+<a href="/team/index/11540?org_id=283" onclick="window.open(this.href,'_top','scrollbars');return false;">Hofstra</a>
+<a href="/team/index/11540?org_id=285" onclick="window.open(this.href,'_top','scrollbars');return false;">Holy Cross</a>
+<a href="/team/index/11540?org_id=288" onclick="window.open(this.href,'_top','scrollbars');return false;">Houston</a>
+<a href="/team/index/11540?org_id=287" onclick="window.open(this.href,'_top','scrollbars');return false;">Houston Baptist</a>
+<a href="/team/index/11540?org_id=290" onclick="window.open(this.href,'_top','scrollbars');return false;">Howard</a>
+<a href="/team/index/11540?org_id=308" onclick="window.open(this.href,'_top','scrollbars');return false;">IPFW</a>
+<a href="/team/index/11540?org_id=2699" onclick="window.open(this.href,'_top','scrollbars');return false;">IUPUI</a>
+<a href="/team/index/11540?org_id=295" onclick="window.open(this.href,'_top','scrollbars');return false;">Idaho</a>
+<a href="/team/index/11540?org_id=294" onclick="window.open(this.href,'_top','scrollbars');return false;">Idaho St.</a>
+<a href="/team/index/11540?org_id=302" onclick="window.open(this.href,'_top','scrollbars');return false;">Ill.-Chicago</a>
+<a href="/team/index/11540?org_id=301" onclick="window.open(this.href,'_top','scrollbars');return false;">Illinois</a>
+<a href="/team/index/11540?org_id=299" onclick="window.open(this.href,'_top','scrollbars');return false;">Illinois St.</a>
+<a href="/team/index/11540?org_id=2743" onclick="window.open(this.href,'_top','scrollbars');return false;">Incarnate Word</a>
+<a href="/team/index/11540?org_id=306" onclick="window.open(this.href,'_top','scrollbars');return false;">Indiana</a>
+<a href="/team/index/11540?org_id=305" onclick="window.open(this.href,'_top','scrollbars');return false;">Indiana St.</a>
+<a href="/team/index/11540?org_id=310" onclick="window.open(this.href,'_top','scrollbars');return false;">Iona</a>
+<a href="/team/index/11540?org_id=312" onclick="window.open(this.href,'_top','scrollbars');return false;">Iowa</a>
+<a href="/team/index/11540?org_id=311" onclick="window.open(this.href,'_top','scrollbars');return false;">Iowa St.</a>
+<a href="/team/index/11540?org_id=314" onclick="window.open(this.href,'_top','scrollbars');return false;">Jackson St.</a>
+<a href="/team/index/11540?org_id=316" onclick="window.open(this.href,'_top','scrollbars');return false;">Jacksonville</a>
+<a href="/team/index/11540?org_id=315" onclick="window.open(this.href,'_top','scrollbars');return false;">Jacksonville St.</a>
+<a href="/team/index/11540?org_id=317" onclick="window.open(this.href,'_top','scrollbars');return false;">James Madison</a>
+<a href="/team/index/11540?org_id=328" onclick="window.open(this.href,'_top','scrollbars');return false;">Kansas</a>
+<a href="/team/index/11540?org_id=327" onclick="window.open(this.href,'_top','scrollbars');return false;">Kansas St.</a>
+<a href="/team/index/11540?org_id=1157" onclick="window.open(this.href,'_top','scrollbars');return false;">Kennesaw St.</a>
+<a href="/team/index/11540?org_id=331" onclick="window.open(this.href,'_top','scrollbars');return false;">Kent St.</a>
+<a href="/team/index/11540?org_id=334" onclick="window.open(this.href,'_top','scrollbars');return false;">Kentucky</a>
+<a href="/team/index/11540?org_id=361" onclick="window.open(this.href,'_top','scrollbars');return false;">LIU Brooklyn</a>
+<a href="/team/index/11540?org_id=365" onclick="window.open(this.href,'_top','scrollbars');return false;">LSU</a>
+<a href="/team/index/11540?org_id=340" onclick="window.open(this.href,'_top','scrollbars');return false;">La Salle</a>
+<a href="/team/index/11540?org_id=671" onclick="window.open(this.href,'_top','scrollbars');return false;">La.-Lafayette</a>
+<a href="/team/index/11540?org_id=498" onclick="window.open(this.href,'_top','scrollbars');return false;">La.-Monroe</a>
+<a href="/team/index/11540?org_id=342" onclick="window.open(this.href,'_top','scrollbars');return false;">Lafayette</a>
+<a href="/team/index/11540?org_id=346" onclick="window.open(this.href,'_top','scrollbars');return false;">Lamar</a>
+<a href="/team/index/11540?org_id=352" onclick="window.open(this.href,'_top','scrollbars');return false;">Lehigh</a>
+<a href="/team/index/11540?org_id=355" onclick="window.open(this.href,'_top','scrollbars');return false;">Liberty</a>
+<a href="/team/index/11540?org_id=28600" onclick="window.open(this.href,'_top','scrollbars');return false;">Lipscomb</a>
+<a href="/team/index/11540?org_id=99" onclick="window.open(this.href,'_top','scrollbars');return false;">Long Beach St.</a>
+<a href="/team/index/11540?org_id=363" onclick="window.open(this.href,'_top','scrollbars');return false;">Longwood</a>
+<a href="/team/index/11540?org_id=366" onclick="window.open(this.href,'_top','scrollbars');return false;">Louisiana Tech</a>
+<a href="/team/index/11540?org_id=367" onclick="window.open(this.href,'_top','scrollbars');return false;">Louisville</a>
+<a href="/team/index/11540?org_id=371" onclick="window.open(this.href,'_top','scrollbars');return false;">Loyola Chicago</a>
+<a href="/team/index/11540?org_id=369" onclick="window.open(this.href,'_top','scrollbars');return false;">Loyola Maryland</a>
+<a href="/team/index/11540?org_id=370" onclick="window.open(this.href,'_top','scrollbars');return false;">Loyola Marymount</a>
+<a href="/team/index/11540?org_id=380" onclick="window.open(this.href,'_top','scrollbars');return false;">Maine</a>
+<a href="/team/index/11540?org_id=381" onclick="window.open(this.href,'_top','scrollbars');return false;">Manhattan</a>
+<a href="/team/index/11540?org_id=386" onclick="window.open(this.href,'_top','scrollbars');return false;">Marist</a>
+<a href="/team/index/11540?org_id=387" onclick="window.open(this.href,'_top','scrollbars');return false;">Marquette</a>
+<a href="/team/index/11540?org_id=388" onclick="window.open(this.href,'_top','scrollbars');return false;">Marshall</a>
+<a href="/team/index/11540?org_id=392" onclick="window.open(this.href,'_top','scrollbars');return false;">Maryland</a>
+<a href="/team/index/11540?org_id=400" onclick="window.open(this.href,'_top','scrollbars');return false;">Massachusetts</a>
+<a href="/team/index/11540?org_id=402" onclick="window.open(this.href,'_top','scrollbars');return false;">McNeese St.</a>
+<a href="/team/index/11540?org_id=404" onclick="window.open(this.href,'_top','scrollbars');return false;">Memphis</a>
+<a href="/team/index/11540?org_id=406" onclick="window.open(this.href,'_top','scrollbars');return false;">Mercer</a>
+<a href="/team/index/11540?org_id=415" onclick="window.open(this.href,'_top','scrollbars');return false;">Miami (FL)</a>
+<a href="/team/index/11540?org_id=414" onclick="window.open(this.href,'_top','scrollbars');return false;">Miami (OH)</a>
+<a href="/team/index/11540?org_id=418" onclick="window.open(this.href,'_top','scrollbars');return false;">Michigan</a>
+<a href="/team/index/11540?org_id=416" onclick="window.open(this.href,'_top','scrollbars');return false;">Michigan St.</a>
+<a href="/team/index/11540?org_id=419" onclick="window.open(this.href,'_top','scrollbars');return false;">Middle Tenn.</a>
+<a href="/team/index/11540?org_id=797" onclick="window.open(this.href,'_top','scrollbars');return false;">Milwaukee</a>
+<a href="/team/index/11540?org_id=428" onclick="window.open(this.href,'_top','scrollbars');return false;">Minnesota</a>
+<a href="/team/index/11540?org_id=430" onclick="window.open(this.href,'_top','scrollbars');return false;">Mississippi St.</a>
+<a href="/team/index/11540?org_id=432" onclick="window.open(this.href,'_top','scrollbars');return false;">Mississippi Val.</a>
+<a href="/team/index/11540?org_id=434" onclick="window.open(this.href,'_top','scrollbars');return false;">Missouri</a>
+<a href="/team/index/11540?org_id=669" onclick="window.open(this.href,'_top','scrollbars');return false;">Missouri St.</a>
+<a href="/team/index/11540?org_id=439" onclick="window.open(this.href,'_top','scrollbars');return false;">Monmouth</a>
+<a href="/team/index/11540?org_id=441" onclick="window.open(this.href,'_top','scrollbars');return false;">Montana</a>
+<a href="/team/index/11540?org_id=440" onclick="window.open(this.href,'_top','scrollbars');return false;">Montana St.</a>
+<a href="/team/index/11540?org_id=444" onclick="window.open(this.href,'_top','scrollbars');return false;">Morehead St.</a>
+<a href="/team/index/11540?org_id=446" onclick="window.open(this.href,'_top','scrollbars');return false;">Morgan St.</a>
+<a href="/team/index/11540?org_id=450" onclick="window.open(this.href,'_top','scrollbars');return false;">Mt. St. Mary's</a>
+<a href="/team/index/11540?org_id=454" onclick="window.open(this.href,'_top','scrollbars');return false;">Murray St.</a>
+<a href="/team/index/11540?org_id=488" onclick="window.open(this.href,'_top','scrollbars');return false;">N.C. A&amp;T</a>
+<a href="/team/index/11540?org_id=489" onclick="window.open(this.href,'_top','scrollbars');return false;">N.C. Central</a>
+<a href="/team/index/11540?org_id=471" onclick="window.open(this.href,'_top','scrollbars');return false;">NJIT</a>
+<a href="/team/index/11540?org_id=726" onclick="window.open(this.href,'_top','scrollbars');return false;">Navy</a>
+<a href="/team/index/11540?org_id=463" onclick="window.open(this.href,'_top','scrollbars');return false;">Nebraska</a>
+<a href="/team/index/11540?org_id=466" onclick="window.open(this.href,'_top','scrollbars');return false;">Nevada</a>
+<a href="/team/index/11540?org_id=469" onclick="window.open(this.href,'_top','scrollbars');return false;">New Hampshire</a>
+<a href="/team/index/11540?org_id=473" onclick="window.open(this.href,'_top','scrollbars');return false;">New Mexico</a>
+<a href="/team/index/11540?org_id=472" onclick="window.open(this.href,'_top','scrollbars');return false;">New Mexico St.</a>
+<a href="/team/index/11540?org_id=474" onclick="window.open(this.href,'_top','scrollbars');return false;">New Orleans</a>
+<a href="/team/index/11540?org_id=482" onclick="window.open(this.href,'_top','scrollbars');return false;">Niagara</a>
+<a href="/team/index/11540?org_id=483" onclick="window.open(this.href,'_top','scrollbars');return false;">Nicholls St.</a>
+<a href="/team/index/11540?org_id=485" onclick="window.open(this.href,'_top','scrollbars');return false;">Norfolk St.</a>
+<a href="/team/index/11540?org_id=457" onclick="window.open(this.href,'_top','scrollbars');return false;">North Carolina</a>
+<a href="/team/index/11540?org_id=490" onclick="window.open(this.href,'_top','scrollbars');return false;">North Carolina St.</a>
+<a href="/team/index/11540?org_id=494" onclick="window.open(this.href,'_top','scrollbars');return false;">North Dakota</a>
+<a href="/team/index/11540?org_id=493" onclick="window.open(this.href,'_top','scrollbars');return false;">North Dakota St.</a>
+<a href="/team/index/11540?org_id=2711" onclick="window.open(this.href,'_top','scrollbars');return false;">North Florida</a>
+<a href="/team/index/11540?org_id=497" onclick="window.open(this.href,'_top','scrollbars');return false;">North Texas</a>
+<a href="/team/index/11540?org_id=500" onclick="window.open(this.href,'_top','scrollbars');return false;">Northeastern</a>
+<a href="/team/index/11540?org_id=501" onclick="window.open(this.href,'_top','scrollbars');return false;">Northern Ariz.</a>
+<a href="/team/index/11540?org_id=502" onclick="window.open(this.href,'_top','scrollbars');return false;">Northern Colo.</a>
+<a href="/team/index/11540?org_id=503" onclick="window.open(this.href,'_top','scrollbars');return false;">Northern Ill.</a>
+<a href="/team/index/11540?org_id=505" onclick="window.open(this.href,'_top','scrollbars');return false;">Northern Ky.</a>
+<a href="/team/index/11540?org_id=509" onclick="window.open(this.href,'_top','scrollbars');return false;">Northwestern</a>
+<a href="/team/index/11540?org_id=508" onclick="window.open(this.href,'_top','scrollbars');return false;">Northwestern St.</a>
+<a href="/team/index/11540?org_id=513" onclick="window.open(this.href,'_top','scrollbars');return false;">Notre Dame</a>
+<a href="/team/index/11540?org_id=514" onclick="window.open(this.href,'_top','scrollbars');return false;">Oakland</a>
+<a href="/team/index/11540?org_id=519" onclick="window.open(this.href,'_top','scrollbars');return false;">Ohio</a>
+<a href="/team/index/11540?org_id=518" onclick="window.open(this.href,'_top','scrollbars');return false;">Ohio St.</a>
+<a href="/team/index/11540?org_id=522" onclick="window.open(this.href,'_top','scrollbars');return false;">Oklahoma</a>
+<a href="/team/index/11540?org_id=521" onclick="window.open(this.href,'_top','scrollbars');return false;">Oklahoma St.</a>
+<a href="/team/index/11540?org_id=523" onclick="window.open(this.href,'_top','scrollbars');return false;">Old Dominion</a>
+<a href="/team/index/11540?org_id=433" onclick="window.open(this.href,'_top','scrollbars');return false;">Ole Miss</a>
+<a href="/team/index/11540?org_id=464" onclick="window.open(this.href,'_top','scrollbars');return false;">Omaha</a>
+<a href="/team/index/11540?org_id=527" onclick="window.open(this.href,'_top','scrollbars');return false;">Oral Roberts</a>
+<a href="/team/index/11540?org_id=529" onclick="window.open(this.href,'_top','scrollbars');return false;">Oregon</a>
+<a href="/team/index/11540?org_id=528" onclick="window.open(this.href,'_top','scrollbars');return false;">Oregon St.</a>
+<a href="/team/index/11540?org_id=534" onclick="window.open(this.href,'_top','scrollbars');return false;">Pacific</a>
+<a href="/team/index/11540?org_id=540" onclick="window.open(this.href,'_top','scrollbars');return false;">Penn</a>
+<a href="/team/index/11540?org_id=539" onclick="window.open(this.href,'_top','scrollbars');return false;">Penn St.</a>
+<a href="/team/index/11540?org_id=541" onclick="window.open(this.href,'_top','scrollbars');return false;">Pepperdine</a>
+<a href="/team/index/11540?org_id=545" onclick="window.open(this.href,'_top','scrollbars');return false;">Pittsburgh</a>
+<a href="/team/index/11540?org_id=551" onclick="window.open(this.href,'_top','scrollbars');return false;">Portland</a>
+<a href="/team/index/11540?org_id=550" onclick="window.open(this.href,'_top','scrollbars');return false;">Portland St.</a>
+<a href="/team/index/11540?org_id=553" onclick="window.open(this.href,'_top','scrollbars');return false;">Prairie View</a>
+<a href="/team/index/11540?org_id=1320" onclick="window.open(this.href,'_top','scrollbars');return false;">Presbyterian</a>
+<a href="/team/index/11540?org_id=554" onclick="window.open(this.href,'_top','scrollbars');return false;">Princeton</a>
+<a href="/team/index/11540?org_id=556" onclick="window.open(this.href,'_top','scrollbars');return false;">Providence</a>
+<a href="/team/index/11540?org_id=559" onclick="window.open(this.href,'_top','scrollbars');return false;">Purdue</a>
+<a href="/team/index/11540?org_id=562" onclick="window.open(this.href,'_top','scrollbars');return false;">Quinnipiac</a>
+<a href="/team/index/11540?org_id=563" onclick="window.open(this.href,'_top','scrollbars');return false;">Radford</a>
+<a href="/team/index/11540?org_id=572" onclick="window.open(this.href,'_top','scrollbars');return false;">Rhode Island</a>
+<a href="/team/index/11540?org_id=574" onclick="window.open(this.href,'_top','scrollbars');return false;">Rice</a>
+<a href="/team/index/11540?org_id=575" onclick="window.open(this.href,'_top','scrollbars');return false;">Richmond</a>
+<a href="/team/index/11540?org_id=576" onclick="window.open(this.href,'_top','scrollbars');return false;">Rider</a>
+<a href="/team/index/11540?org_id=579" onclick="window.open(this.href,'_top','scrollbars');return false;">Robert Morris</a>
+<a href="/team/index/11540?org_id=587" onclick="window.open(this.href,'_top','scrollbars');return false;">Rutgers</a>
+<a href="/team/index/11540?org_id=660" onclick="window.open(this.href,'_top','scrollbars');return false;">SIUE</a>
+<a href="/team/index/11540?org_id=663" onclick="window.open(this.href,'_top','scrollbars');return false;">SMU</a>
+<a href="/team/index/11540?org_id=102" onclick="window.open(this.href,'_top','scrollbars');return false;">Sacramento St.</a>
+<a href="/team/index/11540?org_id=590" onclick="window.open(this.href,'_top','scrollbars');return false;">Sacred Heart</a>
+<a href="/team/index/11540?org_id=600" onclick="window.open(this.href,'_top','scrollbars');return false;">Saint Francis (PA)</a>
+<a href="/team/index/11540?org_id=606" onclick="window.open(this.href,'_top','scrollbars');return false;">Saint Joseph's</a>
+<a href="/team/index/11540?org_id=609" onclick="window.open(this.href,'_top','scrollbars');return false;">Saint Louis</a>
+<a href="/team/index/11540?org_id=617" onclick="window.open(this.href,'_top','scrollbars');return false;">Saint Peter's</a>
+<a href="/team/index/11540?org_id=624" onclick="window.open(this.href,'_top','scrollbars');return false;">Sam Houston St.</a>
+<a href="/team/index/11540?org_id=625" onclick="window.open(this.href,'_top','scrollbars');return false;">Samford</a>
+<a href="/team/index/11540?org_id=627" onclick="window.open(this.href,'_top','scrollbars');return false;">San Diego</a>
+<a href="/team/index/11540?org_id=626" onclick="window.open(this.href,'_top','scrollbars');return false;">San Diego St.</a>
+<a href="/team/index/11540?org_id=629" onclick="window.open(this.href,'_top','scrollbars');return false;">San Francisco</a>
+<a href="/team/index/11540?org_id=630" onclick="window.open(this.href,'_top','scrollbars');return false;">San Jose St.</a>
+<a href="/team/index/11540?org_id=631" onclick="window.open(this.href,'_top','scrollbars');return false;">Santa Clara</a>
+<a href="/team/index/11540?org_id=632" onclick="window.open(this.href,'_top','scrollbars');return false;">Savannah St.</a>
+<a href="/team/index/11540?org_id=1356" onclick="window.open(this.href,'_top','scrollbars');return false;">Seattle</a>
+<a href="/team/index/11540?org_id=635" onclick="window.open(this.href,'_top','scrollbars');return false;">Seton Hall</a>
+<a href="/team/index/11540?org_id=639" onclick="window.open(this.href,'_top','scrollbars');return false;">Siena</a>
+<a href="/team/index/11540?org_id=646" onclick="window.open(this.href,'_top','scrollbars');return false;">South Ala.</a>
+<a href="/team/index/11540?org_id=648" onclick="window.open(this.href,'_top','scrollbars');return false;">South Carolina</a>
+<a href="/team/index/11540?org_id=647" onclick="window.open(this.href,'_top','scrollbars');return false;">South Carolina St.</a>
+<a href="/team/index/11540?org_id=650" onclick="window.open(this.href,'_top','scrollbars');return false;">South Dakota</a>
+<a href="/team/index/11540?org_id=649" onclick="window.open(this.href,'_top','scrollbars');return false;">South Dakota St.</a>
+<a href="/team/index/11540?org_id=651" onclick="window.open(this.href,'_top','scrollbars');return false;">South Fla.</a>
+<a href="/team/index/11540?org_id=654" onclick="window.open(this.href,'_top','scrollbars');return false;">Southeast Mo. St.</a>
+<a href="/team/index/11540?org_id=655" onclick="window.open(this.href,'_top','scrollbars');return false;">Southeastern La.</a>
+<a href="/team/index/11540?org_id=657" onclick="window.open(this.href,'_top','scrollbars');return false;">Southern California</a>
+<a href="/team/index/11540?org_id=659" onclick="window.open(this.href,'_top','scrollbars');return false;">Southern Ill.</a>
+<a href="/team/index/11540?org_id=664" onclick="window.open(this.href,'_top','scrollbars');return false;">Southern Miss.</a>
+<a href="/team/index/11540?org_id=665" onclick="window.open(this.href,'_top','scrollbars');return false;">Southern U.</a>
+<a href="/team/index/11540?org_id=667" onclick="window.open(this.href,'_top','scrollbars');return false;">Southern Utah</a>
+<a href="/team/index/11540?org_id=596" onclick="window.open(this.href,'_top','scrollbars');return false;">St. Bonaventure</a>
+<a href="/team/index/11540?org_id=599" onclick="window.open(this.href,'_top','scrollbars');return false;">St. Francis Brooklyn</a>
+<a href="/team/index/11540?org_id=603" onclick="window.open(this.href,'_top','scrollbars');return false;">St. John's (NY)</a>
+<a href="/team/index/11540?org_id=610" onclick="window.open(this.href,'_top','scrollbars');return false;">St. Mary's (CA)</a>
+<a href="/team/index/11540?org_id=674" onclick="window.open(this.href,'_top','scrollbars');return false;">Stanford</a>
+<a href="/team/index/11540?org_id=676" onclick="window.open(this.href,'_top','scrollbars');return false;">Stephen F. Austin</a>
+<a href="/team/index/11540?org_id=678" onclick="window.open(this.href,'_top','scrollbars');return false;">Stetson</a>
+<a href="/team/index/11540?org_id=683" onclick="window.open(this.href,'_top','scrollbars');return false;">Stony Brook</a>
+<a href="/team/index/11540?org_id=688" onclick="window.open(this.href,'_top','scrollbars');return false;">Syracuse</a>
+<a href="/team/index/11540?org_id=698" onclick="window.open(this.href,'_top','scrollbars');return false;">TCU</a>
+<a href="/team/index/11540?org_id=690" onclick="window.open(this.href,'_top','scrollbars');return false;">Temple</a>
+<a href="/team/index/11540?org_id=694" onclick="window.open(this.href,'_top','scrollbars');return false;">Tennessee</a>
+<a href="/team/index/11540?org_id=691" onclick="window.open(this.href,'_top','scrollbars');return false;">Tennessee St.</a>
+<a href="/team/index/11540?org_id=692" onclick="window.open(this.href,'_top','scrollbars');return false;">Tennessee Tech</a>
+<a href="/team/index/11540?org_id=536" onclick="window.open(this.href,'_top','scrollbars');return false;">Tex.-Pan American</a>
+<a href="/team/index/11540?org_id=703" onclick="window.open(this.href,'_top','scrollbars');return false;">Texas</a>
+<a href="/team/index/11540?org_id=697" onclick="window.open(this.href,'_top','scrollbars');return false;">Texas A&amp;M</a>
+<a href="/team/index/11540?org_id=699" onclick="window.open(this.href,'_top','scrollbars');return false;">Texas Southern</a>
+<a href="/team/index/11540?org_id=670" onclick="window.open(this.href,'_top','scrollbars');return false;">Texas St.</a>
+<a href="/team/index/11540?org_id=700" onclick="window.open(this.href,'_top','scrollbars');return false;">Texas Tech</a>
+<a href="/team/index/11540?org_id=702" onclick="window.open(this.href,'_top','scrollbars');return false;">Texas-Arlington</a>
+<a href="/team/index/11540?org_id=709" onclick="window.open(this.href,'_top','scrollbars');return false;">Toledo</a>
+<a href="/team/index/11540?org_id=711" onclick="window.open(this.href,'_top','scrollbars');return false;">Towson</a>
+<a href="/team/index/11540?org_id=716" onclick="window.open(this.href,'_top','scrollbars');return false;">Troy</a>
+<a href="/team/index/11540?org_id=718" onclick="window.open(this.href,'_top','scrollbars');return false;">Tulane</a>
+<a href="/team/index/11540?org_id=719" onclick="window.open(this.href,'_top','scrollbars');return false;">Tulsa</a>
+<a href="/team/index/11540?org_id=9" onclick="window.open(this.href,'_top','scrollbars');return false;">UAB</a>
+<a href="/team/index/11540?org_id=32" onclick="window.open(this.href,'_top','scrollbars');return false;">UALR</a>
+<a href="/team/index/11540?org_id=108" onclick="window.open(this.href,'_top','scrollbars');return false;">UC Davis</a>
+<a href="/team/index/11540?org_id=109" onclick="window.open(this.href,'_top','scrollbars');return false;">UC Irvine</a>
+<a href="/team/index/11540?org_id=111" onclick="window.open(this.href,'_top','scrollbars');return false;">UC Riverside</a>
+<a href="/team/index/11540?org_id=104" onclick="window.open(this.href,'_top','scrollbars');return false;">UC Santa Barbara</a>
+<a href="/team/index/11540?org_id=128" onclick="window.open(this.href,'_top','scrollbars');return false;">UCF</a>
+<a href="/team/index/11540?org_id=110" onclick="window.open(this.href,'_top','scrollbars');return false;">UCLA</a>
+<a href="/team/index/11540?org_id=164" onclick="window.open(this.href,'_top','scrollbars');return false;">UConn</a>
+<a href="/team/index/11540?org_id=391" onclick="window.open(this.href,'_top','scrollbars');return false;">UMBC</a>
+<a href="/team/index/11540?org_id=393" onclick="window.open(this.href,'_top','scrollbars');return false;">UMES</a>
+<a href="/team/index/11540?org_id=2707" onclick="window.open(this.href,'_top','scrollbars');return false;">UMKC</a>
+<a href="/team/index/11540?org_id=368" onclick="window.open(this.href,'_top','scrollbars');return false;">UMass Lowell</a>
+<a href="/team/index/11540?org_id=456" onclick="window.open(this.href,'_top','scrollbars');return false;">UNC Asheville</a>
+<a href="/team/index/11540?org_id=459" onclick="window.open(this.href,'_top','scrollbars');return false;">UNC Greensboro</a>
+<a href="/team/index/11540?org_id=460" onclick="window.open(this.href,'_top','scrollbars');return false;">UNCW</a>
+<a href="/team/index/11540?org_id=504" onclick="window.open(this.href,'_top','scrollbars');return false;">UNI</a>
+<a href="/team/index/11540?org_id=465" onclick="window.open(this.href,'_top','scrollbars');return false;">UNLV</a>
+<a href="/team/index/11540?org_id=10411" onclick="window.open(this.href,'_top','scrollbars');return false;">USC Upstate</a>
+<a href="/team/index/11540?org_id=695" onclick="window.open(this.href,'_top','scrollbars');return false;">UT Martin</a>
+<a href="/team/index/11540?org_id=704" onclick="window.open(this.href,'_top','scrollbars');return false;">UTEP</a>
+<a href="/team/index/11540?org_id=706" onclick="window.open(this.href,'_top','scrollbars');return false;">UTSA</a>
+<a href="/team/index/11540?org_id=732" onclick="window.open(this.href,'_top','scrollbars');return false;">Utah</a>
+<a href="/team/index/11540?org_id=731" onclick="window.open(this.href,'_top','scrollbars');return false;">Utah St.</a>
+<a href="/team/index/11540?org_id=30024" onclick="window.open(this.href,'_top','scrollbars');return false;">Utah Valley</a>
+<a href="/team/index/11540?org_id=740" onclick="window.open(this.href,'_top','scrollbars');return false;">VCU</a>
+<a href="/team/index/11540?org_id=741" onclick="window.open(this.href,'_top','scrollbars');return false;">VMI</a>
+<a href="/team/index/11540?org_id=735" onclick="window.open(this.href,'_top','scrollbars');return false;">Valparaiso</a>
+<a href="/team/index/11540?org_id=736" onclick="window.open(this.href,'_top','scrollbars');return false;">Vanderbilt</a>
+<a href="/team/index/11540?org_id=738" onclick="window.open(this.href,'_top','scrollbars');return false;">Vermont</a>
+<a href="/team/index/11540?org_id=739" onclick="window.open(this.href,'_top','scrollbars');return false;">Villanova</a>
+<a href="/team/index/11540?org_id=746" onclick="window.open(this.href,'_top','scrollbars');return false;">Virginia</a>
+<a href="/team/index/11540?org_id=742" onclick="window.open(this.href,'_top','scrollbars');return false;">Virginia Tech</a>
+<a href="/team/index/11540?org_id=748" onclick="window.open(this.href,'_top','scrollbars');return false;">Wagner</a>
+<a href="/team/index/11540?org_id=749" onclick="window.open(this.href,'_top','scrollbars');return false;">Wake Forest</a>
+<a href="/team/index/11540?org_id=756" onclick="window.open(this.href,'_top','scrollbars');return false;">Washington</a>
+<a href="/team/index/11540?org_id=754" onclick="window.open(this.href,'_top','scrollbars');return false;">Washington St.</a>
+<a href="/team/index/11540?org_id=758" onclick="window.open(this.href,'_top','scrollbars');return false;">Weber St.</a>
+<a href="/team/index/11540?org_id=768" onclick="window.open(this.href,'_top','scrollbars');return false;">West Virginia</a>
+<a href="/team/index/11540?org_id=769" onclick="window.open(this.href,'_top','scrollbars');return false;">Western Caro.</a>
+<a href="/team/index/11540?org_id=771" onclick="window.open(this.href,'_top','scrollbars');return false;">Western Ill.</a>
+<a href="/team/index/11540?org_id=772" onclick="window.open(this.href,'_top','scrollbars');return false;">Western Ky.</a>
+<a href="/team/index/11540?org_id=774" onclick="window.open(this.href,'_top','scrollbars');return false;">Western Mich.</a>
+<a href="/team/index/11540?org_id=782" onclick="window.open(this.href,'_top','scrollbars');return false;">Wichita St.</a>
+<a href="/team/index/11540?org_id=786" onclick="window.open(this.href,'_top','scrollbars');return false;">William &amp; Mary</a>
+<a href="/team/index/11540?org_id=792" onclick="window.open(this.href,'_top','scrollbars');return false;">Winthrop</a>
+<a href="/team/index/11540?org_id=796" onclick="window.open(this.href,'_top','scrollbars');return false;">Wisconsin</a>
+<a href="/team/index/11540?org_id=2915" onclick="window.open(this.href,'_top','scrollbars');return false;">Wofford</a>
+<a href="/team/index/11540?org_id=810" onclick="window.open(this.href,'_top','scrollbars');return false;">Wright St.</a>
+<a href="/team/index/11540?org_id=811" onclick="window.open(this.href,'_top','scrollbars');return false;">Wyoming</a>
+<a href="/team/index/11540?org_id=812" onclick="window.open(this.href,'_top','scrollbars');return false;">Xavier</a>
+<a href="/team/index/11540?org_id=813" onclick="window.open(this.href,'_top','scrollbars');return false;">Yale</a>
+<a href="/team/index/11540?org_id=817" onclick="window.open(this.href,'_top','scrollbars');return false;">Youngstown St.</a>
+<a href="http://web1.ncaa.org/web_files/terms_and_conditions.html" target="_blank">Terms and Conditions</a>
+<a href="http://web1.ncaa.org/web_files/privacy.html" target="_blank" title="Our Privacy Policy">Privacy</a>
 
 Process finished with exit code 0

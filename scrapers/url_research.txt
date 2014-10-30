@@ -1,0 +1,20 @@
+men I 2013-14
+sport_year_ctl_id=11540
+
+men I 2012-13
+&sport_year_ctl_id=11220
+
+men I 2011-12
+sport_year_ctl_id=10740
+
+men I 2010-11
+sport_year_ctl_id=10440
+
+men I 2009-10
+sport_year_ctl_id=10260
+
+
+2000-01
+
+So season has nothing to do with divisions
+

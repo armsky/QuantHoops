@@ -14,6 +14,8 @@ import datetime
 
 from collections import OrderedDict, defaultdict
 
+engine = create_engine('mysql://hooper:michael@localhost/QuantHoops', echo=True)
+metadata = MetaData()
 
 ## -- CLASSES --
 
@@ -39,8 +41,12 @@ class Game(Base):
     PlayerStatSheets.
     """
     __tablename__ = 'game'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
 
-    discriminator = Column(String)
+    discriminator = Column(String(128))
     __mapper_args__ = {'polymorphic_on' : discriminator}
 
     id = Column(Integer, primary_key=True)
@@ -65,10 +71,10 @@ class Game(Base):
     postseason = Column(Boolean)
     overtime = Column(Integer)
 
-    location = Column(String)
-    attendance = Column(String)
+    location = Column(String(128))
+    attendance = Column(Integer)
     #TODO: officials may be a new class ?
-    officials = Column(String)
+    officials = Column(String(128))
     # NOTE boxscore = one-to-many map to PlayerStatSheets.
 
     def __init__(self, home_team, away_team, date, location,
@@ -131,16 +137,20 @@ class Player(Base):
     latest statistics be incorporated into the earlier SquadMember's record.
     This allows for more realistic simulations."""
     __tablename__ = "player"
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
 
     id = Column(Integer, primary_key=True)
-    first_name = Column(String, nullable=False)
-    middle_name = Column(String)
-    last_name = Column(String, nullable=False)
-    name_suffix = Column(String)
+    first_name = Column(String(32), nullable=False)
+    middle_name = Column(String(32))
+    last_name = Column(String(32), nullable=False)
+    name_suffix = Column(String(32))
 
-    height = Column(String)        # i.e 6-11
+    height = Column(String(8))        # i.e 6-11
     weight = Column(Integer)        # Pounds
-    position = Column(String)
+    position = Column(String(2))
 
     # NOTE career = one-to-many mapping to SquadMembers
 
@@ -165,6 +175,10 @@ class SquadMember(Base):
     """This is the class that holds individual game statistics for a Player.
     Many-to-one maps to Player, Squad, and Game"""
     __tablename__ = 'squadmember'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
 
     id = Column(Integer, primary_key=True)
 
@@ -181,7 +195,7 @@ class SquadMember(Base):
 
     # Vital-ish stats
     jersey = Column(Integer)
-    year = Column(String)       # i.e., year in college (Freshman, etc.)
+    year = Column(String(8))       # i.e., year in college (Freshman, etc.)
     games_played = Column(Integer)
     games_started = Column(Integer)
 
@@ -213,6 +227,10 @@ class SquadMember(Base):
 class PlayerStatSheet(Base):
     """Contains the stats of one SquadMember in one Game"""
     __tablename__ = 'playerstatsheet'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
 
     id = Column(Integer, primary_key=True)
     squadmember_id = Column(Integer, ForeignKey('squadmember.id', onupdate='cascade'))
@@ -269,10 +287,15 @@ class PlayerStatSheet(Base):
 # - DerivedStats -- /
 class DerivedStats(Base):
     __tablename__ = 'statscache'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
     id = Column(Integer, primary_key=True)
 
     # Polymorphic: DerivedStatsPlayer, DerivedStatsSquad
-    type = Column(String)
+    type = Column(String(32))
     __mapper_args__ = {'polymorphic_on' : type}
 
     # One-to-One relationship with Squad / SquadMember
@@ -384,11 +407,13 @@ class DerivedStats(Base):
 
 class SquadMemberDerivedStats(DerivedStats):
     __mapper_args__ = {'polymorphic_identity' : 'squadmember'}
+
     # Note referent is one-to-one mapping to SquadMember
 
 
 class SquadDerivedStats(DerivedStats):
     __mapper_args__ = {'polymorphic_identity' : 'squad'}
+
     # NOTE referent is one-to-one mapping to Squad
 
 
@@ -399,9 +424,14 @@ class Squad(Base):
 
     One-to-many maps to SquadMembers, Games. Many-to-one map to Team."""
     __tablename__ = 'squad'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
 
     id = Column(Integer, primary_key=True)
-    season = Column(String, nullable=False)
+    division = Column(String(4), nullable=False)
+    season = Column(Integer, nullable=False)
 
     team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade'))
     team = relationship("Team", backref=backref('squads', order_by=id))
@@ -414,7 +444,8 @@ class Squad(Base):
     # NOTE wins = one-to-many map to Games
     # NOTE losses = one-to-many map to Games
 
-    def __init__(self, season, team=None):
+    def __init__(self, division, season, team=None):
+        self.division = division
         self.season = season
         self._cache = dict()        # Cache is never persisted.
         if team is not None:
@@ -433,22 +464,29 @@ class Team(Base):
 
     One-to-many maps to Squads and TeamAliases."""
     __tablename__ = 'team'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
 
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    name = Column(String(128), nullable=False)
+    gender = Column(Enum('Men', 'Women'), nullable=False)
 
     # NOTE squads = one-to-many map to Squads
     # NOTE aliases = one-to-many map to TeamAliases
 
-    def __init__(self, name, id=None):
+    def __init__(self, name, gender, id):
         self.name = name
-        if id is not None:
-            self.id = id
+        self.gender = gender
+        self.id = id
+        # if id is not None:
+        #     self.id = id
 
 
 # - TeamAlias -- /
 class TeamAlias(Base):
-    '''TeamAlias is used for record linkage. When querying the database for a
+    """TeamAlias is used for record linkage. When querying the database for a
     Team by name it is not necessarily (read: usually) the case that there is
     a standardized way of referring to the Team. Different sources abbreviate
     teams in different ways, e.g. 'Pitt' versus 'Pittsburgh.' This class helps
@@ -456,25 +494,42 @@ class TeamAlias(Base):
     a team. Names in this class are normalized by entirely removing all
     non-alpha-numeric characters and transforming to upper case.
 
-    TeamAliases are in a many-to-one relationship with Teams'''
+    TeamAliases are in a many-to-one relationship with Teams"""
     __tablename__ = 'teamalias'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
 
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    name = Column(String(128), nullable=False)
 
     team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade'))
     team = relationship("Team", backref=backref('aliases', order_by=id))
 
-    def __init__(self, name):
-        self.name = normalize_name(name)
+    # def __init__(self, name):
+    #     self.name = normalize_name(name)
 
     def __repr__(self):
         return "<TeamAlias('%s', '%s')>" % (self.team.name, self.name)
 
+# - Season -- /
+class Season(Base):
+    """
+    Use ncaa_id to determine season and gender, no matter what the division
+    is.
+    """
+    __tablename__ = 'season'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    id = Column(Integer, primary_key=True)
+    year = Column(Integer, nullable=False)
+    gender = Column(Enum("Men", "Women"), nullable=False)
 
 
 
 
-
-
-
+Base.metadata.create_all(engine, checkfirst=True)
