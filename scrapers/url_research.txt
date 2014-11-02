@@ -18,3 +18,13 @@ sport_year_ctl_id=10260
 
 So season has nothing to do with divisions
 
+women's
+http://stats.ncaa.org/team/inst_team_list?academic_year=2015&conf_id=-1&division=2&sport_code=WBB
+
+conference page:
+/team/inst_team_list?academic_year=2013&amp;conf_id=28752&amp;division=2&amp;sport_code=MBB
+
+Box score page (one game) for two squads are same, i.e.
+http://stats.ncaa.org/game/index/2785974?org_id=260
+http://stats.ncaa.org/game/index/2785974?org_id=133
+

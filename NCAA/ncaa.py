@@ -22,13 +22,31 @@ metadata = MetaData()
 Base = declarative_base()
 
 # - Schedule -- /
-'''Schedule is the cross-reference table for establishing the many-to-many
-map from Squads to Games.'''
-schedule = Table('schedule', Base.metadata,
-        Column('game_id', Integer, ForeignKey('game.id', onupdate='cascade')),
-        Column('squad_id', Integer, ForeignKey('squad.id', onupdate='cascade')),
-        Column('type', Enum('home', 'away'))
-)
+# '''Schedule is the cross-reference table for establishing the many-to-many
+# map from Squads to Games.'''
+# schedule = Table('schedule', Base.metadata,
+#         Column('game_id', Integer, ForeignKey('game.id', onupdate='cascade')),
+#         Column('team_id', Integer, ForeignKey('team.id', onupdate='cascade')),
+#         Column('type', Enum('home', 'away','neutral'))
+# )
+class Schedule(Base):
+    __tablename__ = 'shedule'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    game_id = Column('game_id', Integer, ForeignKey('game.id', onupdate='cascade'),
+                     primary_key=True)
+    team_id = Column('team_id', Integer, ForeignKey('team.id', onupdate='cascade'),
+                     primary_key=True)
+    type = Column('type', Enum('home', 'away','neutral'))
+
+    def __init__(self, game_id, team_id, type):
+        self.game_id = game_id
+        self.team_id = team_id
+        self.type = type
+
 
 # - Game -- /
 class Game(Base):
@@ -54,9 +72,9 @@ class Game(Base):
     date = Column(Date)
 
     # Map squads playing via schedule cross-reference Table
-    opponents = relationship('Squad',
-                             secondary=schedule,
-                             backref=backref('schedule', order_by=date))
+    # opponents = relationship('Squad',
+    #                          secondary=schedule,
+    #                          backref=backref('schedule', order_by=date))
     winner_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade'))
     winner = relationship('Squad', foreign_keys=[winner_id],
                           backref=backref('wins', order_by=date))
@@ -68,8 +86,8 @@ class Game(Base):
     loser_score = Column(Integer)
 
     # Post season
-    postseason = Column(Boolean)
-    overtime = Column(Integer)
+    # postseason = Column(Boolean)
+    # overtime = Column(Integer)
 
     location = Column(String(128))
     attendance = Column(Integer)
@@ -77,13 +95,14 @@ class Game(Base):
     officials = Column(String(128))
     # NOTE boxscore = one-to-many map to PlayerStatSheets.
 
-    def __init__(self, home_team, away_team, date, location,
+    def __init__(self, game_id, home_team, away_team, date, location,
                  attendance, officials, loser=None, winner=None,
                  winner_score=None, loser_score=None, postseason=False):
         # First and 2nd Teams date Location attendance and officials are mandatory.
         # Location equals to Home team's location, or a specified neutral site
         # Specify loser and winner optionally; if one is missing, the other will be inferred.
         # If the game haven't happened yet (future game), do not scrape it
+        self.id = game_id
         self.opponents.append(home_team)
         self.opponents.append(away_team)
         self.date = date
@@ -431,7 +450,9 @@ class Squad(Base):
 
     id = Column(Integer, primary_key=True)
     division = Column(String(4), nullable=False)
-    season = Column(Integer, nullable=False)
+    year = Column(Integer, nullable=False)
+
+    conference_id = Column(Integer, ForeignKey('conference.id'), onupdate='cascade')
 
     team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade'))
     team = relationship("Team", backref=backref('squads', order_by=id))
@@ -444,9 +465,9 @@ class Squad(Base):
     # NOTE wins = one-to-many map to Games
     # NOTE losses = one-to-many map to Games
 
-    def __init__(self, division, season, team=None):
+    def __init__(self, division, year, team=None):
         self.division = division
-        self.season = season
+        self.year = year
         self._cache = dict()        # Cache is never persisted.
         if team is not None:
             self.team = team
@@ -456,6 +477,9 @@ class Squad(Base):
 class Team(Base):
     """Teams contain a relationship to Squads for any available years.
     Also contain relationships to alternate team names.
+
+    NCAA uses a permanent id (org_id, which is also known as ncaa_id)to
+    represent a team no matter what the season is.
 
     Note that IDs have been assigned explicitly to match those used by
     NCAA.com to make record linkage easier. The alternate team names
@@ -472,6 +496,7 @@ class Team(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(128), nullable=False)
     gender = Column(Enum('Men', 'Women'), nullable=False)
+    conference = Column(String(128), nullable=True)
 
     # NOTE squads = one-to-many map to Squads
     # NOTE aliases = one-to-many map to TeamAliases
@@ -529,6 +554,24 @@ class Season(Base):
     year = Column(Integer, nullable=False)
     gender = Column(Enum("Men", "Women"), nullable=False)
 
+# - Season -- /
+class Conference(Base):
+    """
+    A team may belong to different in different year and division
+    """
+    __tablename__ = "conference"
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(64), nullable=False)
+
+
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
 
 
 
