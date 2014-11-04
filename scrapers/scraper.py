@@ -13,7 +13,7 @@ from sqlalchemy.orm import relationship, backref, sessionmaker, reconstructor
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://hooper:michael@localhost/QuantHoops', echo=False)
+engine = create_engine('mysql://hooper:michael@localhost/QuantHoops', echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -83,32 +83,45 @@ def conference_parser(season_id, division):
         # print soup
         conference_a_list = list(set([x.find('a') for x in soup.findAll('li')]))
         conference_record_list = []
+        conference_id_list = []
         for conference in conference_a_list:
             if conference and re.search("changeConference", conference["href"]):
                 conference_id = conference["href"].split("(")[1].split(".")[0]
                 if conference_id != "-1);" and conference_id != "0":
+                    conference_id_list.append(conference_id)
                     conference_name = conference.string
                     if session.query(Conference).filter_by(id=conference_id).first() is None:
                         conference_record_list.append(Conference(conference_id, conference_name))
+                        # session.add(Conference(conference_id, conference_name))
 
-                        url = "http://stats.ncaa.org/team/inst_team_list?academic_year=%s&amp;" \
-                            "conf_id=%s&amp;division=%s&amp;sport_code=MBB" % (year, conference_id, division)
-                        team_links = get_team_link(url)
-                        for team_link in team_links:
-                            ncaa_id = int(team_link["href"].split("=")[1])
-                            
+
 
         session.add_all(conference_record_list)
         session.commit()
 
+        #update Squad records with conference information
+        squad_records = []
+        for conference_id in conference_id_list:
+            url = "http://stats.ncaa.org/team/inst_team_list?academic_year=%s&amp;" \
+                "conf_id=%s&amp;division=%s&amp;sport_code=MBB" % (year, conference_id, division)
+            team_links = get_team_link(url)
+            for team_link in team_links:
+                team_id = int(team_link["href"].split("=")[1])
+                print "******"
+                print team_id, year, division
+                squad_record = session.query(Squad).filter(Squad.team_id == team_id,
+                                             Squad.year == year,
+                                             Squad.division == division).first()
+                if squad_record:
+                    squad_record.conference_id = conference_id
+                    squad_records.append(squad_record)
 
+        session.add(squad_records)
+        session.flush()
 
     except:
         session.rollback()
         raise
-
-
-
 
 
 def schedule_parser(season_id, team_id):
@@ -176,16 +189,17 @@ def game_parser(game_id):
 
 
 
-# Insert all Teams and Squads (for Men)
+#Insert all Teams and Squads (for Men)
 rows = session.query(Season).all()
 for row in rows:
     season_id = row.id
-
     print season_id
     for i in ["1", "2", "3"]:
-        # print "###############"
+        print "###############"
         # team_parser(season_id, i)
         # squad_parser(season_id, i)
         conference_parser(season_id, i)
 
 session.close()
+
+# conference_parser("11540", "1")

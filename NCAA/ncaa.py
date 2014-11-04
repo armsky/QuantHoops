@@ -452,7 +452,7 @@ class Squad(Base):
     division = Column(String(4), nullable=False)
     year = Column(Integer, nullable=False)
 
-    conference_id = Column(Integer, ForeignKey('conference.id'), onupdate='cascade')
+    conference_id = Column(Integer, ForeignKey('conference.id', onupdate='cascade'))
 
     team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade'))
     team = relationship("Team", backref=backref('squads', order_by=id))
@@ -465,12 +465,14 @@ class Squad(Base):
     # NOTE wins = one-to-many map to Games
     # NOTE losses = one-to-many map to Games
 
-    def __init__(self, division, year, team=None):
+    def __init__(self, division, year, team=None, conference=None):
         self.division = division
         self.year = year
         self._cache = dict()        # Cache is never persisted.
         if team is not None:
             self.team = team
+        if conference is not None:
+            self.conference = conference
 
 
 # - Team -- /
@@ -496,7 +498,6 @@ class Team(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(128), nullable=False)
     gender = Column(Enum('Men', 'Women'), nullable=False)
-    conference = Column(String(128), nullable=True)
 
     # NOTE squads = one-to-many map to Squads
     # NOTE aliases = one-to-many map to TeamAliases
@@ -568,6 +569,8 @@ class Conference(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(64), nullable=False)
 
+    # NOTE squads = one-to-many map to Squads
+    belongings = relationship("Squad")
 
     def __init__(self, id, name):
         self.id = id
