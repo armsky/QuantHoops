@@ -8,13 +8,14 @@ import re
 from bs4 import BeautifulSoup
 from scraper_helper import *
 
+from dateutil.parser import *
 from sqlalchemy import *
 from sqlalchemy.orm import relationship, backref, sessionmaker, reconstructor
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 engine = create_engine('mysql://hooper:michael@localhost/QuantHoops', echo=True)
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=engine, autocommit=True)
 session = Session()
 
 
@@ -37,7 +38,7 @@ def team_parser(season_id, division):
             if session.query(Team).filter_by(id=ncaa_id).first() is None:
                 team_records.append(team_record)
         session.add_all(team_records)
-        session.commit()
+        # session.commit()
 
     except:
         session.rollback()
@@ -67,7 +68,7 @@ def squad_parser(season_id, division):
             #     print "$$$$$$"
                 print year, division, ncaa_id
         session.add_all(squad_records)
-        session.commit()
+        # session.commit()
 
     except:
         session.rollback()
@@ -92,12 +93,12 @@ def conference_parser(season_id, division):
                     conference_name = conference.string
                     if session.query(Conference).filter_by(id=conference_id).first() is None:
                         conference_record_list.append(Conference(conference_id, conference_name))
-                        # session.add(Conference(conference_id, conference_name))
+                        session.add(Conference(conference_id, conference_name))
+                        # session.commit()
 
 
-
-        session.add_all(conference_record_list)
-        session.commit()
+        # session.add_all(conference_record_list)
+        # session.commit()
 
         #update Squad records with conference information
         squad_records = []
@@ -114,9 +115,9 @@ def conference_parser(season_id, division):
                                              Squad.division == division).first()
                 if squad_record:
                     squad_record.conference_id = conference_id
-                    squad_records.append(squad_record)
+                    session.add(squad_record)
+                    # session.commit()
 
-        session.add(squad_records)
         session.flush()
 
     except:
@@ -125,12 +126,16 @@ def conference_parser(season_id, division):
 
 
 def schedule_parser(season_id, team_id):
+    year = session.query(Season).filter_by(id=season_id).first().year
     url = "http://stats.ncaa.org/team/index/%s?org_id=%s" % (season_id, team_id)
     soup = soupify(url)
-
     game_ids = []
+    schedule_records = []
+    #TODO: there maybe team not in NCAA, they don't have <a> tag
     links = soup.find_all('table')[1].find_all(lambda tag: tag.name == 'a' and tag.findParent('td', attrs={'class':'smtext'}))
+    opponent_flag = False
     for link in links:
+        print link
         #contains home/away information
         game_id = None
         if re.search("team", link["href"]):
@@ -152,18 +157,76 @@ def schedule_parser(season_id, team_id):
                 team_type = "neutral"
                 opponent_type = "neutral"
 
+            # Both teams are NCAA team
+            opponent_flag = True
+
         #contains game information (id, score and other vital statistics)
         elif re.search("game", link["href"]):
-            print link
             game_id = int(link["href"].split("?")[0].split("/")[3])
+            if game_id == 587470:
+                print "+++++"
+                print season_id, team_id
             game_ids.append(game_id)
             score_string_list = link.string.split(" ")
 
-            # if score_string_list[0] == "W":
-        # Create Schedule records based on two teams
-        if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
-                session.add_all([Schedule(game_id,team_id,team_type),
-                                Schedule(game_id,opponent_id,opponent_type)])
+            # A regular game
+            # Both winner_id and loser_id will be squad_id
+            if score_string_list[0] == "W":
+                winner_id = session.query(Squad).filter(Squad.team_id == team_id,
+                                                        Squad.year == year).first().id
+                #A tournament game
+                if not opponent_flag:
+                    # Use fake squad_id (0) and fake year (0)
+                    loser_id = session.query(Squad).filter(Squad.team_id == 0,
+                                                           Squad.year == 0).first().id
+                else:
+                    loser_id = session.query(Squad).filter(Squad.team_id == opponent_id,
+                                                           Squad.year == year).first().id
+                winner_score = score_string_list[1]
+                loser_score = score_string_list[3]
+            #score_string_list[0] == "L"
+            else:
+                loser_id = session.query(Squad).filter(Squad.team_id == team_id,
+                                                       Squad.year == year).first().id
+                #A tournament game
+                if not opponent_flag:
+                    #set up a fake squad_id (0) and fake year
+                    winner_id = session.query(Squad).filter(Squad.team_id == 0,
+                                                            Squad.year == 0).first().id
+                else:
+                    winner_id = session.query(Squad).filter(Squad.team_id == opponent_id,
+                                                            Squad.year == year).first().id
+
+                winner_score = score_string_list[3]
+                loser_score = score_string_list[1]
+
+
+
+            print winner_id, loser_id
+            if session.query(Game).filter_by(id=game_id).first() is None:
+                game_record = Game(game_id, winner_id, loser_id, winner_score, loser_score)
+                session.add(game_record)
+                # session.commit()
+
+            # Create Schedule records based on two teams
+            if opponent_flag:
+                if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
+
+                    session.add_all([Schedule(game_id,winner_id,team_type),
+                                    Schedule(game_id,loser_id,opponent_type)])
+                    # session.commit()
+                opponent_flag = False
+            # One of the team if not a NCAA team
+            else:
+                # Create Schedule records based on one teams
+                team_type = "tournament"
+                if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
+                    squad_id = session.query(Squad).filter(Squad.team_id == team_id,
+                                                        Squad.year == year).first().id
+                    session.add(Schedule(game_id,squad_id,team_type))
+                    # session.commit()
+
+
     #
     # for game_id in game_ids:
     #     print game_id
@@ -175,7 +238,7 @@ def schedule_parser(season_id, team_id):
 
 
 
-def game_parser(game_id):
+def game_parser():
     """
     Check the game_id before parse, since the page should be the same
     i.e.:
@@ -184,7 +247,38 @@ def game_parser(game_id):
     :param game_id:
     :return:
     """
-    print "some"
+    game_records = session.query(Game).distinct(Game.id).all()
+    for game_record in game_records:
+        game_id = game_record.id
+        # In case the winner is not a NCAA team
+        if game_record.winner_id != 0:
+            team_id = session.query(Squad).filter_by(id=game_record.winner_id).first().team_id
+        else:
+            team_id = session.query(Squad).filter_by(id=game_record.loser_id).first().team_id
+
+        print game_id, team_id
+
+        url = "http://stats.ncaa.org/game/index/%s?org_id=%s" % (game_id, team_id)
+        soup = soupify(url)
+
+        game_details = soup.find_all('table')[2]
+        game_record.date = parse(game_details.find_all('td')[1].string.split(' ')[0]).date()
+        game_record.location = game_details.find_all('td')[3].string
+        try:
+            game_record.attendance = int(game_details.findAll('td')[5].contents[0].replace(',',''))
+        except:
+            game_record.attendance = None
+        game_record.officials = soup.findAll('table')[3].findAll('td')[1].string.strip()
+
+        session.add(game_record)
+        print game_record.date, game_record.location, game_record.attendance, game_record.officials
+
+
+
+    session.commit()
+
+
+
 
 
 
@@ -194,12 +288,19 @@ rows = session.query(Season).all()
 for row in rows:
     season_id = row.id
     print season_id
-    for i in ["1", "2", "3"]:
-        print "###############"
+    # for i in ["1", "2", "3"]:
+
         # team_parser(season_id, i)
         # squad_parser(season_id, i)
-        conference_parser(season_id, i)
+        # conference_parser(season_id, i)
 
+    teams = session.query(Team).all()
+    for team in teams:
+        team_id = team.id
+        if team_id != 0:
+            print "###############"
+            print season_id, team_id
+            schedule_parser(season_id, team_id)
+
+# game_parser()
 session.close()
-
-# conference_parser("11540", "1")

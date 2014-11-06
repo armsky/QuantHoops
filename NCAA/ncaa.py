@@ -22,13 +22,6 @@ metadata = MetaData()
 Base = declarative_base()
 
 # - Schedule -- /
-# '''Schedule is the cross-reference table for establishing the many-to-many
-# map from Squads to Games.'''
-# schedule = Table('schedule', Base.metadata,
-#         Column('game_id', Integer, ForeignKey('game.id', onupdate='cascade')),
-#         Column('team_id', Integer, ForeignKey('team.id', onupdate='cascade')),
-#         Column('type', Enum('home', 'away','neutral'))
-# )
 class Schedule(Base):
     __tablename__ = 'shedule'
     __table_args__ = {
@@ -38,13 +31,13 @@ class Schedule(Base):
 
     game_id = Column('game_id', Integer, ForeignKey('game.id', onupdate='cascade'),
                      primary_key=True)
-    team_id = Column('team_id', Integer, ForeignKey('team.id', onupdate='cascade'),
+    squad_id = Column('squad_id', Integer, ForeignKey('squad.id', onupdate='cascade'),
                      primary_key=True)
-    type = Column('type', Enum('home', 'away','neutral'))
+    type = Column('type', Enum('home', 'away','neutral','tournament'))
 
-    def __init__(self, game_id, team_id, type):
+    def __init__(self, game_id, squad_id, type):
         self.game_id = game_id
-        self.team_id = team_id
+        self.squad_id = squad_id
         self.type = type
 
 
@@ -95,45 +88,22 @@ class Game(Base):
     officials = Column(String(128))
     # NOTE boxscore = one-to-many map to PlayerStatSheets.
 
-    def __init__(self, game_id, home_team, away_team, date, location,
-                 attendance, officials, loser=None, winner=None,
-                 winner_score=None, loser_score=None, postseason=False):
+    def __init__(self, game_id, winner_id, loser_id, winner_score,loser_score,
+                 date=None, location=None, attendance=None, officials=None):
         # First and 2nd Teams date Location attendance and officials are mandatory.
         # Location equals to Home team's location, or a specified neutral site
-        # Specify loser and winner optionally; if one is missing, the other will be inferred.
+        # Specify loser and winner;
         # If the game haven't happened yet (future game), do not scrape it
         self.id = game_id
-        self.opponents.append(home_team)
-        self.opponents.append(away_team)
         self.date = date
+        self.winner_id = winner_id
+        self.loser_id = loser_id
+        self.winner_score = winner_score
+        self.loser_score = loser_score
         self.location = location
         self.attendance = attendance
         self.officials = officials
 
-        self.postseason = postseason
-
-        self.winner_score = winner_score
-        self.loser_score = loser_score
-
-        if loser is not None:
-            self.loser = loser
-            if winner is None:
-                if self.loser.id==self.home_id:
-                    # Away team was winner
-                    self.winner = away_team
-                else:
-                    # Home team was winner
-                    self.winner = home_team
-
-        if winner is not None:
-            self.winner = winner
-            if loser is None:
-                if self.winner.id==self.home_id:
-                    # Away team was loser
-                    self.loser = away_team
-                else:
-                    # Home team was loser
-                    self.winner = home_team
 
     # def __contains__(self, squad):
     #     return squad in game.opponents

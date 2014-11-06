@@ -1,212 +1,69 @@
-/usr/bin/python /Users/armsky/WORKPLACE/QuantHoops/BeautifulSoup/test.py
-<html>
-<head>
-<title> Game By Game Stats </title>
-<link href="/stylesheets/scaffold.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<link href="/stylesheets/baseForms.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<link href="/stylesheets/pagination.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<link href="/stylesheets/menu.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<script src="/javascripts/prototype.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/effects.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/dragdrop.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/controls.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/control.modal.2.2.1.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/livepipe.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/window.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/menu.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/jstz.min.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/calendar_date_select/calendar_date_select.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/calendar_date_select/format_american.js?1409071858" type="text/javascript"></script>
-<link href="/stylesheets/calendar_date_select/silver.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-<link href="/stylesheets/redmond/jquery-ui-1.8.23.custom.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<link href="/stylesheets/overcast/jquery.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<link href="/stylesheets/jquery.loadmask.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<link href="/stylesheets/table.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<link href="/stylesheets/jquery.dataTables.css?1409071858" media="screen" rel="stylesheet" type="text/css"/>
-<script src="/javascripts/jquery.loadmask.min.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/jquery.dataTables.min.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/application.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/numHtmlSort.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/titleNumericSort.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/gradeLevelSort.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/datatable.getColumnData.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/datatable.createSelect.js?1409071858" type="text/javascript"></script>
-<script src="/javascripts/datatable.thSelectors.js?1409071858" type="text/javascript"></script>
-<script language="javascript">
-
-var downImage = "/images/down12.gif";
-var rightImage = "/images/right12.gif";
-
-function toggle_row(attr_val){
-	arr = $$('['+attr_val+']');
-	for(x=0; x < arr.length; x++){
-			arr[x].toggle();
-	}
-}
-function show_hide_rows(attr_val, link_id){
-  if (Object.prototype.toString.call(attr_val).match(/^\[object (.*)\]$/)[1] == "Array"){
-    for(y=0; y < attr_val.length; y++){
-       toggle_row(attr_val[y]);
-     }
-  }else{
-    toggle_row(attr_val);
-  }
-	//arr = $$('['+attr_val+']');
-	//for(x=0; x < arr.length; x++){
-			//arr[x].toggle();
-	//}
-	if ( $(link_id).alt == "Add" ){
-		$(link_id).src = downImage; //'/images/down12.gif';
-		$(link_id).alt = 'Delete';
-	}else{
-	    $(link_id).src = rightImage; //'/images/right12.gif';
-		$(link_id).alt = 'Add';
-		
-	}
-}
-
-</script>
-<script>
-
-var winHeight = "auto";
-var winWidth = "auto";
-var maxHeight = 700;
-var maxWidth = 1400;
-var minHeight = 100;
-var minWidth = 200;
-
-var modalOptions = {"width": winWidth,
-                    "height": winHeight,
-                    "maxHeight": maxHeight,
-                    "maxWidth": maxWidth,
-                    "minHeight": minHeight,
-                    "minWidth": minWidth};
-
-function dialog(url, title){
-
-  $j("#stats_app_dialog").dialog({modal:true, minWidth:minWidth, minHeight:minHeight, maxWidth:maxWidth, maxHeight:maxHeight, width:winWidth, height:winHeight, title:title, closeOnEscape: false});
-
-  modalOptions.title = title;
-
-  $j("#stats_app_dialog").dialog("option", modalOptions);
-
-  $j("#stats_app_dialog").html("Loading...");
-  $j("#stats_app_dialog").load(url).dialog('open');
-}
-
-</script>
-</head>
-<body>
-<div class="header">
-<div class="logo">
-</div>
-<div class="rightSide">
-<a class="smallFont" href="http://web1.ncaa.org/cgi-bin/ithelp/help.cgi?application=stats" target="_blank" title="To ask a question, report a problem, or to submit ideas to help us improve this website.">Contact Us</a>
-</div>
-<div class="appTitle">
-		Sport List
-	  </div>
-</div>
-<p style="color: green"></p>
-<p style="color: red"></p>
-<div class="contentArea" id="contentArea">
-<div id="stats_app_dialog" style="display:none;">
-</div>
-<div style="text-align: right; font-size: 9pt;">
-<a href="/rankings">National Rankings</a> | 
-  <a href="/">Active Career Leaders</a> | 
-  
-  <a href="http://twitter.com/ncaastats" target="TWITTER"><img alt="Twitter" height="17" src="/images/twitter.png?1409071858" width="46"/></a>
-</div>
-<script language="javascript">
-      function changeDivisions(val){
-	     $('params_form_division').value = val;
-	     document.params_form.submit();
-      }
-
-      function changeYears(val){
-         if ( $('params_form_academic_year').value != val ){
-	        $('params_form_schedule_date').value = '';
-         }
-	     $('params_form_academic_year').value = val;
-	     document.params_form.submit();
-      }
-
-      function changeSports(val){
-	     $('params_form_sport_code').value = val;
-	     document.params_form.submit();
-      }
-      function changeConference(val){
-	     $('params_form_conf_id').value = val;
-	     document.params_form.submit();
-      }
-      function changeDate(val){
-	     $('params_form_schedule_date').value = val;
-	     document.params_form.submit();
-      }
-</script>
-<form action="/team/inst_team_list" method="post" name="params_form">
-<input id="params_form_sport_code" name="sport_code" type="hidden" value=""/>
-<input id="params_form_academic_year" name="academic_year" type="hidden" value=""/>
-<input id="params_form_division" name="division" type="hidden" value=""/>
-<input id="params_form_conf_id" name="conf_id" type="hidden" value="-1"/>
-<input id="params_form_schedule_date" name="schedule_date" type="hidden" value=""/>
-</form>
-<div class="header_menu">
-<div id="menu">
-<ul class="level1" id="root">
-<li>
-<a href="#">Select Sport</a>
-<ul class="level2">
-<li><a href="javascript:changeSports('MBA');">Baseball</a></li>
-<li><a href="javascript:changeSports('MBB');">Men's Basketball</a></li>
-<li><a href="javascript:changeSports('MFB');">Football</a></li>
-<li><a href="javascript:changeSports('MLA');">Men's Lacrosse</a></li>
-<li><a href="javascript:changeSports('MSO');">Men's Soccer</a></li>
-<li><a href="javascript:changeSports('MTE');">Men's Tennis</a></li>
-<li><a href="javascript:changeSports('MVB');">Men's Volleyball</a></li>
-<li><a href="javascript:changeSports('WBB');">Women's Basketball</a></li>
-<li><a href="javascript:changeSports('WFH');">Field Hockey</a></li>
-<li><a href="javascript:changeSports('WLA');">Women's Lacrosse</a></li>
-<li><a href="javascript:changeSports('WSB');">Women's Softball</a></li>
-<li><a href="javascript:changeSports('WSO');">Women's Soccer</a></li>
-<li><a href="javascript:changeSports('WTE');">Women's Tennis</a></li>
-<li><a href="javascript:changeSports('WVB');">Women's Volleyball</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<br/>
-<br/>
-<br/>
-</div>
-<div class="footer" id="footer">
-<div>© 2014 NCAA
-	  <span>
-<a href="http://web1.ncaa.org/web_files/terms_and_conditions.html" target="_blank">Terms and Conditions</a> | 
-	    <a href="http://web1.ncaa.org/web_files/privacy.html" target="_blank" title="Our Privacy Policy">Privacy</a>
-</span>
-</div>
-</div>
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-2045383-4");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-</body>
-<script>
-    $j("body").on("click", ".showMask", (function() {
-       $j('#contentArea').mask('Loading...');
-    }));
-</script>
-</html>
-
+/usr/bin/python /Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper.py
+2014-11-05 17:52:22,372 INFO sqlalchemy.engine.base.Engine SHOW VARIABLES LIKE 'sql_mode'
+2014-11-05 17:52:22,372 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,374 INFO sqlalchemy.engine.base.Engine SELECT DATABASE()
+2014-11-05 17:52:22,374 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,374 INFO sqlalchemy.engine.base.Engine show collation where `Charset` = 'utf8' and `Collation` = 'utf8_bin'
+2014-11-05 17:52:22,375 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,376 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS CHAR(60)) AS anon_1
+2014-11-05 17:52:22,376 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,377 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS CHAR(60)) AS anon_1
+2014-11-05 17:52:22,377 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,378 INFO sqlalchemy.engine.base.Engine SELECT CAST('test collated returns' AS CHAR CHARACTER SET utf8) COLLATE utf8_bin AS anon_1
+2014-11-05 17:52:22,378 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,380 INFO sqlalchemy.engine.base.Engine DESCRIBE `player`
+2014-11-05 17:52:22,381 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,384 INFO sqlalchemy.engine.base.Engine DESCRIBE `statscache`
+2014-11-05 17:52:22,384 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,385 INFO sqlalchemy.engine.base.Engine DESCRIBE `conference`
+2014-11-05 17:52:22,386 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,387 INFO sqlalchemy.engine.base.Engine DESCRIBE `season`
+2014-11-05 17:52:22,388 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,389 INFO sqlalchemy.engine.base.Engine DESCRIBE `team`
+2014-11-05 17:52:22,389 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,391 INFO sqlalchemy.engine.base.Engine DESCRIBE `squad`
+2014-11-05 17:52:22,391 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,393 INFO sqlalchemy.engine.base.Engine DESCRIBE `teamalias`
+2014-11-05 17:52:22,393 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,394 INFO sqlalchemy.engine.base.Engine DESCRIBE `squadmember`
+2014-11-05 17:52:22,394 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,396 INFO sqlalchemy.engine.base.Engine DESCRIBE `game`
+2014-11-05 17:52:22,397 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,399 INFO sqlalchemy.engine.base.Engine DESCRIBE `playerstatsheet`
+2014-11-05 17:52:22,399 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,402 INFO sqlalchemy.engine.base.Engine DESCRIBE `shedule`
+2014-11-05 17:52:22,402 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,547 INFO sqlalchemy.engine.base.Engine SHOW VARIABLES LIKE 'sql_mode'
+2014-11-05 17:52:22,547 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,548 INFO sqlalchemy.engine.base.Engine SELECT DATABASE()
+2014-11-05 17:52:22,548 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,549 INFO sqlalchemy.engine.base.Engine show collation where `Charset` = 'utf8' and `Collation` = 'utf8_bin'
+2014-11-05 17:52:22,549 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,551 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS CHAR(60)) AS anon_1
+2014-11-05 17:52:22,552 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,553 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS CHAR(60)) AS anon_1
+2014-11-05 17:52:22,553 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,554 INFO sqlalchemy.engine.base.Engine SELECT CAST('test collated returns' AS CHAR CHARACTER SET utf8) COLLATE utf8_bin AS anon_1
+2014-11-05 17:52:22,554 INFO sqlalchemy.engine.base.Engine ()
+2014-11-05 17:52:22,555 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+2014-11-05 17:52:22,556 INFO sqlalchemy.engine.base.Engine SELECT DISTINCT game.discriminator AS game_discriminator, game.id AS game_id, game.date AS game_date, game.winner_id AS game_winner_id, game.winner_score AS game_winner_score, game.loser_id AS game_loser_id, game.loser_score AS game_loser_score, game.location AS game_location, game.attendance AS game_attendance, game.officials AS game_officials 
+FROM game
+2014-11-05 17:52:22,556 INFO sqlalchemy.engine.base.Engine ()
+523250 272
+<table align="center" width="50%">
+<tr>
+<td class="boldtext" width="20%">Game Date:</td>
+<td>11/11/2011  7:06 p.m.</td>
+</tr>
+<tr>
+<td class="boldtext">Location:</td>
+<td>Tuscaloosa, Ala. (Coleman Coliseum)</td>
+</tr>
+<tr>
+<td class="boldtext">Attendance:</td>
+<td>11,754</td>
+</tr>
+</table>
+2014-11-05 17:52:23,352 INFO sqlalchemy.engine.base.Engine ROLLBACK
 
 Process finished with exit code 0

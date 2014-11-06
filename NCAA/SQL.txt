@@ -12,8 +12,8 @@ LOCK TABLES `season` WRITE;
 
 INSERT INTO `season` (`id`, `year`, `gender`)
 VALUES
-	(10640,2012,'Men'),
+	(10740,2012,'Men'),
 	(11220,2013,'Men'),
-	(11260,2000,'Men'),
+	(11260,2010,'Men'),
 	(11440,2011,'Men'),
 	(11540,2014,'Men');
