@@ -1,69 +1,154 @@
-/usr/bin/python /Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper.py
-2014-11-05 17:52:22,372 INFO sqlalchemy.engine.base.Engine SHOW VARIABLES LIKE 'sql_mode'
-2014-11-05 17:52:22,372 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,374 INFO sqlalchemy.engine.base.Engine SELECT DATABASE()
-2014-11-05 17:52:22,374 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,374 INFO sqlalchemy.engine.base.Engine show collation where `Charset` = 'utf8' and `Collation` = 'utf8_bin'
-2014-11-05 17:52:22,375 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,376 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS CHAR(60)) AS anon_1
-2014-11-05 17:52:22,376 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,377 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS CHAR(60)) AS anon_1
-2014-11-05 17:52:22,377 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,378 INFO sqlalchemy.engine.base.Engine SELECT CAST('test collated returns' AS CHAR CHARACTER SET utf8) COLLATE utf8_bin AS anon_1
-2014-11-05 17:52:22,378 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,380 INFO sqlalchemy.engine.base.Engine DESCRIBE `player`
-2014-11-05 17:52:22,381 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,384 INFO sqlalchemy.engine.base.Engine DESCRIBE `statscache`
-2014-11-05 17:52:22,384 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,385 INFO sqlalchemy.engine.base.Engine DESCRIBE `conference`
-2014-11-05 17:52:22,386 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,387 INFO sqlalchemy.engine.base.Engine DESCRIBE `season`
-2014-11-05 17:52:22,388 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,389 INFO sqlalchemy.engine.base.Engine DESCRIBE `team`
-2014-11-05 17:52:22,389 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,391 INFO sqlalchemy.engine.base.Engine DESCRIBE `squad`
-2014-11-05 17:52:22,391 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,393 INFO sqlalchemy.engine.base.Engine DESCRIBE `teamalias`
-2014-11-05 17:52:22,393 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,394 INFO sqlalchemy.engine.base.Engine DESCRIBE `squadmember`
-2014-11-05 17:52:22,394 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,396 INFO sqlalchemy.engine.base.Engine DESCRIBE `game`
-2014-11-05 17:52:22,397 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,399 INFO sqlalchemy.engine.base.Engine DESCRIBE `playerstatsheet`
-2014-11-05 17:52:22,399 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,402 INFO sqlalchemy.engine.base.Engine DESCRIBE `shedule`
-2014-11-05 17:52:22,402 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,547 INFO sqlalchemy.engine.base.Engine SHOW VARIABLES LIKE 'sql_mode'
-2014-11-05 17:52:22,547 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,548 INFO sqlalchemy.engine.base.Engine SELECT DATABASE()
-2014-11-05 17:52:22,548 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,549 INFO sqlalchemy.engine.base.Engine show collation where `Charset` = 'utf8' and `Collation` = 'utf8_bin'
-2014-11-05 17:52:22,549 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,551 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS CHAR(60)) AS anon_1
-2014-11-05 17:52:22,552 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,553 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS CHAR(60)) AS anon_1
-2014-11-05 17:52:22,553 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,554 INFO sqlalchemy.engine.base.Engine SELECT CAST('test collated returns' AS CHAR CHARACTER SET utf8) COLLATE utf8_bin AS anon_1
-2014-11-05 17:52:22,554 INFO sqlalchemy.engine.base.Engine ()
-2014-11-05 17:52:22,555 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
-2014-11-05 17:52:22,556 INFO sqlalchemy.engine.base.Engine SELECT DISTINCT game.discriminator AS game_discriminator, game.id AS game_id, game.date AS game_date, game.winner_id AS game_winner_id, game.winner_score AS game_winner_score, game.loser_id AS game_loser_id, game.loser_score AS game_loser_score, game.location AS game_location, game.attendance AS game_attendance, game.officials AS game_officials 
-FROM game
-2014-11-05 17:52:22,556 INFO sqlalchemy.engine.base.Engine ()
-523250 272
-<table align="center" width="50%">
+[<table align="center" class="mytable" id="stat_grid" width="90%">
+<thead>
+<tr class="heading">
+<td colspan="7">Roster</td>
+</tr>
+<tr class="heading">
+<th>Jersey</th>
+<th>Player</th>
+<th allowselectfilter="true">Pos</th>
+<th>Ht</th>
+<th allowselectfilter="true" selectlist="Fr,So,Jr,Sr,N/A">Yr</th>
+<th>GP</th>
+<th>GS</th>
+</tr>
+</thead>
+<tbody>
 <tr>
-<td class="boldtext" width="20%">Game Date:</td>
-<td>11/11/2011  7:06 p.m.</td>
+<td>02</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1292124.0" target="_TOP">Brown, Cliff</a></td>
+<td>G</td>
+<td>6-3</td>
+<td sortval="3.0">Jr</td>
+<td>30</td>
+<td>27</td>
 </tr>
 <tr>
-<td class="boldtext">Location:</td>
-<td>Tuscaloosa, Ala. (Coleman Coliseum)</td>
+<td>12</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1077993.0" target="_TOP">Calarco, John</a></td>
+<td>G</td>
+<td>6-2</td>
+<td sortval="3.0">Jr</td>
+<td>26</td>
+<td>9</td>
 </tr>
 <tr>
-<td class="boldtext">Attendance:</td>
-<td>11,754</td>
+<td>05</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1077995.0" target="_TOP">Fitzgerald, Ky'Ron</a></td>
+<td>G</td>
+<td>5-10</td>
+<td sortval="4.0">Sr</td>
+<td>15</td>
+<td>1</td>
 </tr>
-</table>
-2014-11-05 17:52:23,352 INFO sqlalchemy.engine.base.Engine ROLLBACK
-
-Process finished with exit code 0
+<tr>
+<td>23</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1178416.0" target="_TOP">Fraser, Gerard</a></td>
+<td>F</td>
+<td>6-7</td>
+<td sortval="2.0">So</td>
+<td>2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>24</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1292128.0" target="_TOP">Garcia, Chris</a></td>
+<td>G</td>
+<td>6-3</td>
+<td sortval="1.0">Fr</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>44</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=957391.0" target="_TOP">Harkins, Richard</a></td>
+<td>G</td>
+<td>5-10</td>
+<td sortval="4.0">Sr</td>
+<td>29</td>
+<td>28</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=957392.0" target="_TOP">Johnson, Robert</a></td>
+<td>G</td>
+<td>6-1</td>
+<td sortval="4.0">Sr</td>
+<td>26</td>
+<td>24</td>
+</tr>
+<tr>
+<td>01</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1292123.0" target="_TOP">Jordan, Travis</a></td>
+<td>F</td>
+<td>6-6</td>
+<td sortval="3.0">Jr</td>
+<td>28</td>
+<td>0</td>
+</tr>
+<tr>
+<td>32</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=957393.0" target="_TOP">McDonald, Norron</a></td>
+<td>F</td>
+<td>6-6</td>
+<td sortval="4.0">Sr</td>
+<td>22</td>
+<td>4</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1292126.0" target="_TOP">Morgan, Duane</a></td>
+<td>F</td>
+<td>6-6</td>
+<td sortval="1.0">Fr</td>
+<td>30</td>
+<td>1</td>
+</tr>
+<tr>
+<td>03</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1077998.0" target="_TOP">Ranglin, Chris</a></td>
+<td>G</td>
+<td>6-2</td>
+<td sortval="3.0">Jr</td>
+<td>30</td>
+<td>29</td>
+</tr>
+<tr>
+<td>04</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1292125.0" target="_TOP">Ross, Kenny</a></td>
+<td>G</td>
+<td>6-0</td>
+<td sortval="3.0">Jr</td>
+<td>14</td>
+<td>0</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1178413.0" target="_TOP">Samuels, Rj</a></td>
+<td>G</td>
+<td>6-3</td>
+<td sortval="4.0">Sr</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>22</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1077999.0" target="_TOP">Simpson, Bradley</a></td>
+<td>F</td>
+<td>6-7</td>
+<td sortval="3.0">Jr</td>
+<td>30</td>
+<td>27</td>
+</tr>
+<tr>
+<td>21</td>
+<td><a href="/player?game_sport_year_ctl_id=10740&amp;stats_player_seq=1292127.0" target="_TOP">Sullivan, Edward</a></td>
+<td>G</td>
+<td>6-0</td>
+<td sortval="1.0">Fr</td>
+<td>15</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>]
+###############

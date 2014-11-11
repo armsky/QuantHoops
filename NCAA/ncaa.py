@@ -117,9 +117,7 @@ class Game(Base):
 
 # - Player -- /
 class Player(Base):
-    """Players hold vital statistics like height, number, position, etc.
-    They do NOT themselves contain and performance statistics or team
-    affiliation. Instead, they possess a one-to-many mapping to SquadMembers,
+    """Players possess a one-to-many mapping to SquadMembers,
     which are essentially chrono-sensitive versions of the Player. For
     example, a Player's corresponding SquadMember from 2010-11 will not
     have access to that Player's statistics from 2011-12, nor will these
@@ -132,28 +130,13 @@ class Player(Base):
     }
 
     id = Column(Integer, primary_key=True)
-    first_name = Column(String(32), nullable=False)
-    middle_name = Column(String(32))
-    last_name = Column(String(32), nullable=False)
-    name_suffix = Column(String(32))
-
-    height = Column(String(8))        # i.e 6-11
-    weight = Column(Integer)        # Pounds
-    position = Column(String(2))
+    name = Column(String(64), nullable=False)
 
     # NOTE career = one-to-many mapping to SquadMembers
 
-    def __init__(self, first_name, last_name, middle_name=None,
-                 name_suffix=None, id=None, height=None,
-                 position=None):
-        self.first_name = first_name
-        self.middle_name = middle_name
-        self.last_name = last_name
-        self.name_suffix = name_suffix
-
-        if id is not None: self.id = id
-        if height is not None: self.height = height
-        if position is not None: self.position = position
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
 
     def __repr__(self):
         return "<Player('%s %s')>" % (self.first_name, self.last_name)
@@ -177,34 +160,33 @@ class SquadMember(Base):
     squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade'))
     squad = relationship('Squad', backref=backref('roster', order_by=id))
 
+    name = Column(String(64), nullable=False)
+    jersey = Column(Integer)
+    position = Column(String(2))
+    height = Column(String(8))        # i.e 6-11
+    year = Column(String(8))       # i.e., year in college (Freshman, etc.)
+    games_played = Column(Integer)
+    games_started = Column(Integer)
+
     stats_id = Column(Integer, ForeignKey('statscache.id', onupdate='cascade'))
     stats = relationship('SquadMemberDerivedStats', backref=backref('referent', uselist=False, order_by=id))
 
     # NOTE statsheets = one-to-many mapping to PlayerStatSheets
 
     # Vital-ish stats
-    jersey = Column(Integer)
-    year = Column(String(8))       # i.e., year in college (Freshman, etc.)
-    games_played = Column(Integer)
-    games_started = Column(Integer)
 
-    def __init__(self, player, squad, jersey=None, year=None,
-                 games_played=None, games_started=None):
-        self.player = player
-        self.squad = squad
-        if jersey is not None:
-            self.jersey = jersey
-        if year is not None:
-            self.year = year
-        if games_played is not None:
-            self.games_played = games_played
-        if games_started is not None:
-            self.games_started = games_started
-
-    # @reconstructor
-    # def _reconstruct(self):
-    #     if self.stats is None:
-    #         self.derive_stats()
+    def __init__(self, player_id, squad_id, name, jersey=None, position=None,
+                 height=None, year=None, games_played=None, games_started=None, stats_id=None):
+        self.player_id = player_id
+        self.squad_id = squad_id
+        self.name = name
+        self.jersey = jersey
+        self.position = position
+        self.height = height
+        self.year = year
+        self.games_played = games_played
+        self.games_started = games_started
+        self.stats_id = stats_id
 
     def __repr__(self):
         return "<SquadMember('%s %s', '%s', '%s')>" % \
@@ -232,45 +214,68 @@ class PlayerStatSheet(Base):
     minutes_played = Column(Float)
     field_goals_made = Column(Integer)
     field_goals_attempted = Column(Integer)
-    threes_made = Column(Integer)
-    threes_attempted = Column(Integer)
+    field_goals_percentage = Column(Float)
+    three_field_goals_made = Column(Integer)
+    three_field_goals_attempted = Column(Integer)
+    three_field_goals_percentage = Column(Float)
     free_throws_made = Column(Integer)
     free_throws_attempted = Column(Integer)
+    free_throws_percentage = Column(Float)
     points = Column(Integer)
+    average_points = Column(Float)
     offensive_rebounds = Column(Integer)
     defensive_rebounds = Column(Integer)
-    rebounds = Column(Integer)
+    total_rebounds = Column(Integer)
+    average_rebounds = Column(Float)
     assists = Column(Integer)
     turnovers = Column(Integer)
     steals = Column(Integer)
     blocks = Column(Integer)
     fouls = Column(Integer)
+    double_doubles = Column(Integer)
+    triple_doubles = Column(Integer)
 
-    stats = [
-        'minutes_played',
-        'field_goals_made',
-        'field_goals_attempted',
-        'threes_made',
-        'threes_attempted',
-        'free_throws_made',
-        'free_throws_attempted',
-        'points',
-        'offensive_rebounds',
-        'defensive_rebounds',
-        'rebounds',
-        'assists',
-        'turnovers',
-        'steals',
-        'blocks',
-        'fouls'
-    ]
+    #calculated Statistics
+    minutes_percentage = Column(Float)
+
+    stats = {
+        'minutes_played':'minutes_played',
+        'field_goals_made':'field_goals_made',
+        'field_goals_attempted':'field_goals_attempted',
+        'field_goals_percentage':'field_goals_percentage',
+        'three_field_goals_made':'three_field_goals_made',
+        'three_field_goals_attempted':'three_field_goals_attempted',
+        'three_field_goals_percentage':'three_field_goals_percentage',
+        'free_throws_made':'free_throws_made',
+        'free_throws_attempted':'free_throws_attempted',
+        'free_throws_percentage':'free_throws_percentage',
+        'points':'points',
+        'average_points':'average_points',
+        'offensive_rebounds':'offensive_rebounds',
+        'defensive_rebounds':'defensive_rebounds',
+        'total_rebounds':'total_rebounds',
+        'average_rebounds':'average_rebounds',
+        'turnovers':'turnovers',
+        'steals':'steals',
+        'blocks':'blocks',
+        'fouls':'fouls',
+        'double_doubles':'double_doubles',
+        'triple_doubles':'triple_doubles'
+    }
+
+    def __init__(self, squadmember_id, game_id):
+        self.squadmember_id = squadmember_id
+        self.game_id = game_id
+        for stat, val in self.stats.items():
+            setattr(self, stat, val)
 
     def __repr__(self):
-        name = "%s %s" % (self.squadmember.player.first_name,
-                          self.squadmember.player.last_name)
-        game = "%s vs. %s" % (self.game.opponents[0].team.name,
-                              self.game.opponents[1].team.name)
-        date = self.game.date.strftime('%h %d, %Y')
+        # name = "%s %s" % (self.squadmember.player.first_name,
+        #                   self.squadmember.player.last_name)
+        # game = "%s vs. %s" % (self.game.opponents[0].team.name,
+        #                       self.game.opponents[1].team.name)
+        # date = self.game.date.strftime('%h %d, %Y')
+        print self.stats
 
 
 # - DerivedStats -- /

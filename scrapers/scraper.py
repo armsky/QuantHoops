@@ -15,7 +15,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 engine = create_engine('mysql://hooper:michael@localhost/QuantHoops', echo=True)
-Session = sessionmaker(bind=engine, autocommit=True)
+Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 session = Session()
 
 
@@ -64,9 +64,8 @@ def squad_parser(season_id, division):
                                     Squad.team_id == ncaa_id).first() is None:
                 squad_record = Squad(division, year, team_record)
                 squad_records.append(squad_record)
-            # else:
-            #     print "$$$$$$"
                 print year, division, ncaa_id
+
         session.add_all(squad_records)
         # session.commit()
 
@@ -94,11 +93,6 @@ def conference_parser(season_id, division):
                     if session.query(Conference).filter_by(id=conference_id).first() is None:
                         conference_record_list.append(Conference(conference_id, conference_name))
                         session.add(Conference(conference_id, conference_name))
-                        # session.commit()
-
-
-        # session.add_all(conference_record_list)
-        # session.commit()
 
         #update Squad records with conference information
         squad_records = []
@@ -227,17 +221,6 @@ def schedule_parser(season_id, team_id):
                     # session.commit()
 
 
-    #
-    # for game_id in game_ids:
-    #     print game_id
-        # game_parser(game_id)
-    #use team id to search squad id
-
-
-
-
-
-
 def game_parser():
     """
     Check the game_id before parse, since the page should be the same
@@ -249,58 +232,146 @@ def game_parser():
     """
     game_records = session.query(Game).distinct(Game.id).all()
     for game_record in game_records:
-        game_id = game_record.id
-        # In case the winner is not a NCAA team
-        if game_record.winner_id != 0:
-            team_id = session.query(Squad).filter_by(id=game_record.winner_id).first().team_id
-        else:
-            team_id = session.query(Squad).filter_by(id=game_record.loser_id).first().team_id
-
-        print game_id, team_id
-
-        url = "http://stats.ncaa.org/game/index/%s?org_id=%s" % (game_id, team_id)
-        soup = soupify(url)
-
-        game_details = soup.find_all('table')[2]
-        game_record.date = parse(game_details.find_all('td')[1].string.split(' ')[0]).date()
-        game_record.location = game_details.find_all('td')[3].string
         try:
-            game_record.attendance = int(game_details.findAll('td')[5].contents[0].replace(',',''))
-        except:
-            game_record.attendance = None
-        game_record.officials = soup.findAll('table')[3].findAll('td')[1].string.strip()
+            game_id = game_record.id
+            # In case the winner is not a NCAA team
+            if game_record.winner_id != 0:
+                team_id = session.query(Squad).filter_by(id=game_record.winner_id).first().team_id
+            else:
+                team_id = session.query(Squad).filter_by(id=game_record.loser_id).first().team_id
 
-        session.add(game_record)
-        print game_record.date, game_record.location, game_record.attendance, game_record.officials
+            print game_id, team_id
+
+            url = "http://stats.ncaa.org/game/index/%s?org_id=%s" % (game_id, team_id)
+            soup = soupify(url)
+
+            game_details = soup.find_all('table')[2]
+            game_record.date = parse(game_details.find_all('td')[1].string.split(' ')[0]).date()
+            game_record.location = game_details.find_all('td')[3].string
+            try:
+                game_record.attendance = int(game_details.findAll('td')[5].contents[0].replace(',',''))
+            except:
+                game_record.attendance = None
+            game_record.officials = soup.findAll('table')[3].findAll('td')[1].string.strip()
+
+            session.add(game_record)
+            print game_record.date, game_record.location, game_record.attendance, game_record.officials
+        except IndexError, index_error:
+            error_message = """
+
+                game_id: %s
+                team_id: %s
+                page: %s
+                may not exists.
+            """ % (game_id, team_id, url)
+            write_error_to_file(str(index_error)+error_message)
+            continue
+        except Exception, e:
+            write_error_to_file(e)
+            raise
 
 
+def player_parser(season_id, team_id):
+    year = session.query(Season).filter_by(id=season_id).first().year
+    squad = session.query(Squad).filter(Squad.year == year,
+                                    Squad.team_id == team_id).first()
+    if squad:
+        squad_id = squad.id
+        url = "http://stats.ncaa.org/team/roster/%s?org_id=%s" % (season_id, team_id)
+        soup = soupify(url)
+        players_info = soup.find('tbody').find_all('tr')
+        for one_player in players_info:
+            info = one_player.find_all('td')
+            jersey = info[0].string
+            name = info[1].string
+            try:
+                player_id = int(float(info[1].find('a')['href'].split('=')[-1]))
+            except:
+                player_id = None
+            position = info[2].string
+            height = info[3].string
+            year = info[4].string
+            games_played = info[5].string
+            games_started = info[6].string
+            print "$$$$"
+            print player_id, squad_id, name, jersey, position,\
+                    height, year, games_played, games_started
+            if player_id:
+                if session.query(Player).filter_by(id=player_id).first() is None:
+                    session.add(Player(player_id, name))
+                if session.query(SquadMember).filter(SquadMember.squad_id==squad_id,
+                                                     SquadMember.player_id==player_id).first() is None:
+                    session.add(SquadMember(player_id, squad_id, name, jersey, position,
+                                            height, year, games_played, games_started))
 
-    session.commit()
+
+    # If this season&squad combination doesn't exist
+    else:
+        error_message = """
+
+            season_id: %s
+            team_id: %s
+            This combination may not exists.
+        """ % (season_id, team_id)
+        write_error_to_file(error_message)
 
 
-
-
-
+def player_stat_parser(season_id, team_id):
+    squadmember_id = 1
+    game_id = 523250
+    stats = {
+        'minutes_played':1,
+        'field_goals_made':1,
+        'field_goals_attempted':1,
+        'field_goals_percentage':1,
+        'three_field_goals_made':1,
+        'three_field_goals_attempted':1,
+        'three_field_goals_percentage':1,
+        'free_throws_made':1,
+        'free_throws_attempted':1,
+        'free_throws_percentage':1,
+        'points':1,
+        'average_points':1,
+        'offensive_rebounds':1,
+        'defensive_rebounds':1,
+        'total_rebounds':1,
+        'average_rebounds':1,
+        'turnovers':1,
+        'steals':1,
+        'blocks':1,
+        'fouls':1,
+        'double_doubles':1,
+        'triple_doubles':1
+    }
+    player_stat_record = PlayerStatSheet(squadmember_id, game_id)
+    session.add(player_stat_record)
+    print player_stat_record
 
 
 #Insert all Teams and Squads (for Men)
-rows = session.query(Season).all()
-for row in rows:
-    season_id = row.id
-    print season_id
-    # for i in ["1", "2", "3"]:
+# rows = session.query(Season).all()
+# try:
+#     for row in rows:
+#         season_id = row.id
+#         print season_id
+#         # for i in ["1", "2", "3"]:
+#
+#             # team_parser(season_id, i)
+#             # squad_parser(season_id, i)
+#             # conference_parser(season_id, i)
+#
+#         teams = session.query(Team).all()
+#         for team in teams:
+#             team_id = team.id
+#             if team_id != 0:
+#                 print "###############"
+#                 print season_id, team_id
+#                 # schedule_parser(season_id, team_id)
+#                 player_parser(season_id, team_id)
+# except Exception, e:
+#     write_error_to_file(str(e))
 
-        # team_parser(season_id, i)
-        # squad_parser(season_id, i)
-        # conference_parser(season_id, i)
 
-    teams = session.query(Team).all()
-    for team in teams:
-        team_id = team.id
-        if team_id != 0:
-            print "###############"
-            print season_id, team_id
-            schedule_parser(season_id, team_id)
 
-# game_parser()
+player_stat_parser(11,12)
 session.close()
