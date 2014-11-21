@@ -5,15 +5,23 @@ from bs4 import BeautifulSoup
 
 #url = "http://stats.ncaa.org/team/index/11540?org_id=26172"
 # url = "http://stats.ncaa.org/team/inst_team_list/11540?division=1.0"
-url = "http://stats.ncaa.org/team/inst_team_list?academic_year=2015&conf_id=-1&division=2&sport_code=MBB"
+url = "http://stats.ncaa.org/game/play_by_play/26962"
 
 html = urllib.urlopen(url).read()
 soup = BeautifulSoup(html)
+# print soup
 
-# print soup.prettify()
+tables = soup.find_all("table")
+gamedetail_records = []
+for table in tables[5:]:
+    if tables.index(table) == 5:
+        section = "1st Half"
 
-#print soup.title.string.strip()
+    elif tables.index(table) == 7:
+        section = "2nd Half"
+    elif tables.index(table) == 9:
+        section = "1st OT"
+    elif tables.index(table) == 11:
+        section = "2nd OT"
 
-all_a = soup.find_all('td')
-for a in all_a:
-    print a
+    print section

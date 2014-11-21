@@ -1,0 +1,3053 @@
+========2014-11-14 19:59:09.242292========
+
+
+            game_id: 523250
+            squad_id: 2761
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:10.554643========
+
+
+            game_id: 524935
+            squad_id: 2762
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:11.521599========
+
+
+            game_id: 525290
+            squad_id: 2568
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:12.805821========
+
+
+            game_id: 526253
+            squad_id: 3387
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:13.787327========
+
+
+            game_id: 537150
+            squad_id: 3157
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:16.039948========
+
+
+            game_id: 539918
+            squad_id: 2795
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:17.162956========
+
+
+            game_id: 539928
+            squad_id: 2584
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:18.359194========
+
+
+            game_id: 540651
+            squad_id: 2737
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:19.401871========
+
+
+            game_id: 542826
+            squad_id: 2630
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:20.368170========
+
+
+            game_id: 543154
+            squad_id: 2603
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:21.560825========
+
+
+            game_id: 547332
+            squad_id: 2740
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:22.636236========
+
+
+            game_id: 547732
+            squad_id: 2644
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:23.706772========
+
+
+            game_id: 547850
+            squad_id: 2645
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:24.831587========
+
+
+            game_id: 550811
+            squad_id: 2628
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:25.850638========
+
+
+            game_id: 556478
+            squad_id: 2873
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:26.974402========
+
+
+            game_id: 556850
+            squad_id: 2787
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:28.562275========
+
+
+            game_id: 557572
+            squad_id: 3486
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:29.683049========
+
+
+            game_id: 560650
+            squad_id: 3071
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:30.946411========
+
+
+            game_id: 561177
+            squad_id: 2737
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:34.094110========
+
+
+            game_id: 564773
+            squad_id: 2557
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:35.163949========
+
+
+            game_id: 566414
+            squad_id: 2570
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:36.332117========
+
+
+            game_id: 567751
+            squad_id: 2664
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:37.384439========
+
+
+            game_id: 570752
+            squad_id: 2808
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:38.483921========
+
+
+            game_id: 571810
+            squad_id: 2787
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:39.558675========
+
+
+            game_id: 574790
+            squad_id: 2564
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:40.649961========
+
+
+            game_id: 581010
+            squad_id: 3357
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:44.869843========
+
+
+            game_id: 582513
+            squad_id: 2926
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:45.820566========
+
+
+            game_id: 583430
+            squad_id: 2737
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:46.902479========
+
+
+            game_id: 586153
+            squad_id: 2635
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:47.994093========
+
+
+            game_id: 586270
+            squad_id: 2543
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:49.036660========
+
+
+            game_id: 587342
+            squad_id: 2557
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:51.046960========
+
+
+            game_id: 587470
+            squad_id: 2557
+            This combination may not exists.
+
+            list index out of range
+            
+
+========2014-11-14 19:59:52.172467========
+
+
+            game_id: 596950
+            squad_id: 3090
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:53.247909========
+
+
+            game_id: 596951
+            squad_id: 3154
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:54.325412========
+
+
+            game_id: 596970
+            squad_id: 3154
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:56.660315========
+
+
+            game_id: 598532
+            squad_id: 2782
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:57.698810========
+
+
+            game_id: 602170
+            squad_id: 3009
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:58.822958========
+
+
+            game_id: 602171
+            squad_id: 3071
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 19:59:59.877089========
+
+
+            game_id: 605617
+            squad_id: 3071
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 20:05:33.372520========
+
+
+            game_id: 523250
+            squad_id: 2761
+            This combination may not exists.
+
+            not enough arguments for format string
+            
+
+========2014-11-14 20:06:03.079630========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:06:03.079781========
+
+
+            game_id: 523250
+            squad_id: 2761
+            This combination may not exists.
+
+            translate() takes exactly one argument (2 given)
+            
+
+========2014-11-14 20:10:47.040432========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:10:47.040593========
+
+
+            game_id: 523250
+            squad_id: 2761
+            This combination may not exists.
+
+            translate() takes exactly one argument (2 given)
+            
+
+========2014-11-14 20:13:57.315395========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:13:57.315565========
+
+
+            game_id: 523250
+            squad_id: 2761
+            This combination may not exists.
+
+            translate() takes exactly one argument (2 given)
+            
+
+========2014-11-14 20:14:29.589493========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:14:29.592681========
+
+
+            game_id: 523250
+            squad_id: 2761
+            This combination may not exists.
+
+            local variable 'squadmember_id' referenced before assignment
+            
+
+========2014-11-14 20:15:37.975413========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:37.980109========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070502
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:37.984651========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070504
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:37.994214========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175819
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.000354========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.006089========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1272205
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.012261========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 967316
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.018506========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.025352========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175821
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.032612========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175820
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.069065========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.074993========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070502
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.080460========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070504
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.085541========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175819
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.089864========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.095145========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1272205
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.099341========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 967316
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.104329========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.111586========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175821
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:38.117839========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175820
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.306643========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177610
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.312459========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 951073
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.318104========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 951071
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.322822========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177611
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.328736========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1070748
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.332990========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177612
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.336906========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177609
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.341129========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1280773
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.345147========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177614
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.349191========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1280775
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.373657========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177610
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.377662========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 951073
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.381571========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 951071
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.385747========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177611
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.389700========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1070748
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.393742========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177612
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.398355========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177609
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.402370========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1280773
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.406299========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177614
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:39.410357========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1280775
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.446864========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1070360
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.454124========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 952750
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.459756========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1293586
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.464186========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 952755
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.468650========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 864769
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.473057========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1293583
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.477120========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1293585
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.508420========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1293582
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.512568========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1177768
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.535211========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1070360
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.539511========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 952750
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.543609========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1293586
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.547932========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 952755
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.551825========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 864769
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.555769========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1293583
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.560302========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1293585
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.564442========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1293582
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:40.568366========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1177768
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.750508========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1181670
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.756057========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1073104
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.760422========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 968987
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.765334========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 968982
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.770481========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1073108
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.776786========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292629
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.782457========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292628
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.787903========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292624
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.792970========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1181671
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.797428========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292632
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.801707========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292627
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.806231========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1190990
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.810148========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292625
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.814406========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292626
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.818300========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292630
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.822261========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1292631
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.826302========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1073110
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.830794========
+
+                                game_id: 526253
+                                squad_id: 3387
+                                player_id: 1073102
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.867326========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1181670
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.871432========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1073104
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.875386========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 968987
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.879587========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 968982
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.883638========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1073108
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.887960========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292629
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.892172========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292628
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.896214========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292624
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.900195========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1181671
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.904338========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292632
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.908497========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292627
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.912875========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1190990
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.917052========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292625
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.921087========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292626
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.924903========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292630
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.929095========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1292631
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.933108========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1073110
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:41.937377========
+
+                                game_id: 526253
+                                squad_id: 2557
+                                player_id: 1073102
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.055079========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 1077999
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.059196========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 1077998
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.063430========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 1077993
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.067818========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 957393
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.071940========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 957391
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.075894========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 1292124
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.080633========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 1292126
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.084750========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 1292127
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.088769========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 1292125
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.092950========
+
+                                game_id: 537150
+                                squad_id: 3157
+                                player_id: 1292123
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.117804========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 1077999
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.121818========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 1077998
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.125746========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 1077993
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.130545========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 957393
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.134612========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 957391
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.138458========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 1292124
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.142555========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 1292126
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.146562========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 1292127
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.150534========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 1292125
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:43.155125========
+
+                                game_id: 537150
+                                squad_id: 3071
+                                player_id: 1292123
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.266753========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 965959
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.270866========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1176492
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.274826========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1176493
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.279309========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1176498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.283985========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1176501
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.288077========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1187673
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.292738========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1296669
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.296965========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1176499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.300873========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1296673
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.305059========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1296672
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.309131========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1296671
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.313356========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 965960
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.317641========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1176495
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.322084========
+
+                                game_id: 539918
+                                squad_id: 2795
+                                player_id: 1176496
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.352194========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 965959
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.356223========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1176492
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.360218========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1176493
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.364416========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1176498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.368559========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1176501
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.373023========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1187673
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.377264========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1296669
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.381239========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1176499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.385112========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1296673
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.389250========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1296672
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.393300========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1296671
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.397888========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 965960
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.402139========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1176495
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:45.406208========
+
+                                game_id: 539918
+                                squad_id: 2705
+                                player_id: 1176496
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.358555========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 1070360
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.365349========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 952750
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.371010========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 1293586
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.375580========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 1177768
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.379741========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 864769
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.384010========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 1293583
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.388122========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 1293585
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.392157========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 1293582
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.396510========
+
+                                game_id: 539928
+                                squad_id: 2584
+                                player_id: 952755
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.419267========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 1070360
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.423285========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 952750
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.427406========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 1293586
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.431716========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 1177768
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.435782========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 864769
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.439986========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 1293583
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.444540========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 1293585
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.448535========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 1293582
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:46.452526========
+
+                                game_id: 539928
+                                squad_id: 2545
+                                player_id: 952755
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.590151========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1178939
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.595910========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1068467
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.602832========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1289340
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.607683========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 956109
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.611686========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1178936
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.615835========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1289341
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.619881========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1178934
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.623881========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1289339
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.628101========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1289344
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.632662========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1289345
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.636557========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1178935
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.640737========
+
+                                game_id: 540651
+                                squad_id: 2737
+                                player_id: 1289342
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.668100========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1178939
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.672100========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1068467
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.676277========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1289340
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.680927========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 956109
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.684923========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1178936
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.688930========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1289341
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.692987========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1178934
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.697228========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1289339
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.701167========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1289344
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.707129========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1289345
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.711324========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1178935
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:47.715302========
+
+                                game_id: 540651
+                                squad_id: 2818
+                                player_id: 1289342
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.758227========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 1067489
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.764281========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 951204
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.770524========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 1067490
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.775622========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 1178601
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.779747========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 1067492
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.784166========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 1178599
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.788211========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 1178600
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.792420========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 1178602
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.796660========
+
+                                game_id: 542826
+                                squad_id: 2630
+                                player_id: 1297581
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.826798========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 1067489
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.832539========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 951204
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.837560========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 1067490
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.842682========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 1178601
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.849144========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 1067492
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.853888========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 1178599
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.861177========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 1178600
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.866369========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 1178602
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:15:48.872623========
+
+                                game_id: 542826
+                                squad_id: 2737
+                                player_id: 1297581
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.017378========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.024334========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070502
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.034520========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070504
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.050340========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175819
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.057546========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.085134========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1272205
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.092169========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 967316
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.102046========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.109451========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175821
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.117877========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175820
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.167539========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.174630========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070502
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.182580========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070504
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.189710========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175819
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.204062========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.212245========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1272205
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.240975========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 967316
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.253231========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.260588========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175821
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:51.279448========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175820
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.524107========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177610
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.528387========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 951073
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.532403========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 951071
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.537222========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177611
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.544237========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1070748
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.548426========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177612
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.552588========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177609
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.556643========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1280773
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.560787========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177614
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.564931========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1280775
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.589436========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177610
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.593546========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 951073
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.597541========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 951071
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.601871========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177611
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.606080========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1070748
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.610248========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177612
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.614798========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177609
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.619032========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1280773
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.623065========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177614
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:52.627443========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1280775
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.801240========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1070360
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.807111========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 952750
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.811772========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1293586
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.816978========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 952755
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.821795========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 864769
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.825850========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1293583
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.830681========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1293585
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.857617========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1293582
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.862206========
+
+                                game_id: 525290
+                                squad_id: 2568
+                                player_id: 1177768
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.885129========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1070360
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.889527========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 952750
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.893654========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1293586
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.897861========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 952755
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.901954========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 864769
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.905891========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1293583
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.910796========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1293585
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.914968========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1293582
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:19:53.919046========
+
+                                game_id: 525290
+                                squad_id: 2545
+                                player_id: 1177768
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.636060========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.641076========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070502
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.645953========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070504
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.654076========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175819
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.658882========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.662963========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1272205
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.667921========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 967316
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.672220========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.676882========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175821
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.681333========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175820
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.705587========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.709745========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070502
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.713874========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070504
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.718366========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175819
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.722919========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.727054========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1272205
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.731239========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 967316
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.735408========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.739628========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175821
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:17.743930========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175820
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.666571========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177610
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.670815========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 951073
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.674890========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 951071
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.681006========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177611
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.685392========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1070748
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.689645========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177612
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.694083========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177609
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.698313========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1280773
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.702596========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1177614
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.707003========
+
+                                game_id: 524935
+                                squad_id: 2762
+                                player_id: 1280775
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.733214========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177610
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.737316========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 951073
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.741497========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 951071
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.746050========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177611
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.750231========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1070748
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.754472========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177612
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.759329========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177609
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.763509========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1280773
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.767532========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1177614
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:21:18.771919========
+
+                                game_id: 524935
+                                squad_id: 2557
+                                player_id: 1280775
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.390846========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.394972========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070502
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.399117========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070504
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.406113========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175819
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.412056========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.416923========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1272205
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.422926========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 967316
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.429644========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1070498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.436622========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175821
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.441887========
+
+                                game_id: 523250
+                                squad_id: 2761
+                                player_id: 1175820
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.472562========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070503
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.478287========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070502
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.483701========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070504
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.489733========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175819
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.496870========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070499
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.502470========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1272205
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.507237========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 967316
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.513024========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1070498
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.517503========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175821
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:22:30.522274========
+
+                                game_id: 523250
+                                squad_id: 2737
+                                player_id: 1175820
+                                This combination may not exists.
+                                
+
+========2014-11-14 20:28:43.566783========
+(raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely) (DataError) (1406, "Data too long for column 'position' at row 1") 'INSERT INTO squadmember (player_id, squad_id, name, jersey, position, height, year, games_played, games_started) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)' (1504759, 3071L, u'Crook, Sierra', u'16', u'L/DS', u'5-8', u'Fr', u'122', u'0')
+
+========2014-11-14 20:30:25.943740========
+(raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely) (DataError) (1406, "Data too long for column 'position' at row 1") 'INSERT INTO squadmember (player_id, squad_id, name, jersey, position, height, year, games_played, games_started) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)' (1504759, 3071L, u'Crook, Sierra', u'16', u'L/DS', u'5-8', u'Fr', u'122', u'0')
+
+========2014-11-14 20:45:22.550687========
+(IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`quanthoops`.`shedule`, CONSTRAINT `shedule_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON UPDATE CASCADE)') 'INSERT INTO shedule (game_id, squad_id, type) VALUES (%s, %s, %s)' ((2260553, 2823L, 'neutral'), (2260553, 2705L, 'neutral'), (2238344, 2783L, 'neutral'), (2238344, 2705L, 'neutral'), (2234833, 2645L, 'away'), (2234833, 2705L, 'home'), (2294221, 2742L, 'away'), (2294221, 2705L, 'home')  ... displaying 10 of 64 total bound parameter sets ...  (2782073, 2705L, 'neutral'), (2782073, 2611L, 'neutral'))
+
+========2014-11-14 20:55:28.865343========
+(IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`quanthoops`.`shedule`, CONSTRAINT `shedule_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON UPDATE CASCADE)') 'INSERT INTO shedule (game_id, squad_id, type) VALUES (%s, %s, %s)' ((2258321, 3025L, 'away'), (2258321, 2925L, 'home'), (2257295, 2925L, 'away'), (2257295, 3153L, 'home'), (2262193, 3134L, 'away'), (2262193, 2925L, 'home'), (2262413, 2925L, 'home'), (2262413, 2921L, 'away')  ... displaying 10 of 62 total bound parameter sets ...  (2812993, 3025L, 'neutral'), (2812993, 2925L, 'neutral'))
+
+========2014-11-14 21:01:35.845158========
+No transaction is begun.
+
+========2014-11-14 21:04:29.720358========
+(IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`quanthoops`.`shedule`, CONSTRAINT `shedule_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON UPDATE CASCADE)') 'INSERT INTO shedule (game_id, squad_id, type) VALUES (%s, %s, %s)' ((2258321, 3025L, 'away'), (2258321, 2925L, 'home'), (2257295, 2925L, 'away'), (2257295, 3153L, 'home'), (2262193, 3134L, 'away'), (2262193, 2925L, 'home'), (2262413, 2925L, 'home'), (2262413, 2921L, 'away')  ... displaying 10 of 62 total bound parameter sets ...  (2812993, 3025L, 'neutral'), (2812993, 2925L, 'neutral'))
+
+========2014-11-14 21:07:46.868130========
+(IntegrityError) (1452, 'Cannot add or update a child row: a foreign key constraint fails (`quanthoops`.`shedule`, CONSTRAINT `shedule_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON UPDATE CASCADE)') 'INSERT INTO shedule (game_id, squad_id, type) VALUES (%s, %s, %s)' ((2262193, 3134L, 'away'), (2262193, 2925L, 'home'))
+

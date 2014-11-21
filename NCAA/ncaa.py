@@ -14,7 +14,7 @@ import datetime
 
 from collections import OrderedDict, defaultdict
 
-engine = create_engine('mysql://hooper:michael@localhost/QuantHoops', echo=True)
+engine = create_engine('mysql://michael:hooper@localhost/QuantHoops', echo=False)
 metadata = MetaData()
 
 ## -- CLASSES --
@@ -23,15 +23,15 @@ Base = declarative_base()
 
 # - Schedule -- /
 class Schedule(Base):
-    __tablename__ = 'shedule'
+    __tablename__ = 'schedule'
     __table_args__ = {
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
 
-    game_id = Column('game_id', Integer, ForeignKey('game.id', onupdate='cascade'),
+    game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade'),
                      primary_key=True)
-    squad_id = Column('squad_id', Integer, ForeignKey('squad.id', onupdate='cascade'),
+    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade'),
                      primary_key=True)
     type = Column('type', Enum('home', 'away','neutral','tournament'))
 
@@ -57,34 +57,25 @@ class Game(Base):
         'mysql_charset': 'utf8'
     }
 
-    discriminator = Column(String(128))
-    __mapper_args__ = {'polymorphic_on' : discriminator}
-
     id = Column(Integer, primary_key=True)
-
     date = Column(Date)
 
-    # Map squads playing via schedule cross-reference Table
-    # opponents = relationship('Squad',
-    #                          secondary=schedule,
-    #                          backref=backref('schedule', order_by=date))
-    winner_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade'))
-    winner = relationship('Squad', foreign_keys=[winner_id],
-                          backref=backref('wins', order_by=date))
+    winner_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
     winner_score = Column(Integer)
+    winner_first_half_score = Column(Integer)
+    winner_second_half_score = Column(Integer)
+    winner_first_OT_score = Column(Integer)
+    winner_second_OT_score = Column(Integer)
 
-    loser_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade'))
-    loser = relationship('Squad', foreign_keys=[loser_id],
-                         backref=backref('losses', order_by=date))
+    loser_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
     loser_score = Column(Integer)
-
-    # Post season
-    # postseason = Column(Boolean)
-    # overtime = Column(Integer)
+    loser_first_half_score = Column(Integer)
+    loser_second_half_score = Column(Integer)
+    loser_first_OT_score = Column(Integer)
+    loser_second_OT_score = Column(Integer)
 
     location = Column(String(128))
     attendance = Column(Integer)
-    #TODO: officials may be a new class ?
     officials = Column(String(128))
     # NOTE boxscore = one-to-many map to PlayerStatSheets.
 
@@ -154,22 +145,19 @@ class SquadMember(Base):
 
     id = Column(Integer, primary_key=True)
 
-    player_id = Column(Integer, ForeignKey('player.id', onupdate='cascade'))
+    player_id = Column(Integer, ForeignKey('player.id', onupdate='cascade', ondelete='cascade'))
     player = relationship('Player', backref=backref('career', order_by=id))
 
-    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade'))
+    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
     squad = relationship('Squad', backref=backref('roster', order_by=id))
 
     name = Column(String(64), nullable=False)
     jersey = Column(Integer)
-    position = Column(String(2))
+    position = Column(String(8))
     height = Column(String(8))        # i.e 6-11
     year = Column(String(8))       # i.e., year in college (Freshman, etc.)
     games_played = Column(Integer)
     games_started = Column(Integer)
-
-    stats_id = Column(Integer, ForeignKey('statscache.id', onupdate='cascade'))
-    stats = relationship('SquadMemberDerivedStats', backref=backref('referent', uselist=False, order_by=id))
 
     # NOTE statsheets = one-to-many mapping to PlayerStatSheets
 
@@ -194,24 +182,102 @@ class SquadMember(Base):
                  self.squad.team.name, self.squad.season)
 
 
-# - PlayerStatSheet -- /
-class PlayerStatSheet(Base):
+# - PlayerGameStat -- /
+class PlayerGameStat(Base):
     """Contains the stats of one SquadMember in one Game"""
-    __tablename__ = 'playerstatsheet'
+    __tablename__ = 'playergamestat'
     __table_args__ = {
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
 
     id = Column(Integer, primary_key=True)
-    squadmember_id = Column(Integer, ForeignKey('squadmember.id', onupdate='cascade'))
-    squadmember = relationship('SquadMember', backref=backref('statsheets', order_by=id))
-
-    game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade'))
-    game = relationship('Game', backref=backref('boxscore', order_by=id))
+    squadmember_id = Column(Integer, ForeignKey('squadmember.id', onupdate='cascade', ondelete='cascade'))
+    game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade', ondelete='cascade'))
 
     # Individual Game Statistics
-    minutes_played = Column(Float)
+    minutes_played = Column(String(16))
+    field_goals_made = Column(Integer)
+    field_goals_attempted = Column(Integer)
+    three_field_goals_made = Column(Integer)
+    three_field_goals_attempted = Column(Integer)
+    free_throws_made = Column(Integer)
+    free_throws_attempted = Column(Integer)
+    points = Column(Integer)
+    offensive_rebounds = Column(Integer)
+    defensive_rebounds = Column(Integer)
+    total_rebounds = Column(Integer)
+    assists = Column(Integer)
+    turnovers = Column(Integer)
+    steals = Column(Integer)
+    blocks = Column(Integer)
+    fouls = Column(Integer)
+
+    def __init__(self, squadmember_id, game_id, stats):
+        self.squadmember_id = squadmember_id
+        self.game_id = game_id
+        for k, v in stats.iteritems():
+            setattr(self, k, v)
+
+
+# - SquadGameStat -- /
+class SquadGameStat(Base):
+    """Contains the stats of one Squad in one Game"""
+    __tablename__ = 'squadgamestat'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    id = Column(Integer, primary_key=True)
+    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
+    game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade', ondelete='cascade'))
+
+    # Individual Game Statistics
+    minutes_played = Column(String(16))
+    field_goals_made = Column(Integer)
+    field_goals_attempted = Column(Integer)
+    three_field_goals_made = Column(Integer)
+    three_field_goals_attempted = Column(Integer)
+    free_throws_made = Column(Integer)
+    free_throws_attempted = Column(Integer)
+    points = Column(Integer)
+    offensive_rebounds = Column(Integer)
+    defensive_rebounds = Column(Integer)
+    total_rebounds = Column(Integer)
+    assists = Column(Integer)
+    turnovers = Column(Integer)
+    steals = Column(Integer)
+    blocks = Column(Integer)
+    fouls = Column(Integer)
+
+    #team_stats that cannot assigned to players
+    team_offensive_rebounds = Column(Integer)
+    team_defensive_rebounds = Column(Integer)
+    team_total_rebounds = Column(Integer)
+    team_turnovers = Column(Integer)
+    team_fouls = Column(Integer)
+
+    def __init__(self, squad_id, game_id, stats):
+        self.squad_id = squad_id
+        self.game_id = game_id
+        for k, v in stats.iteritems():
+            setattr(self, k, v)
+
+# - PlayerSeasonStat -- /
+class PlayerSeasonStat(Base):
+    """Contains the stats of one SquadMember in one Season"""
+    __tablename__ = 'playerseasonstat'
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    id = Column(Integer, primary_key=True)
+    squadmember_id = Column(Integer, ForeignKey('squadmember.id', onupdate='cascade', ondelete='cascade'))
+
+    # Individual Game Statistics
+    minutes_played = Column(String(16))
     field_goals_made = Column(Integer)
     field_goals_attempted = Column(Integer)
     field_goals_percentage = Column(Float)
@@ -235,180 +301,68 @@ class PlayerStatSheet(Base):
     double_doubles = Column(Integer)
     triple_doubles = Column(Integer)
 
-    #calculated Statistics
-    minutes_percentage = Column(Float)
-
-    stats = {
-        'minutes_played':'minutes_played',
-        'field_goals_made':'field_goals_made',
-        'field_goals_attempted':'field_goals_attempted',
-        'field_goals_percentage':'field_goals_percentage',
-        'three_field_goals_made':'three_field_goals_made',
-        'three_field_goals_attempted':'three_field_goals_attempted',
-        'three_field_goals_percentage':'three_field_goals_percentage',
-        'free_throws_made':'free_throws_made',
-        'free_throws_attempted':'free_throws_attempted',
-        'free_throws_percentage':'free_throws_percentage',
-        'points':'points',
-        'average_points':'average_points',
-        'offensive_rebounds':'offensive_rebounds',
-        'defensive_rebounds':'defensive_rebounds',
-        'total_rebounds':'total_rebounds',
-        'average_rebounds':'average_rebounds',
-        'turnovers':'turnovers',
-        'steals':'steals',
-        'blocks':'blocks',
-        'fouls':'fouls',
-        'double_doubles':'double_doubles',
-        'triple_doubles':'triple_doubles'
-    }
-
-    def __init__(self, squadmember_id, game_id):
+    def __init__(self, squadmember_id, stats):
         self.squadmember_id = squadmember_id
-        self.game_id = game_id
-        for stat, val in self.stats.items():
-            setattr(self, stat, val)
-
-    def __repr__(self):
-        # name = "%s %s" % (self.squadmember.player.first_name,
-        #                   self.squadmember.player.last_name)
-        # game = "%s vs. %s" % (self.game.opponents[0].team.name,
-        #                       self.game.opponents[1].team.name)
-        # date = self.game.date.strftime('%h %d, %Y')
-        print self.stats
+        for k, v in stats.iteritems():
+            setattr(self, k, v)
 
 
-# - DerivedStats -- /
-class DerivedStats(Base):
-    __tablename__ = 'statscache'
+# - PlayerSeasonStat -- /
+class SquadSeasonStat(Base):
+    """Contains the stats of one Squad in one Season"""
+    __tablename__ = 'squadseasonstat'
     __table_args__ = {
         'mysql_engine': 'InnoDB',
         'mysql_charset': 'utf8'
     }
 
     id = Column(Integer, primary_key=True)
+    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
 
-    # Polymorphic: DerivedStatsPlayer, DerivedStatsSquad
-    type = Column(String(32))
-    __mapper_args__ = {'polymorphic_on' : type}
+    # Individual Game Statistics
+    minutes_played = Column(String(16))
+    field_goals_made = Column(Integer)
+    field_goals_attempted = Column(Integer)
+    field_goals_percentage = Column(Float)
+    three_field_goals_made = Column(Integer)
+    three_field_goals_attempted = Column(Integer)
+    three_field_goals_percentage = Column(Float)
+    free_throws_made = Column(Integer)
+    free_throws_attempted = Column(Integer)
+    free_throws_percentage = Column(Float)
+    points = Column(Integer)
+    average_points = Column(Float)
+    offensive_rebounds = Column(Integer)
+    defensive_rebounds = Column(Integer)
+    total_rebounds = Column(Integer)
+    average_rebounds = Column(Float)
+    assists = Column(Integer)
+    turnovers = Column(Integer)
+    steals = Column(Integer)
+    blocks = Column(Integer)
+    fouls = Column(Integer)
+    double_doubles = Column(Integer)
+    triple_doubles = Column(Integer)
 
-    # One-to-One relationship with Squad / SquadMember
+    #team_stats that cannot assigned to players
+    team_points = Column(Integer)
+    team_average_points = Column(Float)
+    team_offensive_rebounds = Column(Integer)
+    team_defensive_rebounds = Column(Integer)
+    team_total_rebounds = Column(Integer)
+    team_average_rebounds = Column(Float)
+    team_assists = Column(Integer)
+    team_turnovers = Column(Integer)
+    team_steals = Column(Integer)
+    team_blocks = Column(Integer)
+    team_fouls = Column(Integer)
+    team_double_doubles = Column(Integer)
+    team_triple_doubles = Column(Integer)
 
-    # Derived statistics -- all calculated on load, stored in self.stats
-
-    sumfields = [
-        # Sums
-        'minutes_played',
-        'field_goals_made',
-        'field_goals_attempted',
-        'threes_made',
-        'threes_attempted',
-        'free_throws_made',
-        'free_throws_attempted',
-        'points',
-        'offensive_rebounds',
-        'defensive_rebounds',
-        'total_rebounds',
-        'assists',
-        'turnovers',
-        'steals',
-        'blocks',
-        'fouls'
-    ]
-
-    pctfields = {
-        # Ratios
-        'fg_pct'     : ('field_goals_made', 'field_goals_attempted'),
-        'threes_pct' : ('threes_made', 'threes_attempted'),
-        'ft_pct'     : ('free_throws_made', 'free_throws_attempted'),
-        'ppm'        : ('points', 'minutes_played'),
-        'lpm'        : ('field_goals_attempted', 'minutes_played'),
-        # Averages
-        'field_goal_avg' : ('field_goals_made', 'games_played'),
-        'looks_avg'      : ('field_goals_attempted', 'games_played'),
-        'threes_avg'     : ('threes_made', 'games_played'),
-        'free_throws_avg': ('free_throws_made', 'games_played'),
-        'points_avg'     : ('points', 'games_played'),
-        'rebounds_avg'   : ('total_rebounds', 'games_played'),
-        'steals_avg'     : ('steals', 'games_played'),
-        'assists_avg'    : ('assists', 'games_played'),
-        'blocks_avg'     : ('blocks', 'games_played'),
-        'fouls_avg'      : ('fouls', 'games_played'),
-        'turnovers_avg'  : ('turnovers', 'games_played')
-    }
-
-    # Sums
-    games_played = Column(Float)
-    minutes_played = Column(Float)
-    field_goals_made = Column(Float)
-    field_goals_attempted = Column(Float)
-    threes_made = Column(Float)
-    threes_attempted = Column(Float)
-    free_throws_made = Column(Float)
-    free_throws_attempted = Column(Float)
-    points = Column(Float)
-    offensive_rebounds = Column(Float)
-    defensive_rebounds = Column(Float)
-    total_rebounds = Column(Float)
-    assists = Column(Float)
-    turnovers = Column(Float)
-    steals = Column(Float)
-    blocks = Column(Float)
-    fouls = Column(Float)
-
-    # Ratios
-    fg_pct = Column(Float)
-    threes_pct = Column(Float)
-    ft_pct = Column(Float)
-    ppm = Column(Float)
-    lpm = Column(Float)
-
-    # Averages
-    field_goal_avg = Column(Float)
-    looks_avg = Column(Float)
-    threes_avg = Column(Float)
-    free_throws_avg = Column(Float)
-    points_avg = Column(Float)
-    rebounds_avg = Column(Float)
-    steals_avg = Column(Float)
-    assists_avg = Column(Float)
-    blocks_avg = Column(Float)
-    fouls_avg = Column(Float)
-    turnovers_avg = Column(Float)
-
-    def __init__(self, stats):
-        '''Load stats into object'''
-        for stat, val in stats.items():
-            setattr(self, stat, val)
-
-    def __getitem__(self, item):
-        '''Alias of getattr'''
-        return getattr(self, item)
-
-    def __setitem__(self, item, val):
-        '''Alias of setattr'''
-        return setattr(self, item, val)
-
-    def items(self):
-        '''For iteration'''
-        keys = self.sumfields + self.pctfields.keys()
-        return [(key, getattr(self, key)) for key in keys]
-
-    def __repr__(self):
-        items = ["'%s': %f" % (k, v) for k, v in self.items()]
-        return "<DerivedStats(%s)>" % ', '.join(items)
-
-
-class SquadMemberDerivedStats(DerivedStats):
-    __mapper_args__ = {'polymorphic_identity' : 'squadmember'}
-
-    # Note referent is one-to-one mapping to SquadMember
-
-
-class SquadDerivedStats(DerivedStats):
-    __mapper_args__ = {'polymorphic_identity' : 'squad'}
-
-    # NOTE referent is one-to-one mapping to Squad
+    def __init__(self, squad_id, stats):
+        self.squad_id = squad_id
+        for k, v in stats.iteritems():
+            setattr(self, k, v)
 
 
 # - Squad -- /
@@ -424,28 +378,17 @@ class Squad(Base):
     }
 
     id = Column(Integer, primary_key=True)
-    division = Column(String(4), nullable=False)
+    team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade', ondelete='cascade'))
+    season_id = Column(Integer, ForeignKey('season.id', onupdate='cascade', ondelete='cascade'))
     year = Column(Integer, nullable=False)
+    division = Column(String(4), nullable=False)
+    conference_id = Column(Integer, ForeignKey('conference.id', onupdate='cascade', ondelete='cascade'))
 
-    conference_id = Column(Integer, ForeignKey('conference.id', onupdate='cascade'))
-
-    team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade'))
-    team = relationship("Team", backref=backref('squads', order_by=id))
-
-    stats_id = Column(Integer, ForeignKey('statscache.id', onupdate='cascade'))
-    stats = relationship('SquadDerivedStats', backref=backref('referent', uselist=False, order_by=id))
-
-    # NOTE roster = one-to-many map to SquadMembers
-    # NOTE schedule = many-to-many map to Games
-    # NOTE wins = one-to-many map to Games
-    # NOTE losses = one-to-many map to Games
-
-    def __init__(self, division, year, team=None, conference=None):
+    def __init__(self, division, year, team_id=None, conference=None):
         self.division = division
         self.year = year
-        self._cache = dict()        # Cache is never persisted.
-        if team is not None:
-            self.team = team
+        if team_id is not None:
+            self.team_id = team_id
         if conference is not None:
             self.conference = conference
 
@@ -485,34 +428,34 @@ class Team(Base):
         #     self.id = id
 
 
-# - TeamAlias -- /
-class TeamAlias(Base):
-    """TeamAlias is used for record linkage. When querying the database for a
-    Team by name it is not necessarily (read: usually) the case that there is
-    a standardized way of referring to the Team. Different sources abbreviate
-    teams in different ways, e.g. 'Pitt' versus 'Pittsburgh.' This class helps
-    mitigate this problem by keeping track of different ways of referring to
-    a team. Names in this class are normalized by entirely removing all
-    non-alpha-numeric characters and transforming to upper case.
-
-    TeamAliases are in a many-to-one relationship with Teams"""
-    __tablename__ = 'teamalias'
-    __table_args__ = {
-        'mysql_engine': 'InnoDB',
-        'mysql_charset': 'utf8'
-    }
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(128), nullable=False)
-
-    team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade'))
-    team = relationship("Team", backref=backref('aliases', order_by=id))
-
-    # def __init__(self, name):
-    #     self.name = normalize_name(name)
-
-    def __repr__(self):
-        return "<TeamAlias('%s', '%s')>" % (self.team.name, self.name)
+# # - TeamAlias -- /
+# class TeamAlias(Base):
+#     """TeamAlias is used for record linkage. When querying the database for a
+#     Team by name it is not necessarily (read: usually) the case that there is
+#     a standardized way of referring to the Team. Different sources abbreviate
+#     teams in different ways, e.g. 'Pitt' versus 'Pittsburgh.' This class helps
+#     mitigate this problem by keeping track of different ways of referring to
+#     a team. Names in this class are normalized by entirely removing all
+#     non-alpha-numeric characters and transforming to upper case.
+#
+#     TeamAliases are in a many-to-one relationship with Teams"""
+#     __tablename__ = 'teamalias'
+#     __table_args__ = {
+#         'mysql_engine': 'InnoDB',
+#         'mysql_charset': 'utf8'
+#     }
+#
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String(128), nullable=False)
+#
+#     team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade', ondelete='cascade'))
+#     team = relationship("Team", backref=backref('aliases', order_by=id))
+#
+#     # def __init__(self, name):
+#     #     self.name = normalize_name(name)
+#
+#     def __repr__(self):
+#         return "<TeamAlias('%s', '%s')>" % (self.team.name, self.name)
 
 # - Season -- /
 class Season(Base):
@@ -530,7 +473,7 @@ class Season(Base):
     year = Column(Integer, nullable=False)
     gender = Column(Enum("Men", "Women"), nullable=False)
 
-# - Season -- /
+# - Conference -- /
 class Conference(Base):
     """
     A team may belong to different in different year and division
@@ -551,6 +494,35 @@ class Conference(Base):
         self.id = id
         self.name = name
 
+
+# - Conference -- /
+class GameDetail(Base):
+    """
+    Play-by-Play
+    """
+    __tablename__ = "gamedetail"
+    __table_args__ = {
+        'mysql_engine': 'InnoDB',
+        'mysql_charset': 'utf8'
+    }
+
+    id = Column(Integer, primary_key=True)
+    game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade', ondelete='cascade'))
+    #section could be 1st Half, 2nd Half with or without 1st OT
+    section = Column(String(16))
+
+    time = Column(String(16))
+    score = Column(String(16))
+    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
+    detail = Column(String(256))
+
+    def __init__(self, game_id, section, time, score, squad_id, detail):
+        self.game_id = game_id
+        self.section = section
+        self.time = time
+        self.score = score
+        self.squad_id = squad_id
+        self.detail = detail
 
 
 Base.metadata.create_all(engine, checkfirst=True)

@@ -1,6 +1,33 @@
+# ************************************************************
+# Sequel Pro SQL dump
+# Version 4096
+#
+# http://www.sequelpro.com/
+# http://code.google.com/p/sequel-pro/
+#
+# Host: 127.0.0.1 (MySQL 5.6.20)
+# Database: QuantHoops
+# Generation Time: 2014-11-15 21:06:46 +0000
+# ************************************************************
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table team
+# ------------------------------------------------------------
+
+LOCK TABLES `team` WRITE;
+/*!40000 ALTER TABLE `team` DISABLE KEYS */;
+
 INSERT INTO `team` (`id`, `name`, `gender`)
 VALUES
-    (0,'Non NCAA Team','Men'),
 	(2,'Abilene Christian','Men'),
 	(3,'Adelphi','Men'),
 	(4,'Adrian','Men'),
@@ -78,7 +105,6 @@ VALUES
 	(79,'Brooklyn','Men'),
 	(80,'Brown','Men'),
 	(81,'Bryant','Men'),
-	(82,'Bryn Mawr','Men'),
 	(83,'Bucknell','Men'),
 	(84,'Buena Vista','Men'),
 	(85,'Buffalo St.','Men'),
@@ -268,7 +294,6 @@ VALUES
 	(281,'Hiram','Men'),
 	(282,'Hobart','Men'),
 	(283,'Hofstra','Men'),
-	(284,'Hollins','Men'),
 	(285,'Holy Cross','Men'),
 	(286,'Hope','Men'),
 	(287,'Houston Baptist','Men'),
@@ -364,7 +389,6 @@ VALUES
 	(386,'Marist','Men'),
 	(387,'Marquette','Men'),
 	(388,'Marshall','Men'),
-	(389,'Mary Baldwin','Men'),
 	(390,'Mary Washington','Men'),
 	(391,'UMBC','Men'),
 	(392,'Maryland','Men'),
@@ -374,7 +398,6 @@ VALUES
 	(396,'Maryville (TN)','Men'),
 	(397,'Marywood','Men'),
 	(398,'MIT','Men'),
-	(399,'Mass. Maritime','Men'),
 	(400,'Massachusetts','Men'),
 	(401,'UMass Boston','Men'),
 	(402,'McNeese St.','Men'),
@@ -384,7 +407,6 @@ VALUES
 	(406,'Mercer','Men'),
 	(407,'Mercy','Men'),
 	(408,'Mercyhurst','Men'),
-	(409,'Meredith','Men'),
 	(410,'Merrimack','Men'),
 	(411,'Messiah','Men'),
 	(412,'Methodist','Men'),
@@ -399,7 +421,6 @@ VALUES
 	(422,'Miles','Men'),
 	(423,'Millersville','Men'),
 	(424,'Millikin','Men'),
-	(425,'Mills','Men'),
 	(426,'Millsaps','Men'),
 	(427,'Minn. Duluth','Men'),
 	(428,'Minnesota','Men'),
@@ -420,7 +441,6 @@ VALUES
 	(444,'Morehead St.','Men'),
 	(445,'Morehouse','Men'),
 	(446,'Morgan St.','Men'),
-	(449,'Mount Holyoke','Men'),
 	(450,'Mt. St. Mary\'s','Men'),
 	(451,'Mt. St. Vincent','Men'),
 	(452,'Mount Union','Men'),
@@ -447,7 +467,6 @@ VALUES
 	(473,'New Mexico','Men'),
 	(474,'New Orleans','Men'),
 	(475,'SUNY New Paltz','Men'),
-	(476,'New Rochelle','Men'),
 	(477,'NYIT','Men'),
 	(478,'SUNY Maritime','Men'),
 	(479,'NYU','Men'),
@@ -513,7 +532,6 @@ VALUES
 	(541,'Pepperdine','Men'),
 	(542,'Pfeiffer','Men'),
 	(543,'Philadelphia U.','Men'),
-	(544,'Pine Manor','Men'),
 	(545,'Pittsburgh','Men'),
 	(546,'Pitt.-Johnstown','Men'),
 	(547,'Plattsburgh St.','Men'),
@@ -563,9 +581,7 @@ VALUES
 	(592,'St. Andrews','Men'),
 	(593,'St. Anselm','Men'),
 	(594,'Saint Augustine\'s','Men'),
-	(595,'Saint Benedict','Men'),
 	(596,'St. Bonaventure','Men'),
-	(597,'St. Catherine','Men'),
 	(598,'St. Cloud St.','Men'),
 	(599,'St. Francis Brooklyn','Men'),
 	(600,'Saint Francis (PA)','Men'),
@@ -606,11 +622,9 @@ VALUES
 	(637,'Shenandoah','Men'),
 	(638,'Shippensburg','Men'),
 	(639,'Siena','Men'),
-	(640,'Simmons','Men'),
 	(641,'Simpson','Men'),
 	(642,'Skidmore','Men'),
 	(643,'Slippery Rock','Men'),
-	(644,'Smith','Men'),
 	(645,'Sonoma St.','Men'),
 	(646,'South Ala.','Men'),
 	(647,'South Carolina St.','Men'),
@@ -661,7 +675,6 @@ VALUES
 	(698,'TCU','Men'),
 	(699,'Texas Southern','Men'),
 	(700,'Texas Tech','Men'),
-	(701,'Texas Woman\'s','Men'),
 	(702,'Texas-Arlington','Men'),
 	(703,'Texas','Men'),
 	(704,'UTEP','Men'),
@@ -714,7 +727,6 @@ VALUES
 	(757,'Wayne St. (MI)','Men'),
 	(758,'Weber St.','Men'),
 	(759,'Webster','Men'),
-	(760,'Wellesley','Men'),
 	(761,'Wells','Men'),
 	(762,'Wentworth','Men'),
 	(763,'Wesley','Men'),
@@ -934,17 +946,14 @@ VALUES
 	(8530,'McMurry','Men'),
 	(8567,'Mt. St. Joseph','Men'),
 	(8577,'N.M. Highlands','Men'),
+	(8580,'City Tech','Men'),
 	(8597,'Martin Luther','Men'),
-	(8600,'Notre Dame (MD)','Men'),
-	(8687,'St. Joseph (CT)','Men'),
-	(8688,'St. Mary\'s (IN)','Men'),
 	(8736,'Southwest Minn. St.','Men'),
 	(8744,'Southwestern Okla.','Men'),
 	(8746,'Southwestern (TX)','Men'),
 	(8875,'Chowan','Men'),
 	(8896,'Wheelock','Men'),
 	(8911,'Wis. Lutheran','Men'),
-	(8935,'Converse','Men'),
 	(8956,'Dominican (NY)','Men'),
 	(8965,'East Central','Men'),
 	(8968,'Eastern','Men'),
@@ -955,17 +964,14 @@ VALUES
 	(9013,'Mo. Western St.','Men'),
 	(9081,'Concordia-St. Paul','Men'),
 	(9223,'North Greenville','Men'),
-	(9500,'SUNYIT','Men'),
+	(9500,'SUNY Poly','Men'),
 	(9630,'West Va. Wesleyan','Men'),
-	(9684,'St. Elizabeth','Men'),
 	(9754,'UC-Colo. Springs','Men'),
 	(10411,'USC Upstate','Men'),
 	(10870,'Shepherd','Men'),
-	(10972,'Chatham','Men'),
 	(11036,'Sage Colleges','Men'),
 	(11062,'Green Mountain','Men'),
 	(11276,'S.C. Aiken','Men'),
-	(11324,'Agnes Scott','Men'),
 	(11403,'Colo. Christian','Men'),
 	(11416,'Colorado Mesa','Men'),
 	(11504,'Queens (NC)','Men'),
@@ -979,8 +985,6 @@ VALUES
 	(12884,'Centenary (NJ)','Men'),
 	(13028,'Anderson (SC)','Men'),
 	(13302,'Lees-McRae','Men'),
-	(14718,'Wesleyan (GA)','Men'),
-	(14795,'Cedar Crest','Men'),
 	(14927,'Belmont','Men'),
 	(15207,'Ohio Valley','Men'),
 	(15646,'Barton','Men'),
@@ -1003,7 +1007,6 @@ VALUES
 	(23121,'Texas-Dallas','Men'),
 	(23157,'Felician','Men'),
 	(23260,'Spalding','Men'),
-	(23413,'Trinity Washington','Men'),
 	(23624,'Cazenovia','Men'),
 	(23725,'Medaille','Men'),
 	(24317,'Lesley','Men'),
@@ -1014,8 +1017,6 @@ VALUES
 	(25719,'Penn St.-Altoona','Men'),
 	(26107,'Becker','Men'),
 	(26172,'A&M-Corpus Chris','Men'),
-	(26520,'Bay Path','Men'),
-	(26973,'Spelman','Men'),
 	(27854,'Minn.-Crookston','Men'),
 	(27859,'P.R.-Humacao','Men'),
 	(27892,'Farmingdale St.','Men'),
@@ -1023,7 +1024,6 @@ VALUES
 	(28593,'Birmingham-So.','Men'),
 	(28594,'USciences','Men'),
 	(28600,'Lipscomb','Men'),
-	(28746,'Alverno','Men'),
 	(28749,'Transylvania','Men'),
 	(28755,'FGCU','Men'),
 	(30002,'Trevecca Nazarene','Men'),
@@ -1033,7 +1033,6 @@ VALUES
 	(30029,'Purchase','Men'),
 	(30031,'Northwestern-St. Paul','Men'),
 	(30032,'Finlandia','Men'),
-	(30033,'Mount Mary','Men'),
 	(30034,'Presentation','Men'),
 	(30035,'Crown (MN)','Men'),
 	(30036,'Mount Aloysius','Men'),
@@ -1041,7 +1040,6 @@ VALUES
 	(30038,'Bethany Lutheran','Men'),
 	(30039,'North Central (MN)','Men'),
 	(30040,'Me.-Presque Isle','Men'),
-	(30041,'Salem','Men'),
 	(30042,'Mitchell','Men'),
 	(30044,'Penn St.-Berks','Men'),
 	(30045,'Palm Beach Atl.','Men'),
@@ -1089,7 +1087,6 @@ VALUES
 	(30137,'Malone','Men'),
 	(30138,'McKendree','Men'),
 	(30139,'South Dakota Mines','Men'),
-	(30140,'Ursuline','Men'),
 	(30141,'Walsh','Men'),
 	(30146,'Azusa Pacific','Men'),
 	(30147,'Fresno Pacific','Men'),
@@ -1108,3 +1105,13 @@ VALUES
 	(30181,'UVa-Wise','Men');
 
 /*!40000 ALTER TABLE `team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
