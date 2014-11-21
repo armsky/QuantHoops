@@ -5,16 +5,10 @@ Library defines ORM database accessor classes for NCAA
 '''
 
 from sqlalchemy import *
-from sqlalchemy.orm import relationship, backref, sessionmaker, reconstructor
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
-import re
-import os
-import datetime
-
-from collections import OrderedDict, defaultdict
-
-engine = create_engine('mysql://michael:hooper@localhost/QuantHoops', echo=False)
+engine = create_engine('mysql://root:QuantH00p!@localhost/QuantHoops', echo=False)
 metadata = MetaData()
 
 ## -- CLASSES --
@@ -29,9 +23,9 @@ class Schedule(Base):
         'mysql_charset': 'utf8'
     }
 
-    game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade'),
+    game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade', ondelete='cascade'),
                      primary_key=True)
-    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade'),
+    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'),
                      primary_key=True)
     type = Column('type', Enum('home', 'away','neutral','tournament'))
 

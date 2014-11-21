@@ -1,8 +1,6 @@
 __author__ = 'Hao Lin'
 
-from QuantHoops.NCAA.ncaa import *
 
-import sys
 import traceback
 import urllib
 import datetime

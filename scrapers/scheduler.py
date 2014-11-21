@@ -1,18 +1,8 @@
 __author__ = 'Hao Lin'
 
-import urls
-from QuantHoops.NCAA.ncaa import *
-
-import urllib
-import re
-from bs4 import BeautifulSoup
-from scraper_helper import *
 from scraper import  *
 
-from dateutil.parser import *
 from sqlalchemy import *
-from sqlalchemy.orm import relationship, backref, sessionmaker, reconstructor
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 engine = create_engine('mysql://hooper:michael@localhost/QuantHoops', echo=True)
