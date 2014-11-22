@@ -1,7 +1,6 @@
 __author__ = 'Hao Lin'
 
 from scraper_men import *
-
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
@@ -136,9 +135,9 @@ def initial_game_detail_scrap():
         session.close()
 
 
-initial_team_squad_scrap()
+# initial_team_squad_scrap()
 
-# initial_schedule_game_player_scrap()
+initial_schedule_game_player_scrap()
 
 # initial_season_stat_scrap()
 

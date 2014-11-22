@@ -1,0 +1,220 @@
+========2014-11-22 14:24:18.081812========
+
+                    team_id: 24639
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:25:08.411242========
+
+                    team_id: 516
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:27:56.345224========
+
+                    team_id: 11
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:29:20.855411========
+
+                    team_id: 11
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 180, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:34:10.643683========
+
+                    team_id: 1001
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:35:03.890925========
+
+                    team_id: 1029
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:37:30.233724========
+
+                    team_id: 9011
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:38:50.003201========
+
+                    team_id: 1461
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:40:13.854437========
+
+                    team_id: 21830
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:40:13.857307========
+
+                    team_id: 21830
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:40:14.883487========
+
+                    team_id: 30105
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:42:12.973398========
+
+                    team_id: 8411
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:43:03.596359========
+
+                    team_id: 1278
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:43:38.395126========
+
+                    team_id: 30051
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:44:59.235874========
+
+                    team_id: 224
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:45:58.340129========
+
+                    team_id: 766
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:46:24.666877========
+
+                    team_id: 13302
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:46:33.871443========
+
+                    team_id: 1072
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:48:51.963165========
+
+                    team_id: 680
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 180, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:48:51.972745========
+
+                    team_id: 720
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:52:24.131996========
+
+                    team_id: 628
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
+========2014-11-22 14:53:48.989576========
+
+                    team_id: 30065
+                    season_id: 10260
+                    do not have valid page to scrapTraceback (most recent call last):
+  File "/Users/armsky/WORKPLACE/QuantHoops/scrapers/scraper_men.py", line 167, in schedule_parser
+    Squad.season_id == season_id).first().id
+AttributeError: 'NoneType' object has no attribute 'id'
+
+
