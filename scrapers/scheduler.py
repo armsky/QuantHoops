@@ -1,18 +1,18 @@
 __author__ = 'Hao Lin'
 
-from scraper import  *
+from scraper_men import *
 
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://hooper:michael@localhost/QuantHoops', echo=True)
+engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=True)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 
 #TODO Too much scraping time might got connection confused
 
 #TODO Manully add fake team and fake squad as non-ncaa team
-#fake team: id=0, name=non-ncaa team, gender=Men
+#fake team: id=0, name=non-ncaa team
 #fake squad: id=0, team_id=0, season_id=None, year=0
 
 def initial_team_squad_scrap():
@@ -23,20 +23,20 @@ def initial_team_squad_scrap():
         for row in rows:
             season_id = row.id
             print season_id
-            if season_id == 10260:
-                for i in ["1", "2", "3"]:
-                    session = Session()
-                    # year 2010 only has division I
-                    if season_id == "10260" and i != "1":
+            for division in ["1", "2", "3"]:
+                session = Session()
+                # Men&Women year 2010 only has division I
+                if season_id == "10260" or season_id == "10261":
+                    if division != "1":
                         continue
-                    # year 2011 only has division I and III
-                    elif season_id == "10440" and i == "2":
+                # Men&Women year 2011 only has division I and III
+                if season_id == "10440" or season_id == "10420":
+                    if division == "2":
                         continue
-                    else:
-                        team_parser(session, season_id, i)
-                        squad_parser(session, season_id, i)
-                        conference_parser(session, season_id, i)
-                        session.close()
+                team_parser(session, season_id, division)
+                squad_parser(session, season_id, division)
+                conference_parser(session, season_id, division)
+                session.close()
     except Exception, e:
         error_message = """
 
@@ -45,7 +45,7 @@ def initial_team_squad_scrap():
         This combination may not exists.
 
         %s
-        """ % (season_id, i, e)
+        """ % (season_id, division, e)
         write_error_to_file(error_message)
         raise
 
@@ -121,12 +121,22 @@ def initial_game_stat_scrap():
         raise
 
 
+def initial_game_detail_scrap():
+    session = Session()
+    games = session.query(Game).all()
+    session.close()
+    for game_record in games:
+        session = Session()
+        gamedetail_parser(session, game_record)
+        session.close()
 
 
-# initial_team_squad_scrap()
+initial_team_squad_scrap()
 
 # initial_schedule_game_player_scrap()
 
-initial_season_stat_scrap()
+# initial_season_stat_scrap()
 
 # initial_game_stat_scrap()
+
+# initial_game_detail_scrap()

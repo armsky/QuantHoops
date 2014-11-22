@@ -8,7 +8,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/QuantHoops', echo=False)
+engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=False)
 metadata = MetaData()
 
 ## -- CLASSES --
@@ -378,8 +378,9 @@ class Squad(Base):
     division = Column(String(4), nullable=False)
     conference_id = Column(Integer, ForeignKey('conference.id', onupdate='cascade', ondelete='cascade'))
 
-    def __init__(self, division, year, team_id=None, conference=None):
+    def __init__(self, division, season_id, year, team_id=None, conference=None):
         self.division = division
+        self.season_id = season_id
         self.year = year
         if team_id is not None:
             self.team_id = team_id
@@ -409,14 +410,12 @@ class Team(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(128), nullable=False)
-    gender = Column(Enum('Men', 'Women'), nullable=False)
 
     # NOTE squads = one-to-many map to Squads
     # NOTE aliases = one-to-many map to TeamAliases
 
-    def __init__(self, name, gender, id):
+    def __init__(self, name, id):
         self.name = name
-        self.gender = gender
         self.id = id
         # if id is not None:
         #     self.id = id
@@ -465,7 +464,6 @@ class Season(Base):
 
     id = Column(Integer, primary_key=True)
     year = Column(Integer, nullable=False)
-    gender = Column(Enum("Men", "Women"), nullable=False)
 
 # - Conference -- /
 class Conference(Base):
@@ -520,3 +518,4 @@ class GameDetail(Base):
 
 
 Base.metadata.create_all(engine, checkfirst=True)
+

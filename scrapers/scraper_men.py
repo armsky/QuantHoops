@@ -1,20 +1,20 @@
 __author__ = 'Hao Lin'
 
 import re
+import sys
+from QuantHoops.NCAA.ncaa_men import *
 from scraper_helper import *
-
 from dateutil.parser import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/QuantHoops', echo=True)
+engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=True)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 
 def team_parser(session, season_id, division):
     try:
         row = session.query(Season).filter_by(id=season_id).first()
-        gender = row.gender
         url = "http://stats.ncaa.org/team/inst_team_list/%s?division=%s" % (season_id, division)
         team_links = get_team_link(url)
 
@@ -23,7 +23,7 @@ def team_parser(session, season_id, division):
             ncaa_id = int(team["href"].split("=")[-1])
             name = team.string
 
-            team_record = Team(name, gender, ncaa_id)
+            team_record = Team(name, ncaa_id)
             if session.query(Team).filter_by(id=ncaa_id).first() is None:
                 team_records.append(team_record)
         session.add_all(team_records)
@@ -51,7 +51,7 @@ def squad_parser(session, season_id, division):
             if session.query(Squad).filter(Squad.year == year,
                                     Squad.division == division,
                                     Squad.team_id == ncaa_id).first() is None:
-                squad_record = Squad(division, year, team_record.id)
+                squad_record = Squad(division, season_id, year, team_record.id)
                 squad_records.append(squad_record)
                 print year, division, ncaa_id
 
@@ -618,18 +618,15 @@ def gamedetail_parser(session, game_record):
                     detail = info[3].string
                     squad_id = second_squad_id
 
-                gamedetail_record = GameDetail(game_id, section, time, score, squad_id, detail)
-                gamedetail_records.append(gamedetail_record)
+                if session.query(GameDetail).filter(GameDetail.game_id==game_id,
+                                                    GameDetail.section==section,
+                                                    GameDetail.time==time,
+                                                    GameDetail.detail==detail).first() is None:
+                    gamedetail_record = GameDetail(game_id, section, time, score, squad_id, detail)
+                    gamedetail_records.append(gamedetail_record)
 
     session.add_all(gamedetail_records)
     session.flush()
 
-session = Session()
-games = session.query(Game).all()
-session.close()
-for game_record in games:
-    session = Session()
-    gamedetail_parser(session, game_record)
-    session.close()
 
 
