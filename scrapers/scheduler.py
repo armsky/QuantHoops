@@ -22,17 +22,22 @@ def initial_team_squad_scrap():
     try:
         for row in rows:
             season_id = row.id
-            print season_id
+            print "#####"+str(season_id)
             for division in ["1", "2", "3"]:
                 session = Session()
                 # Men&Women year 2010 only has division I
-                if season_id == "10260" or season_id == "10261":
+                if season_id == 10260 or season_id == 10261:
                     if division != "1":
+                        print "$$$$"
+                        print division, season_id
                         continue
                 # Men&Women year 2011 only has division I and III
-                if season_id == "10440" or season_id == "10420":
+                if season_id == 10440 or season_id == 10420:
                     if division == "2":
+                        print "$$$$"
+                        print division, season_id
                         continue
+                print "*****"
                 team_parser(session, season_id, division)
                 squad_parser(session, season_id, division)
                 conference_parser(session, season_id, division)

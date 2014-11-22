@@ -2,6 +2,7 @@ __author__ = 'Hao Lin'
 
 import re
 import sys
+sys.path.insert(1,'../NCAA')
 from QuantHoops.NCAA.ncaa_men import *
 from scraper_helper import *
 from dateutil.parser import *
