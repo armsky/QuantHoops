@@ -443,7 +443,7 @@ def game_stat_parser(session, game_record):
         year = str(int(year)+1)
     url = "http://stats.ncaa.org/game/box_score/%s" % game_id
     soup = soupify(url)
-    team_stats = Nones
+    team_stats = None
     tables = soup.find_all('table')
     #tables[0] has team name and team id
     team_links = [x.find('a') for x in tables[0].find_all('td')]
