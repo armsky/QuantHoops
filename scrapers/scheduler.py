@@ -4,7 +4,7 @@ from scraper_men import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=True)
+engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 
@@ -90,7 +90,6 @@ def initial_season_stat_scrap():
                 session = Session()
                 season_stat_parser(session, squad_record)
 
-
     except Exception, e:
         message = """
 
@@ -137,10 +136,10 @@ def initial_game_detail_scrap():
 
 # initial_team_squad_scrap()
 
-initial_schedule_game_player_scrap()
+# initial_schedule_game_player_scrap()
 
 # initial_season_stat_scrap()
 
-# initial_game_stat_scrap()
+initial_game_stat_scrap()
 
 # initial_game_detail_scrap()

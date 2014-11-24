@@ -9,7 +9,7 @@ from dateutil.parser import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=True)
+engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 
@@ -375,7 +375,6 @@ def season_stat_parser(session, squad_record):
                                               SquadMember.player_id == player_id).first()
             if squadmember:
                 if session.query(PlayerSeasonStat).filter_by(squadmember_id=squadmember.id).first() is None:
-                    print "FOUND 1 player"
                     session.add(PlayerSeasonStat(squadmember.id, stats))
         # session.flush()
 
@@ -402,7 +401,6 @@ def season_stat_parser(session, squad_record):
         team_stat_list = team_stat_tr.find_all('td')
         if team_stat_list[1].string == "Totals":
             team_stat_list = team_stat_tr.find_all('td')
-            print team_stat_list
             total_stats = {
                     'minutes_played':team_stat_list[7].string,
                     'field_goals_made':team_stat_list[8].string.replace(',',''),
@@ -429,10 +427,7 @@ def season_stat_parser(session, squad_record):
                     'triple_doubles':"0" if team_stat_list[29].string == u'\xa0' else team_stat_list[29].string
                 }
             #combine Total_stats and Team_stats
-            print "$$$$1"
-            print total_stats, team_stats
             stats = dict(total_stats.items() + team_stats.items())
-            print stats
 
             if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
                 print "$$$ Found squad season stat"
@@ -448,9 +443,10 @@ def game_stat_parser(session, game_record):
         year = str(int(year)+1)
     url = "http://stats.ncaa.org/game/box_score/%s" % game_id
     soup = soupify(url)
+    team_stats = Nones
     tables = soup.find_all('table')
     #tables[0] has team name and team id
-    team_links = list(set([x.find('a') for x in tables[0].find_all('td')]))
+    team_links = [x.find('a') for x in tables[0].find_all('td')]
     team_links = filter(None, team_links)
     # Two teams are both NCAA team
     if len(team_links) == 2:
@@ -526,7 +522,8 @@ def game_stat_parser(session, game_record):
                             session.add(PlayerGameStat(squadmember_id, game_id, stats))
                             session.flush()
                     # TEAM stats
-                    elif player_stat_list[0].a is None and player_stat_list[0].string.strip() == 'TEAM':
+                    elif player_stat_list[0].a is None and (player_stat_list[0].string.strip() == 'TEAM' or \
+                                                            player_stat_list[0].string.strip() == 'Team'):
                         translate_table = dict((ord(char), u'') for char in "*/-")
                         team_stats = {
                             'team_offensive_rebounds':player_stat_list[10].string.translate(translate_table),
@@ -558,14 +555,15 @@ def game_stat_parser(session, game_record):
                 'blocks':total_stat_list[14].string.translate(translate_table),
                 'fouls':total_stat_list[15].string.translate(translate_table)
             }
-            stats = dict(total_stats.items() + team_stats.items())
-            if session.query(SquadGameStat).filter(SquadGameStat.squad_id==squad_id,
-                                                   SquadGameStat.game_id==game_id).first() is None:
-                print "$$$$$ Found squad game stat"
-                squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
-                session.add(squad_game_stat_record)
+            if team_stats is not None:
+                stats = dict(total_stats.items() + team_stats.items())
+                if session.query(SquadGameStat).filter(SquadGameStat.squad_id==squad_id,
+                                                       SquadGameStat.game_id==game_id).first() is None:
+                    print "$$$$$ Found squad game stat"
+                    squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
+                    session.add(squad_game_stat_record)
 
-                session.flush()
+                    session.flush()
 
         except:
             error_message = """
