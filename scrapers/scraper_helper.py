@@ -31,6 +31,7 @@ def write_error_to_file(message):
     with open(file_path, "a") as f:
         f.write("========"+str(datetime.datetime.now())+"========\n")
         f.write(message)
+        f.write("\n")
         f.write(str(traceback.format_exc()))
         f.write("\n\n")
 

@@ -3,7 +3,8 @@ __author__ = 'Hao Lin'
 import re
 import sys
 sys.path.insert(1,'../NCAA')
-from QuantHoops.NCAA.ncaa_men import *
+# from QuantHoops.NCAA.ncaa_men import *
+from NCAA.ncaa_men import *
 from scraper_helper import *
 from dateutil.parser import *
 from sqlalchemy import *
@@ -438,6 +439,9 @@ def season_stat_parser(session, squad_record):
 
 def game_stat_parser(session, game_record):
     game_id = game_record.id
+    # NCAA website has minion portions of games that don't have date information
+    if game_record.date is None:
+        return
     year = str(game_record.date).split('-')[0]
     if int(str(game_record.date).split('-')[1]) >= 10:
         year = str(int(year)+1)
