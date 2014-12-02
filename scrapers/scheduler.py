@@ -87,6 +87,7 @@ def initial_season_stat_scrap():
     try:
         for squad_record in squads:
             if squad_record.id != 0:
+                print "%%%% squad_id is "+str(squad_record.id)
                 session = Session()
                 season_stat_parser(session, squad_record)
 
@@ -110,7 +111,7 @@ def initial_game_stat_scrap():
     session.close()
     try:
         for game_record in games:
-            print "%%%%"+str(game_record.id)
+            print "%%%% game_id is "+str(game_record.id)
             session = Session()
             game_stat_parser(session, game_record)
             session.close()

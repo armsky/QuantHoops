@@ -3,7 +3,7 @@ __author__ = 'Hao Lin'
 import re
 import sys
 sys.path.insert(1,'../NCAA')
-# from QuantHoops.NCAA.ncaa_men import *
+# from ncaa_men import *
 from NCAA.ncaa_men import *
 from scraper_helper import *
 from dateutil.parser import *
@@ -377,6 +377,8 @@ def season_stat_parser(session, squad_record):
             if squadmember:
                 if session.query(PlayerSeasonStat).filter_by(squadmember_id=squadmember.id).first() is None:
                     session.add(PlayerSeasonStat(squadmember.id, stats))
+                else:
+                    print "squadmember season stat (id=%s) already existed" % squadmember.id
         # session.flush()
 
         if player_stat_list[1].string == 'TEAM':
@@ -434,6 +436,8 @@ def season_stat_parser(session, squad_record):
                 print "$$$ Found squad season stat"
                 squad_season_stat_record = SquadSeasonStat(squad_id, stats)
                 session.add(squad_season_stat_record)
+            else:
+                print "squad season stat (id=%s) already existed" % squad_id
     session.flush()
 
 
