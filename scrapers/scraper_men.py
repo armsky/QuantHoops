@@ -572,6 +572,8 @@ def game_stat_parser(session, game_record):
                     session.add(squad_game_stat_record)
 
                     session.flush()
+                else:
+                    print "squad game stat (squad_id=%s, squad_id=%s) already existed" % (squad_id, game_id)
 
         except:
             error_message = """
