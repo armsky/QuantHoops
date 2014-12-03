@@ -2,6 +2,8 @@ __author__ = 'Hao Lin'
 
 import re
 import sys
+reload(sys)
+sys.setdefaultencoding("utf8")
 sys.path.insert(1,'../NCAA')
 # from ncaa_men import *
 from NCAA.ncaa_men import *
