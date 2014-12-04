@@ -432,15 +432,25 @@ def season_stat_parser(session, squad_record):
                     'double_doubles':"0" if team_stat_list[28].string == u'\xa0' else team_stat_list[28].string,
                     'triple_doubles':"0" if team_stat_list[29].string == u'\xa0' else team_stat_list[29].string
                 }
-            #combine Total_stats and Team_stats
-            stats = dict(total_stats.items() + team_stats.items())
 
-            if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
-                print "$$$ Found squad season stat"
-                squad_season_stat_record = SquadSeasonStat(squad_id, stats)
-                session.add(squad_season_stat_record)
+            if team_stats is not None:
+                #combine Total_stats and Team_stats
+                stats = dict(total_stats.items() + team_stats.items())
             else:
-                print "squad season stat (id=%s) already existed" % squad_id
+                stats = total_stats
+
+            # If this season is over
+            if str(squad_record.year) < get_current_year() \
+                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() > )):
+                if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
+                    print "$$$ Found squad season stat"
+                    squad_season_stat_record = SquadSeasonStat(squad_id, stats)
+                    session.add(squad_season_stat_record)
+                else:
+                    print "squad season stat (id=%s) already existed" % squad_id
+            # The season is ongoing, need to update database
+
+
     session.flush()
 
 

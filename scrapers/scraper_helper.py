@@ -35,3 +35,12 @@ def write_error_to_file(message):
         f.write(str(traceback.format_exc()))
         f.write("\n\n")
 
+
+def get_current_year():
+    today = datetime.date.today()
+    return str(today.year)
+
+
+def get_current_month():
+    today = datetime.date.today()
+    return str(today.month)
