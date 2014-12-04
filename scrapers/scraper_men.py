@@ -5,7 +5,8 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 sys.path.insert(1,'../NCAA')
-# from ncaa_men import *
+from ncaa_men import *
+# from QuantHoops.NCAA.ncaa_men import *
 from NCAA.ncaa_men import *
 from scraper_helper import *
 from dateutil.parser import *
