@@ -135,6 +135,32 @@ def initial_game_detail_scrap():
         session.close()
 
 
+def new_season_stat_scrap():
+    session = Session()
+    squads = session.query(Squad).all()
+    session.close()
+
+    try:
+        for squad_record in squads:
+            if squad_record.id != 0:
+                print "%%%% squad_id is "+str(squad_record.id)
+                session = Session()
+                season_stat_parser(session, squad_record)
+
+    except Exception, e:
+        message = """
+
+        squad_id: %s
+        team_id: %s
+        season_id: %s
+        This combination may not exists.
+
+        %s
+        """ %  (squad_record.id, squad_record.season_id, squad_record.team_id, e)
+        write_error_to_file(str(message))
+        raise
+
+
 # initial_team_squad_scrap()
 
 # initial_schedule_game_player_scrap()

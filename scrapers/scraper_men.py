@@ -371,8 +371,8 @@ def season_stat_parser(session, squad_record):
                 'steals':player_stat_list[25].string,
                 'blocks':player_stat_list[26].string,
                 'fouls':player_stat_list[27].string,
-                'double_doubles':player_stat_list[28].string,
-                'triple_doubles':player_stat_list[29].string
+                'double_doubles':"0" if player_stat_list[28].string == u'\xa0' else player_stat_list[28].string,
+                'triple_doubles':"0" if player_stat_list[29].string == u'\xa0' else player_stat_list[29].string
             }
             player_id = player_stat_list[1].find('a')['href'].split('=')[-1]
             squadmember = session.query(SquadMember).filter(SquadMember.squad_id == squad_id,
@@ -397,8 +397,8 @@ def season_stat_parser(session, squad_record):
                 'team_steals':player_stat_list[25].string,
                 'team_blocks':player_stat_list[26].string,
                 'team_fouls':player_stat_list[27].string,
-                'team_double_doubles':player_stat_list[28].string,
-                'team_triple_doubles':player_stat_list[29].string
+                'double_doubles':"0" if player_stat_list[28].string == u'\xa0' else player_stat_list[28].string,
+                'triple_doubles':"0" if player_stat_list[29].string == u'\xa0' else player_stat_list[29].string
             }
 
 
@@ -441,14 +441,18 @@ def season_stat_parser(session, squad_record):
 
             # If this season is over
             if str(squad_record.year) < get_current_year() \
-                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() > )):
+                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() >= 4)):
                 if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
                     print "$$$ Found squad season stat"
                     squad_season_stat_record = SquadSeasonStat(squad_id, stats)
                     session.add(squad_season_stat_record)
                 else:
                     print "squad season stat (id=%s) already existed" % squad_id
-            # The season is ongoing, need to update database
+            # The season is ongoing, need to UPDATE database every time
+            else:
+                print "$$$ Found squad season stat"
+                squad_season_stat_record = SquadSeasonStat(squad_id, stats)
+                session.add(squad_season_stat_record)
 
 
     session.flush()
