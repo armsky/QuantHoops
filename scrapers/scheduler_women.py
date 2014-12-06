@@ -1,14 +1,11 @@
 __author__ = 'Hao Lin'
 
-from scraper_men import *
+from scraper_women import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=False)
+engine = create_engine('mysql://root:QuantH00p!@localhost/Women_NCAA', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
-
-
-#TODO Too much scraping time might got connection confused
 
 #TODO Manully add fake team and fake squad as non-ncaa team
 #fake team: id=0, name=non-ncaa team
@@ -230,7 +227,10 @@ def new_season_stat_scrap():
         raise
 
 
-# initial_team_squad_scrap()
+
+
+
+initial_team_squad_scrap()
 
 # initial_schedule_game_player_scrap()
 
@@ -240,6 +240,6 @@ def new_season_stat_scrap():
 
 # initial_game_detail_scrap()
 
-new_schedule_game_player_scrap()
+# new_schedule_game_player_scrap()
 
-new_season_stat_scrap()
+# new_season_stat_scrap()
