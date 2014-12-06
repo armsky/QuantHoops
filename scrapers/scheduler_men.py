@@ -4,7 +4,7 @@ from scraper_men import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=False)
+engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Men', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 #TODO Manully add fake team and fake squad as non-ncaa team

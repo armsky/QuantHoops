@@ -13,7 +13,7 @@ from dateutil.parser import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/Women_NCAA', echo=False)
+engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Women', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 
@@ -441,7 +441,7 @@ def season_stat_parser(session, squad_record):
 
             # If this season is over
             if str(squad_record.year) < get_current_year() \
-                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() >= 5)):
+                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() >= )):
                 if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
                     print "$$$ Found squad season stat"
                     squad_season_stat_record = SquadSeasonStat(squad_id, stats)
