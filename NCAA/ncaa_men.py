@@ -353,7 +353,9 @@ class SquadSeasonStat(Base):
     team_double_doubles = Column(Integer)
     team_triple_doubles = Column(Integer)
 
-    def __init__(self, squad_id, stats):
+    def __init__(self, squad_id, stats, id=None):
+        if id is not None:
+            self.id = id
         self.squad_id = squad_id
         for k, v in stats.iteritems():
             setattr(self, k, v)

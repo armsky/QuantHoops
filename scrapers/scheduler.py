@@ -137,7 +137,10 @@ def initial_game_detail_scrap():
 
 def new_season_stat_scrap():
     session = Session()
-    squads = session.query(Squad).all()
+    this_season_id = session.query(func.max(Season.id)).first()[0]
+    print this_season_id
+    squads = session.query(Squad).filter_by(season_id=this_season_id).all()
+    print squads
     session.close()
 
     try:
@@ -165,8 +168,10 @@ def new_season_stat_scrap():
 
 # initial_schedule_game_player_scrap()
 
-initial_season_stat_scrap()
+# initial_season_stat_scrap()
 
 # initial_game_stat_scrap()
 
 # initial_game_detail_scrap()
+
+new_season_stat_scrap()
