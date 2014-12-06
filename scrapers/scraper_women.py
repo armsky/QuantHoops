@@ -2,20 +2,24 @@ __author__ = 'Hao Lin'
 
 import re
 import sys
-from QuantHoops.NCAA.ncaa_men import *
+reload(sys)
+sys.setdefaultencoding("utf8")
+sys.path.insert(1,'../NCAA')
+from ncaa_men import *
+# from QuantHoops.NCAA.ncaa_men import *
+# from NCAA.ncaa_men import *
 from scraper_helper import *
 from dateutil.parser import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/Women_NCAA', echo=True)
+engine = create_engine('mysql://root:QuantH00p!@localhost/Women_NCAA', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 
 def team_parser(session, season_id, division):
     try:
         row = session.query(Season).filter_by(id=season_id).first()
-        gender = row.gender
         url = "http://stats.ncaa.org/team/inst_team_list/%s?division=%s" % (season_id, division)
         team_links = get_team_link(url)
 
@@ -367,16 +371,17 @@ def season_stat_parser(session, squad_record):
                 'steals':player_stat_list[25].string,
                 'blocks':player_stat_list[26].string,
                 'fouls':player_stat_list[27].string,
-                'double_doubles':player_stat_list[28].string,
-                'triple_doubles':player_stat_list[29].string
+                'double_doubles':"0" if player_stat_list[28].string == u'\xa0' else player_stat_list[28].string,
+                'triple_doubles':"0" if player_stat_list[29].string == u'\xa0' else player_stat_list[29].string
             }
             player_id = player_stat_list[1].find('a')['href'].split('=')[-1]
             squadmember = session.query(SquadMember).filter(SquadMember.squad_id == squad_id,
                                               SquadMember.player_id == player_id).first()
             if squadmember:
                 if session.query(PlayerSeasonStat).filter_by(squadmember_id=squadmember.id).first() is None:
-                    print "FOUND 1 player"
                     session.add(PlayerSeasonStat(squadmember.id, stats))
+                else:
+                    print "squadmember season stat (id=%s) already existed" % squadmember.id
         # session.flush()
 
         if player_stat_list[1].string == 'TEAM':
@@ -392,8 +397,8 @@ def season_stat_parser(session, squad_record):
                 'team_steals':player_stat_list[25].string,
                 'team_blocks':player_stat_list[26].string,
                 'team_fouls':player_stat_list[27].string,
-                'team_double_doubles':player_stat_list[28].string,
-                'team_triple_doubles':player_stat_list[29].string
+                'double_doubles':player_stat_list[28].string,
+                'triple_doubles':player_stat_list[29].string
             }
 
 
@@ -402,7 +407,6 @@ def season_stat_parser(session, squad_record):
         team_stat_list = team_stat_tr.find_all('td')
         if team_stat_list[1].string == "Totals":
             team_stat_list = team_stat_tr.find_all('td')
-            print team_stat_list
             total_stats = {
                     'minutes_played':team_stat_list[7].string,
                     'field_goals_made':team_stat_list[8].string.replace(',',''),
@@ -425,32 +429,55 @@ def season_stat_parser(session, squad_record):
                     'steals':team_stat_list[25].string.replace(',',''),
                     'blocks':team_stat_list[26].string.replace(',',''),
                     'fouls':team_stat_list[27].string.replace(',',''),
-                    'double_doubles':"0" if team_stat_list[28].string == u'\xa0' else team_stat_list[28].string,
-                    'triple_doubles':"0" if team_stat_list[29].string == u'\xa0' else team_stat_list[29].string
+                    'double_doubles':team_stat_list[28].string,
+                    'triple_doubles':team_stat_list[29].string
                 }
-            #combine Total_stats and Team_stats
-            print "$$$$1"
-            print total_stats, team_stats
-            stats = dict(total_stats.items() + team_stats.items())
-            print stats
 
-            if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
-                print "$$$ Found squad season stat"
-                squad_season_stat_record = SquadSeasonStat(squad_id, stats)
-                session.add(squad_season_stat_record)
+            if team_stats is not None:
+                #combine Total_stats and Team_stats
+                stats = dict(total_stats.items() + team_stats.items())
+            else:
+                stats = total_stats
+
+            # If this season is over
+            if str(squad_record.year) < get_current_year() \
+                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() >= 5)):
+                if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
+                    print "$$$ Found squad season stat"
+                    squad_season_stat_record = SquadSeasonStat(squad_id, stats)
+                    session.add(squad_season_stat_record)
+                else:
+                    print "squad season stat (id=%s) already existed" % squad_id
+            # The season is ongoing, need to UPDATE database every time
+            else:
+
+                if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
+                    squad_season_stat_record = SquadSeasonStat(squad_id, stats)
+                    session.add(squad_season_stat_record)
+                else:
+                    print "$$$ squad season stat need to be updated"
+                    squad_record_id = session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first().id
+                    squad_season_stat_record = SquadSeasonStat(squad_id, stats, squad_record_id)
+                    session.add(squad_season_stat_record)
+
+
     session.flush()
 
 
 def game_stat_parser(session, game_record):
     game_id = game_record.id
+    # NCAA website has minion portions of games that don't have date information
+    if game_record.date is None:
+        return
     year = str(game_record.date).split('-')[0]
     if int(str(game_record.date).split('-')[1]) >= 10:
         year = str(int(year)+1)
     url = "http://stats.ncaa.org/game/box_score/%s" % game_id
     soup = soupify(url)
+    team_stats = None
     tables = soup.find_all('table')
     #tables[0] has team name and team id
-    team_links = list(set([x.find('a') for x in tables[0].find_all('td')]))
+    team_links = [x.find('a') for x in tables[0].find_all('td')]
     team_links = filter(None, team_links)
     # Two teams are both NCAA team
     if len(team_links) == 2:
@@ -526,7 +553,8 @@ def game_stat_parser(session, game_record):
                             session.add(PlayerGameStat(squadmember_id, game_id, stats))
                             session.flush()
                     # TEAM stats
-                    elif player_stat_list[0].a is None and player_stat_list[0].string.strip() == 'TEAM':
+                    elif player_stat_list[0].a is None and (player_stat_list[0].string.strip() == 'TEAM' or \
+                                                            player_stat_list[0].string.strip() == 'Team'):
                         translate_table = dict((ord(char), u'') for char in "*/-")
                         team_stats = {
                             'team_offensive_rebounds':player_stat_list[10].string.translate(translate_table),
@@ -558,14 +586,17 @@ def game_stat_parser(session, game_record):
                 'blocks':total_stat_list[14].string.translate(translate_table),
                 'fouls':total_stat_list[15].string.translate(translate_table)
             }
-            stats = dict(total_stats.items() + team_stats.items())
-            if session.query(SquadGameStat).filter(SquadGameStat.squad_id==squad_id,
-                                                   SquadGameStat.game_id==game_id).first() is None:
-                print "$$$$$ Found squad game stat"
-                squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
-                session.add(squad_game_stat_record)
+            if team_stats is not None:
+                stats = dict(total_stats.items() + team_stats.items())
+                if session.query(SquadGameStat).filter(SquadGameStat.squad_id==squad_id,
+                                                       SquadGameStat.game_id==game_id).first() is None:
+                    print "$$$$$ Found squad game stat"
+                    squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
+                    session.add(squad_game_stat_record)
 
-                session.flush()
+                    session.flush()
+                else:
+                    print "squad game stat (squad_id=%s, squad_id=%s) already existed" % (squad_id, game_id)
 
         except:
             error_message = """

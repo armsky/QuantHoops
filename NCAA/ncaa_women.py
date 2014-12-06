@@ -353,7 +353,9 @@ class SquadSeasonStat(Base):
     team_double_doubles = Column(Integer)
     team_triple_doubles = Column(Integer)
 
-    def __init__(self, squad_id, stats):
+    def __init__(self, squad_id, stats, id=None):
+        if id is not None:
+            self.id = id
         self.squad_id = squad_id
         for k, v in stats.iteritems():
             setattr(self, k, v)
@@ -376,7 +378,6 @@ class Squad(Base):
     season_id = Column(Integer, ForeignKey('season.id', onupdate='cascade', ondelete='cascade'))
     year = Column(Integer, nullable=False)
     division = Column(String(4), nullable=False)
-    gender = Column(String(8), nullable=False)
     conference_id = Column(Integer, ForeignKey('conference.id', onupdate='cascade', ondelete='cascade'))
 
     def __init__(self, division, season_id, year, team_id=None, conference=None):
@@ -465,7 +466,6 @@ class Season(Base):
 
     id = Column(Integer, primary_key=True)
     year = Column(Integer, nullable=False)
-    gender = Column(Enum("Men", "Women"), nullable=False)
 
 # - Conference -- /
 class Conference(Base):

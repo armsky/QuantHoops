@@ -21,7 +21,7 @@ VALUES
 	(12020,2015);
 
 #-- For Women
-INSERT INTO `season` (`id`, `year`, `gender`)
+INSERT INTO `season` (`id`, `year`)
 VALUES
 	(10261,2010),
 	(10420,2011),

@@ -397,10 +397,8 @@ def season_stat_parser(session, squad_record):
                 'team_steals':player_stat_list[25].string,
                 'team_blocks':player_stat_list[26].string,
                 'team_fouls':player_stat_list[27].string,
-                'double_doubles':"0" if (player_stat_list[28].string == u'\xa0' or player_stat_list[28].string == "")\
-                                        else player_stat_list[28].string,
-                'triple_doubles':"0" if (player_stat_list[29].string == u'\xa0' or player_stat_list[29].string == "")\
-                                        else player_stat_list[29].string
+                'double_doubles':player_stat_list[28].string,
+                'triple_doubles':player_stat_list[29].string
             }
 
 
@@ -431,8 +429,8 @@ def season_stat_parser(session, squad_record):
                     'steals':team_stat_list[25].string.replace(',',''),
                     'blocks':team_stat_list[26].string.replace(',',''),
                     'fouls':team_stat_list[27].string.replace(',',''),
-                    'double_doubles':"0" if team_stat_list[28].string == u'\xa0' else team_stat_list[28].string,
-                    'triple_doubles':"0" if team_stat_list[29].string == u'\xa0' else team_stat_list[29].string
+                    'double_doubles':team_stat_list[28].string,
+                    'triple_doubles':team_stat_list[29].string
                 }
 
             if team_stats is not None:
@@ -443,7 +441,7 @@ def season_stat_parser(session, squad_record):
 
             # If this season is over
             if str(squad_record.year) < get_current_year() \
-                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() >= 4)):
+                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() >= 5)):
                 if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
                     print "$$$ Found squad season stat"
                     squad_season_stat_record = SquadSeasonStat(squad_id, stats)

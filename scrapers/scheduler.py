@@ -135,6 +135,72 @@ def initial_game_detail_scrap():
         session.close()
 
 
+def new_team_squad_scrap():
+    session = Session()
+    this_season_id = session.query(func.max(Season.id)).first()[0]
+    session.close()
+
+    try:
+        print "#####"+str(this_season_id)
+        for division in ["1", "2", "3"]:
+            session = Session()
+            # Men&Women year 2010 only has division I
+            if this_season_id == 10260 or this_season_id == 10261:
+                if division != "1":
+                    print "$$$$"
+                    print division, this_season_id
+                    continue
+            # Men&Women year 2011 only has division I and III
+            if this_season_id == 10440 or this_season_id == 10420:
+                if division == "2":
+                    print "$$$$"
+                    print division, this_season_id
+                    continue
+            print "*****"
+            team_parser(session, this_season_id, division)
+            squad_parser(session, this_season_id, division)
+            conference_parser(session, this_season_id, division)
+            session.close()
+    except Exception, e:
+        error_message = """
+
+        this_season_id: %s
+        division: %s
+        This combination may not exists.
+
+        %s
+        """ % (this_season_id, division, e)
+        write_error_to_file(error_message)
+        raise
+
+
+def new_schedule_game_player_scrap():
+    session = Session()
+    this_season_id = session.query(func.max(Season.id)).first()[0]
+    squads = session.query(Squad).filter_by(season_id=this_season_id).all()
+    session.close()
+    try:
+        for squad_record in squads:
+            if squad_record.id != 0:
+                session = Session()
+                schedule_parser(session, squad_record)
+                #game_parser() is inside schedule_parser()
+                player_parser(session, squad_record)
+                #squadmember_parser() is inside player_parser()
+                session.close()
+
+    except Exception, e:
+        error_message = """
+
+        squad_id: %s
+        This combination may not exists.
+
+        %s
+        """ %  (squad_record.id, e)
+        write_error_to_file(str(error_message))
+        raise
+
+
 def new_season_stat_scrap():
     session = Session()
     this_season_id = session.query(func.max(Season.id)).first()[0]
@@ -173,5 +239,7 @@ def new_season_stat_scrap():
 # initial_game_stat_scrap()
 
 # initial_game_detail_scrap()
+
+new_schedule_game_player_scrap()
 
 new_season_stat_scrap()
