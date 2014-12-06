@@ -7,7 +7,7 @@ sys.setdefaultencoding("utf8")
 sys.path.insert(1,'../NCAA')
 from ncaa_men import *
 # from QuantHoops.NCAA.ncaa_men import *
-from NCAA.ncaa_men import *
+# from NCAA.ncaa_men import *
 from scraper_helper import *
 from dateutil.parser import *
 from sqlalchemy import *
@@ -397,8 +397,10 @@ def season_stat_parser(session, squad_record):
                 'team_steals':player_stat_list[25].string,
                 'team_blocks':player_stat_list[26].string,
                 'team_fouls':player_stat_list[27].string,
-                'double_doubles':"0" if player_stat_list[28].string == u'\xa0' else player_stat_list[28].string,
-                'triple_doubles':"0" if player_stat_list[29].string == u'\xa0' else player_stat_list[29].string
+                'double_doubles':"0" if (player_stat_list[28].string == u'\xa0' or player_stat_list[28].string == "")\
+                                        else player_stat_list[28].string,
+                'triple_doubles':"0" if (player_stat_list[29].string == u'\xa0' or player_stat_list[29].string == "")\
+                                        else player_stat_list[29].string
             }
 
 

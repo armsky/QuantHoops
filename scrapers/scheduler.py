@@ -138,17 +138,17 @@ def initial_game_detail_scrap():
 def new_season_stat_scrap():
     session = Session()
     this_season_id = session.query(func.max(Season.id)).first()[0]
-    print this_season_id
     squads = session.query(Squad).filter_by(season_id=this_season_id).all()
-    print squads
     session.close()
 
     try:
         for squad_record in squads:
             if squad_record.id != 0:
-                print "%%%% squad_id is "+str(squad_record.id)
-                session = Session()
-                season_stat_parser(session, squad_record)
+                # TODO: test only, need to be deleted this if clause
+                if squad_record.id > 10100:
+                    print "%%%% squad_id is "+str(squad_record.id)
+                    session = Session()
+                    season_stat_parser(session, squad_record)
 
     except Exception, e:
         message = """
