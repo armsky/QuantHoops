@@ -8,8 +8,8 @@ engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Women', echo=Fals
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 #TODO Manully add fake team and fake squad as non-ncaa team
-#fake team: id=0, name=non-ncaa team
-#fake squad: id=0, team_id=0, season_id=None, year=0
+#fake team: id=1, name=non-ncaa team
+#fake squad: id=1, team_id=1, season_id=None, year=0
 
 def initial_team_squad_scrap():
     session = Session()

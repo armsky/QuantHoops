@@ -6,8 +6,6 @@ reload(sys)
 sys.setdefaultencoding("utf8")
 sys.path.insert(1,'../NCAA')
 from ncaa_men import *
-# from QuantHoops.NCAA.ncaa_men import *
-# from NCAA.ncaa_men import *
 from scraper_helper import *
 from dateutil.parser import *
 from sqlalchemy import *
@@ -164,7 +162,7 @@ def schedule_parser(session, squad_record):
                         #A tournament game
                         if not opponent_flag:
                             # Use fake squad_id (0) and fake year (0)
-                            loser_id = session.query(Squad).filter(Squad.team_id == 0,
+                            loser_id = session.query(Squad).filter(Squad.team_id == 1,
                                                                    Squad.year == 0).first().id
                         else:
                             loser_id = session.query(Squad).filter(Squad.team_id == opponent_id,
@@ -177,7 +175,7 @@ def schedule_parser(session, squad_record):
                         #A tournament game
                         if not opponent_flag:
                             #set up a fake squad_id (0) and fake year
-                            winner_id = session.query(Squad).filter(Squad.team_id == 0,
+                            winner_id = session.query(Squad).filter(Squad.team_id == 1,
                                                                     Squad.year == 0).first().id
                         else:
                             winner_id = session.query(Squad).filter(Squad.team_id == opponent_id,
