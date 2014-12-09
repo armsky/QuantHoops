@@ -8,7 +8,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/Men_NCAA', echo=False)
+engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Men', echo=False)
 metadata = MetaData()
 
 ## -- CLASSES --
