@@ -36,6 +36,19 @@ def write_error_to_file(message):
         f.write("\n\n")
 
 
+def preprocess_stat_list(stat_list):
+    # A number followed by '*' means season high
+    # A number followed by '/' means game high
+    # A number followed by '-' means team high
+    # Need to eliminate them
+    translate_table = dict((ord(char), u'') for char in "*/-")
+    for stat in stat_list:
+        if stat.string == u'\xa0' or stat.string == ' ' or stat.string is None:
+            stat.string = '0'
+        stat.string = stat.string.translate(translate_table)
+    return stat_list
+
+
 def get_current_year():
     today = datetime.date.today()
     return str(today.year)

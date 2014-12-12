@@ -301,7 +301,7 @@ class PlayerSeasonStat(Base):
             setattr(self, k, v)
 
 
-# - PlayerSeasonStat -- /
+# - SquadSeasonStat -- /
 class SquadSeasonStat(Base):
     """Contains the stats of one Squad in one Season"""
     __tablename__ = 'squadseasonstat'
@@ -310,10 +310,10 @@ class SquadSeasonStat(Base):
         'mysql_charset': 'utf8'
     }
 
-    id = Column(Integer, primary_key=True)
-    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
+    # id = Column(Integer, primary_key=True)
+    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'), primary_key=True)
 
-    # Individual Game Statistics
+    # Team's total season Statistics
     minutes_played = Column(String(16))
     field_goals_made = Column(Integer)
     field_goals_attempted = Column(Integer)
@@ -338,7 +338,32 @@ class SquadSeasonStat(Base):
     double_doubles = Column(Integer)
     triple_doubles = Column(Integer)
 
-    #team_stats that cannot assigned to players
+    # Opponent's total season Statistics
+    Opnt_minutes_played = Column(String(16))
+    Opnt_field_goals_made = Column(Integer)
+    Opnt_field_goals_attempted = Column(Integer)
+    Opnt_field_goals_percentage = Column(Float)
+    Opnt_three_field_goals_made = Column(Integer)
+    Opnt_three_field_goals_attempted = Column(Integer)
+    Opnt_three_field_goals_percentage = Column(Float)
+    Opnt_free_throws_made = Column(Integer)
+    Opnt_free_throws_attempted = Column(Integer)
+    Opnt_free_throws_percentage = Column(Float)
+    Opnt_points = Column(Integer)
+    Opnt_average_points = Column(Float)
+    Opnt_offensive_rebounds = Column(Integer)
+    Opnt_defensive_rebounds = Column(Integer)
+    Opnt_total_rebounds = Column(Integer)
+    Opnt_average_rebounds = Column(Float)
+    Opnt_assists = Column(Integer)
+    Opnt_turnovers = Column(Integer)
+    Opnt_steals = Column(Integer)
+    Opnt_blocks = Column(Integer)
+    Opnt_fouls = Column(Integer)
+    Opnt_double_doubles = Column(Integer)
+    Opnt_triple_doubles = Column(Integer)
+
+    # Team_stats that cannot assigned to players
     team_points = Column(Integer)
     team_average_points = Column(Float)
     team_offensive_rebounds = Column(Integer)
@@ -422,35 +447,6 @@ class Team(Base):
         # if id is not None:
         #     self.id = id
 
-
-# # - TeamAlias -- /
-# class TeamAlias(Base):
-#     """TeamAlias is used for record linkage. When querying the database for a
-#     Team by name it is not necessarily (read: usually) the case that there is
-#     a standardized way of referring to the Team. Different sources abbreviate
-#     teams in different ways, e.g. 'Pitt' versus 'Pittsburgh.' This class helps
-#     mitigate this problem by keeping track of different ways of referring to
-#     a team. Names in this class are normalized by entirely removing all
-#     non-alpha-numeric characters and transforming to upper case.
-#
-#     TeamAliases are in a many-to-one relationship with Teams"""
-#     __tablename__ = 'teamalias'
-#     __table_args__ = {
-#         'mysql_engine': 'InnoDB',
-#         'mysql_charset': 'utf8'
-#     }
-#
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(128), nullable=False)
-#
-#     team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade', ondelete='cascade'))
-#     team = relationship("Team", backref=backref('aliases', order_by=id))
-#
-#     # def __init__(self, name):
-#     #     self.name = normalize_name(name)
-#
-#     def __repr__(self):
-#         return "<TeamAlias('%s', '%s')>" % (self.team.name, self.name)
 
 # - Season -- /
 class Season(Base):
