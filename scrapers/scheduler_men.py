@@ -230,7 +230,25 @@ def new_season_stat_scrap():
 
 
 def new_game_stat_scrap():
-    print "need to implement"
+    session = Session()
+    games = session.query(Game).filter_by(has_stat=0).order_by(desc(Game.id))
+    session.close()
+    try:
+        for game_record in games:
+            print "%%%% game_id is "+str(game_record.id)
+            session = Session()
+            game_stat_parser(session, game_record)
+            game_record.has_stat = 1
+            # session.add(game_record)
+            session.close()
+
+    except :
+        message = """
+        game_id: %s
+        Something wrong in game_stat_parser
+        """ % (game_record.id)
+        write_error_to_file(message)
+        raise
 
 
 def new_game_detail_scrap():
@@ -264,8 +282,8 @@ session.close()
 
 # new_schedule_game_player_scrap()
 
-new_season_stat_scrap()
+# new_season_stat_scrap()
 
-# new_game_stat_scrap()
+new_game_stat_scrap()
 
 # new_game_detail_scrap()

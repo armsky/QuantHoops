@@ -393,8 +393,6 @@ def season_stat_parser(session, squad_record):
                 'double_doubles':player_stat_list[28].string,
                 'triple_doubles':player_stat_list[29].string
             }
-            print player_stat_list
-
             squadmember = session.query(SquadMember).filter(SquadMember.squad_id == squad_id,
                                               SquadMember.player_id == player_id).first()
             if squadmember:
@@ -421,68 +419,91 @@ def season_stat_parser(session, squad_record):
                 'team_steals':player_stat_list[25].string,
                 'team_blocks':player_stat_list[26].string,
                 'team_fouls':player_stat_list[27].string,
-                'double_doubles':player_stat_list[28].string,
-                'triple_doubles':player_stat_list[29].string
+                'team_double_doubles':player_stat_list[28].string,
+                'team_triple_doubles':player_stat_list[29].string
             }
+            print player_stat_list
 
 
     team_stat_trs = soup.find_all('tr', attrs={'class':'grey_heading'})
-    for team_stat_tr in team_stat_trs:
-        # Pre-process the list, all none value or white space will be "0"
-        team_stat_list = preprocess_stat_list(team_stat_tr.find_all('td'))
-        if team_stat_list[1].string == "Totals":
-            team_stat_list = team_stat_tr.find_all('td')
-            total_stats = {
-                    'minutes_played':team_stat_list[7].string,
-                    'field_goals_made':team_stat_list[8].string.replace(',',''),
-                    'field_goals_attempted':team_stat_list[9].string.replace(',',''),
-                    'field_goals_percentage':team_stat_list[10].string,
-                    'three_field_goals_made':team_stat_list[11].string.replace(',',''),
-                    'three_field_goals_attempted':team_stat_list[12].string.replace(',',''),
-                    'three_field_goals_percentage':team_stat_list[13].string,
-                    'free_throws_made':team_stat_list[14].string.replace(',',''),
-                    'free_throws_attempted':team_stat_list[15].string.replace(',',''),
-                    'free_throws_percentage':team_stat_list[16].string,
-                    'points':team_stat_list[17].string.replace(',',''),
-                    'average_points':team_stat_list[18].string.replace(',',''),
-                    'offensive_rebounds':team_stat_list[19].string.replace(',',''),
-                    'defensive_rebounds':team_stat_list[20].string.replace(',',''),
-                    'total_rebounds':team_stat_list[21].string.replace(',',''),
-                    'average_rebounds':team_stat_list[22].string.replace(',',''),
-                    'assists': team_stat_list[23].string.replace(',',''),
-                    'turnovers':team_stat_list[24].string.replace(',',''),
-                    'steals':team_stat_list[25].string.replace(',',''),
-                    'blocks':team_stat_list[26].string.replace(',',''),
-                    'fouls':team_stat_list[27].string.replace(',',''),
-                    'double_doubles':team_stat_list[28].string,
-                    'triple_doubles':team_stat_list[29].string
-                }
+    team_stat_tr = team_stat_trs[1]
+    opnt_stat_tr = team_stat_trs[2]
+    # Scrap Team's Total stat
+    team_stat_list = preprocess_stat_list(team_stat_tr.find_all('td'))
+    total_stats = {
+            'minutes_played':team_stat_list[7].string,
+            'field_goals_made':team_stat_list[8].string.replace(',',''),
+            'field_goals_attempted':team_stat_list[9].string.replace(',',''),
+            'field_goals_percentage':team_stat_list[10].string,
+            'three_field_goals_made':team_stat_list[11].string.replace(',',''),
+            'three_field_goals_attempted':team_stat_list[12].string.replace(',',''),
+            'three_field_goals_percentage':team_stat_list[13].string,
+            'free_throws_made':team_stat_list[14].string.replace(',',''),
+            'free_throws_attempted':team_stat_list[15].string.replace(',',''),
+            'free_throws_percentage':team_stat_list[16].string,
+            'points':team_stat_list[17].string.replace(',',''),
+            'average_points':team_stat_list[18].string.replace(',',''),
+            'offensive_rebounds':team_stat_list[19].string.replace(',',''),
+            'defensive_rebounds':team_stat_list[20].string.replace(',',''),
+            'total_rebounds':team_stat_list[21].string.replace(',',''),
+            'average_rebounds':team_stat_list[22].string.replace(',',''),
+            'assists': team_stat_list[23].string.replace(',',''),
+            'turnovers':team_stat_list[24].string.replace(',',''),
+            'steals':team_stat_list[25].string.replace(',',''),
+            'blocks':team_stat_list[26].string.replace(',',''),
+            'fouls':team_stat_list[27].string.replace(',',''),
+            'double_doubles':team_stat_list[28].string,
+            'triple_doubles':team_stat_list[29].string
+        }
+    # Scrap Team's Opponent stat
+    opnt_stat_list = preprocess_stat_list(opnt_stat_tr.find_all('td'))
+    opnt_stats = {
+            'Opnt_minutes_played':opnt_stat_list[7].string,
+            'Opnt_field_goals_made':opnt_stat_list[8].string.replace(',',''),
+            'Opnt_field_goals_attempted':opnt_stat_list[9].string.replace(',',''),
+            'Opnt_field_goals_percentage':opnt_stat_list[10].string,
+            'Opnt_three_field_goals_made':opnt_stat_list[11].string.replace(',',''),
+            'Opnt_three_field_goals_attempted':opnt_stat_list[12].string.replace(',',''),
+            'Opnt_three_field_goals_percentage':opnt_stat_list[13].string,
+            'Opnt_free_throws_made':opnt_stat_list[14].string.replace(',',''),
+            'Opnt_free_throws_attempted':opnt_stat_list[15].string.replace(',',''),
+            'Opnt_free_throws_percentage':opnt_stat_list[16].string,
+            'Opnt_points':opnt_stat_list[17].string.replace(',',''),
+            'Opnt_average_points':opnt_stat_list[18].string.replace(',',''),
+            'Opnt_offensive_rebounds':opnt_stat_list[19].string.replace(',',''),
+            'Opnt_defensive_rebounds':opnt_stat_list[20].string.replace(',',''),
+            'Opnt_total_rebounds':opnt_stat_list[21].string.replace(',',''),
+            'Opnt_average_rebounds':opnt_stat_list[22].string.replace(',',''),
+            'Opnt_assists': opnt_stat_list[23].string.replace(',',''),
+            'Opnt_turnovers':opnt_stat_list[24].string.replace(',',''),
+            'Opnt_steals':opnt_stat_list[25].string.replace(',',''),
+            'Opnt_blocks':opnt_stat_list[26].string.replace(',',''),
+            'Opnt_fouls':opnt_stat_list[27].string.replace(',',''),
+            'Opnt_double_doubles':opnt_stat_list[28].string,
+            'Opnt_triple_doubles':opnt_stat_list[29].string
+        }
 
-            if team_stats is not None:
-                # Combine Total_stats and Team_stats
-                stats = dict(total_stats.items() + team_stats.items())
-            else:
-                stats = total_stats
+    if team_stats is not None:
+        # Combine Total_stats and Team_stats and Opnt_stats
+        stats = dict(total_stats.items() + team_stats.items() + opnt_stats.items())
+    else:
+        stats = dict(total_stats.items() + opnt_stats.items())
 
-            # If this season is over
-            if not is_current_season_ongoing(squad_record.year):
-                if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
-                    print "$$$ Found squad season stat"
-                    squad_season_stat_record = SquadSeasonStat(squad_id, stats)
-                    session.add(squad_season_stat_record)
-                else:
-                    print "squad season stat (id=%s) already existed" % squad_id
-            # The season is ongoing, need to UPDATE database every time
-            else:
-
-                if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
-                    squad_season_stat_record = SquadSeasonStat(squad_id, stats)
-                    session.add(squad_season_stat_record)
-                else:
-                    print "$$$ squad season stat need to be updated"
-                    squad_record_id = session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first().id
-                    squad_season_stat_record = SquadSeasonStat(squad_id, stats, squad_record_id)
-                    session.add(squad_season_stat_record)
+    # If this season is over
+    if not is_current_season_ongoing(squad_record.year):
+        if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
+            print "$$$ Found squad season stat"
+            squad_season_stat_record = SquadSeasonStat(squad_id, stats)
+            session.add(squad_season_stat_record)
+        else:
+            print "squad season stat (id=%s) already existed" % squad_id
+    # The season is ongoing, need to UPDATE database every time
+    else:
+        print "$$$ squad season stat need to be updated"
+        # squad_record_id = session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first().id
+        squad_season_stat_record = session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first()
+        squad_season_stat_record.update(stats)
+        session.add(squad_season_stat_record)
 
     session.flush()
 
@@ -529,12 +550,13 @@ def game_stat_parser(session, game_record):
                 squad_id = squad_record.id
                 player_stat_tr_list = table.find_all('tr', {"class":"smtext"})
                 for player_stat_tr in player_stat_tr_list:
-                    # Pre-process the list, all none value or white space will be "0"
-                    # Also remove the "*/-"
-                    player_stat_list = preprocess_stat_list(player_stat_tr.find_all('td'))
+                    player_stat_list = player_stat_tr.find_all('td')
                     # player_stat
                     if player_stat_list[0].a != None:
                         player_id = player_stat_list[0].find('a')['href'].split("=")[-1]
+                        # Pre-process the list, all none value or white space will be "0"
+                        # Also remove the "*/-"
+                        player_stat_list = preprocess_stat_list(player_stat_list)
 
                         print squad_id, player_id
                         try:
@@ -548,7 +570,6 @@ def game_stat_parser(session, game_record):
                             This combination may not exists.
                             """ % (game_id, squad_id, player_id)
                             write_error_to_file(message)
-                            print "*****"
                             continue
 
                         stats = {
@@ -577,6 +598,8 @@ def game_stat_parser(session, game_record):
                     # TEAM stats
                     elif player_stat_list[0].a is None and (player_stat_list[0].string.strip() == 'TEAM' or \
                                                             player_stat_list[0].string.strip() == 'Team'):
+                        # Pre-process the list, all none value or white space will be "0"
+                        player_stat_list = preprocess_stat_list(player_stat_list)
                         team_stats = {
                             'team_offensive_rebounds':player_stat_list[10].string,
                             'team_defensive_rebounds':player_stat_list[11].string,
@@ -610,8 +633,7 @@ def game_stat_parser(session, game_record):
             }
             if team_stats is not None:
                 stats = dict(total_stats.items() + team_stats.items())
-                if session.query(SquadGameStat).filter(SquadGameStat.squad_id==squad_id,
-                                                       SquadGameStat.game_id==game_id).first() is None:
+                if game_record.has_stat == 0:
                     print "$$$$$ Found squad game stat"
                     squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
                     session.add(squad_game_stat_record)
@@ -684,9 +706,11 @@ def gamedetail_parser(session, game_record):
 
 
 def is_current_season_ongoing(season_year):
-    if int(season_year) < get_current_year() \
-                    or (int(season_year) >= get_current_year() and int(get_current_month()) >= 5):
+    if int(season_year) < get_current_year():
         return False
+    elif int(season_year) == get_current_year():
+        if int(get_current_month()) >= 5:
+            return False
     else:
         return True
 

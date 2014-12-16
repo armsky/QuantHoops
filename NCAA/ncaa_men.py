@@ -53,6 +53,7 @@ class Game(Base):
 
     id = Column(Integer, primary_key=True)
     date = Column(Date)
+    has_stat = Column(Integer)
 
     winner_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
     winner_score = Column(Integer)
@@ -74,13 +75,14 @@ class Game(Base):
     # NOTE boxscore = one-to-many map to PlayerStatSheets.
 
     def __init__(self, game_id, winner_id, loser_id, winner_score,loser_score,
-                 date=None, location=None, attendance=None, officials=None):
+                 date=None, has_stat = None, location=None, attendance=None, officials=None):
         # First and 2nd Teams date Location attendance and officials are mandatory.
         # Location equals to Home team's location, or a specified neutral site
         # Specify loser and winner;
         # If the game haven't happened yet (future game), do not scrape it
         self.id = game_id
         self.date = date
+        self.has_stat = 0
         self.winner_id = winner_id
         self.loser_id = loser_id
         self.winner_score = winner_score
@@ -373,10 +375,12 @@ class SquadSeasonStat(Base):
     team_double_doubles = Column(Integer)
     team_triple_doubles = Column(Integer)
 
-    def __init__(self, squad_id, stats, id=None):
-        if id is not None:
-            self.id = id
+    def __init__(self, squad_id, stats):
         self.squad_id = squad_id
+        for k, v in stats.iteritems():
+            setattr(self, k, v)
+
+    def update(self, stats):
         for k, v in stats.iteritems():
             setattr(self, k, v)
 
