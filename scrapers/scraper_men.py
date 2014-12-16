@@ -499,11 +499,15 @@ def season_stat_parser(session, squad_record):
             print "squad season stat (id=%s) already existed" % squad_id
     # The season is ongoing, need to UPDATE database every time
     else:
-        print "$$$ squad season stat need to be updated"
-        # squad_record_id = session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first().id
         squad_season_stat_record = session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first()
-        squad_season_stat_record.update(stats)
-        session.add(squad_season_stat_record)
+        if squad_season_stat_record is None:
+            print "$$$ Found squad season stat"
+            squad_season_stat_record = SquadSeasonStat(squad_id, stats)
+            session.add(squad_season_stat_record)
+        else:
+            print "$$$ squad season stat need to be updated"
+            squad_season_stat_record.update(stats)
+            session.add(squad_season_stat_record)
 
     session.flush()
 
