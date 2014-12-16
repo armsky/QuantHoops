@@ -153,12 +153,8 @@ class SquadMember(Base):
     games_played = Column(Integer)
     games_started = Column(Integer)
 
-    # NOTE statsheets = one-to-many mapping to PlayerStatSheets
-
-    # Vital-ish stats
-
     def __init__(self, player_id, squad_id, name, jersey=None, position=None,
-                 height=None, year=None, games_played=None, games_started=None, stats_id=None):
+                 height=None, year=None, games_played=None, games_started=None):
         self.player_id = player_id
         self.squad_id = squad_id
         self.name = name
@@ -168,7 +164,6 @@ class SquadMember(Base):
         self.year = year
         self.games_played = games_played
         self.games_started = games_started
-        self.stats_id = stats_id
 
     def __repr__(self):
         return "<SquadMember('%s %s', '%s', '%s')>" % \
@@ -439,13 +434,10 @@ class Team(Base):
     name = Column(String(128), nullable=False)
 
     # NOTE squads = one-to-many map to Squads
-    # NOTE aliases = one-to-many map to TeamAliases
 
     def __init__(self, name, id):
         self.name = name
         self.id = id
-        # if id is not None:
-        #     self.id = id
 
 
 # - Season -- /

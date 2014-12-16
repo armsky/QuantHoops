@@ -10,6 +10,8 @@ def soupify(url):
     """
     Takes a url and returns parsed html via BeautifulSoup and urllib.
     Used by the scrapers.
+    :param url:
+    :return: BeautifulSoup
     """
     url_connection = urllib.urlopen(url)
     html = url_connection.read()
@@ -25,6 +27,11 @@ def get_team_link(url):
 
 
 def write_error_to_file(message):
+    """
+    Write error message to Logs folder.
+    :param message:
+    :return: None
+    """
     today = datetime.date.today()
     file_name = str(today.year)+"_"+str(today.month)+"_"+str(today.day)+".txt"
     file_path = '../Logs/%s'% file_name
@@ -37,6 +44,12 @@ def write_error_to_file(message):
 
 
 def preprocess_stat_list(stat_list):
+    """
+    Pre-process the season/game statistics for team/player. Take care of the
+    UTF-8 encoding, and make all Null values as 0.
+    :param stat_list:
+    :return: a list of stat
+    """
     # A number followed by '*' means season high
     # A number followed by '/' means game high
     # A number followed by '-' means team high
@@ -51,9 +64,10 @@ def preprocess_stat_list(stat_list):
 
 def get_current_year():
     today = datetime.date.today()
-    return str(today.year)
+    return int(today.year)
 
 
 def get_current_month():
     today = datetime.date.today()
-    return str(today.month)
+    return int(today.month)
+

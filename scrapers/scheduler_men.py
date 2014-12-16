@@ -7,9 +7,6 @@ from sqlalchemy.orm import sessionmaker
 engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Men', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
-#TODO Manully add fake team and fake squad as non-ncaa team
-#fake team: id=1, name=non-ncaa team
-#fake squad: id=1, team_id=1, season_id=None, year=0
 
 def initial_team_squad_scrap():
     session = Session()
@@ -19,17 +16,17 @@ def initial_team_squad_scrap():
         for row in rows:
             season_id = row.id
             print "#####"+str(season_id)
-            for division in ["1", "2", "3"]:
+            for division in [1, 2, 3]:
                 session = Session()
                 # Men&Women year 2010 only has division I
                 if season_id == 10260 or season_id == 10261:
-                    if division != "1":
+                    if division != 1:
                         print "$$$$"
                         print division, season_id
                         continue
                 # Men&Women year 2011 only has division I and III
                 if season_id == 10440 or season_id == 10420:
-                    if division == "2":
+                    if division == 2:
                         print "$$$$"
                         print division, season_id
                         continue
@@ -56,7 +53,8 @@ def initial_schedule_game_player_scrap():
     session.close()
     try:
         for squad_record in squads:
-            if squad_record.id != 0:
+            # If the squad_id != fake_id (non-ncaa squad id)
+            if squad_record.id != 1:
                 session = Session()
                 schedule_parser(session, squad_record)
                 #game_parser() is inside schedule_parser()
@@ -133,6 +131,10 @@ def initial_game_detail_scrap():
 
 
 def new_team_squad_scrap():
+    print "need to implement"
+
+
+def new_team_squad_scrap():
     session = Session()
     this_season_id = session.query(func.max(Season.id)).first()[0]
     session.close()
@@ -178,14 +180,15 @@ def new_schedule_game_player_scrap():
     session.close()
     try:
         for squad_record in squads:
-            if squad_record.id != 0:
+            # If the squad_id != fake_id (non-ncaa squad id)
+            if squad_record.id != 1:
+                print "####", squad_record.id
                 session = Session()
                 schedule_parser(session, squad_record)
                 #game_parser() is inside schedule_parser()
                 player_parser(session, squad_record)
                 #squadmember_parser() is inside player_parser()
                 session.close()
-
     except Exception, e:
         error_message = """
 
@@ -206,13 +209,12 @@ def new_season_stat_scrap():
 
     try:
         for squad_record in squads:
-            if squad_record.id != 0:
-                # TODO: test only, need to be deleted this if clause
-                if squad_record.id > 10100:
-                    print "%%%% squad_id is "+str(squad_record.id)
-                    session = Session()
-                    season_stat_parser(session, squad_record)
-
+            # If the squad_id != fake_id (non-ncaa squad id)
+            if squad_record.id != 1:
+                print "%%%% squad_id is "+str(squad_record.id)
+                session = Session()
+                season_stat_parser(session, squad_record)
+                session.close()
     except Exception, e:
         message = """
 
@@ -227,12 +229,31 @@ def new_season_stat_scrap():
         raise
 
 
+def new_game_stat_scrap():
+    print "need to implement"
 
 
+def new_game_detail_scrap():
+    print "need to implement"
+
+
+#Create fake (non-ncaa) team and squad
+#fake team: id=1, name=non-ncaa team
+#fake squad: id=1, team_id=1, season_id=None, division=0, year=0
+session = Session()
+if session.query(Team).filter(Team.id==1).first() is None:
+    fake_team_record = Team("non-ncaa team", 1)
+    session.add(fake_team_record)
+    session.flush()
+if session.query(Squad).filter(Squad.team_id==1).first() is None:
+    fake_squad_record = Squad(0, None, 0, 1, None)
+    session.add(fake_squad_record)
+    session.flush()
+session.close()
 
 # initial_team_squad_scrap()
 
-initial_schedule_game_player_scrap()
+# initial_schedule_game_player_scrap()
 
 # initial_season_stat_scrap()
 
@@ -240,6 +261,11 @@ initial_schedule_game_player_scrap()
 
 # initial_game_detail_scrap()
 
+
 # new_schedule_game_player_scrap()
 
-# new_season_stat_scrap()
+new_season_stat_scrap()
+
+# new_game_stat_scrap()
+
+# new_game_detail_scrap()

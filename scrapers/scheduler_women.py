@@ -7,9 +7,6 @@ from sqlalchemy.orm import sessionmaker
 engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Women', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
-#TODO Manully add fake team and fake squad as non-ncaa team
-#fake team: id=1, name=non-ncaa team
-#fake squad: id=1, team_id=1, season_id=None, year=0
 
 def initial_team_squad_scrap():
     session = Session()
@@ -212,7 +209,7 @@ def new_season_stat_scrap():
                     print "%%%% squad_id is "+str(squad_record.id)
                     session = Session()
                     season_stat_parser(session, squad_record)
-
+                    session.close()
     except Exception, e:
         message = """
 
@@ -227,7 +224,20 @@ def new_season_stat_scrap():
         raise
 
 
-
+#Create fake (non-ncaa) team and squad
+#fake team: id=1, name=non-ncaa team
+#fake squad: id=1, team_id=1, season_id=None, division=0, year=0
+session = Session()
+print ":"
+if session.query(Team).filter(Team.id==1).first() is None:
+    fake_team_record = Team("non-ncaa team", 1)
+    session.add(fake_team_record)
+    session.flush()
+if session.query(Squad).filter(Squad.team_id==1).first() is None:
+    fake_squad_record = Squad(0, None, 0, 1, None)
+    session.add(fake_squad_record)
+    session.flush()
+session.close()
 
 
 initial_team_squad_scrap()
