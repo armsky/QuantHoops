@@ -161,7 +161,7 @@ def schedule_parser(session, squad_record):
                         winner_id = squad_id
                         #A tournament game
                         if not opponent_flag:
-                            # Use fake squad_id (0) and fake year (0)
+                            # Use fake squad_id (1) and fake year (0)
                             loser_id = session.query(Squad).filter(Squad.team_id == 1,
                                                                    Squad.year == 0).first().id
                         else:
