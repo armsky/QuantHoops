@@ -397,6 +397,10 @@ def season_stat_parser(session, squad_record):
     team_stats = None
     opnt_stats = None
     player_stat_trs = soup.find_all('tr', attrs={'class':'text'})
+    #TODO: http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020
+    # If this page has an empty table, skip it.
+    if player_stat_trs is None:
+        return
     for player_stat_tr in player_stat_trs:
         player_stat_tds = player_stat_tr.find_all('td')
         if player_stat_tds[1].find('a') is not None:
@@ -459,7 +463,6 @@ def season_stat_parser(session, squad_record):
                 'team_triple_doubles':player_stat_list[29].string
             }
 
-    #TODO: http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020 this page has an empty table!
     team_stat_trs = soup.find_all('tr', attrs={'class':'grey_heading'})
     team_stat_tr = team_stat_trs[1]
     # Scrap Team's Total stat

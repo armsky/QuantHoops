@@ -23,7 +23,15 @@ def soupify(url):
         url_connection.close()
         return soup
     except urllib2.URLError:
-        return None
+        try:
+            urllib2.urlopen(url)
+            url_connection = urllib.urlopen(url)
+            html = url_connection.read()
+            soup = BeautifulSoup(html)
+            url_connection.close()
+            return soup
+        except urllib2.URLError:
+            return None
 
 
 def get_team_link(url):
