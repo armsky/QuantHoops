@@ -458,8 +458,6 @@ def season_stat_parser(session, squad_record):
                 'team_double_doubles':player_stat_list[28].string,
                 'team_triple_doubles':player_stat_list[29].string
             }
-            print player_stat_list
-
 
     team_stat_trs = soup.find_all('tr', attrs={'class':'grey_heading'})
     team_stat_tr = team_stat_trs[1]
