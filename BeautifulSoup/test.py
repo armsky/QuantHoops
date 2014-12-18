@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 
 
-url = "http://stats.ncaa.org/team/roster/12020?org_id=585"
+url = "http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020"
 
 urllib2.urlopen(url)
 url_connection = urllib.urlopen(url)
@@ -15,7 +15,7 @@ html = url_connection.read()
 soup = BeautifulSoup(html)
 url_connection.close()
 
-players_info = soup.find('tbody').find_all('tr')
-print players_info
+team_stat_trs = soup.find_all('tr', attrs={'class':'grey_heading'})
+print team_stat_trs
 
 

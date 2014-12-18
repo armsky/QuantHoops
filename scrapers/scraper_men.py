@@ -459,6 +459,7 @@ def season_stat_parser(session, squad_record):
                 'team_triple_doubles':player_stat_list[29].string
             }
 
+    #TODO: http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020 this page has an empty table!
     team_stat_trs = soup.find_all('tr', attrs={'class':'grey_heading'})
     team_stat_tr = team_stat_trs[1]
     # Scrap Team's Total stat
