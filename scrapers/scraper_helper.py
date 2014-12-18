@@ -3,6 +3,7 @@ __author__ = 'Hao Lin'
 
 import traceback
 import urllib
+import urllib2
 import datetime
 from bs4 import BeautifulSoup
 
@@ -10,14 +11,19 @@ def soupify(url):
     """
     Takes a url and returns parsed html via BeautifulSoup and urllib.
     Used by the scrapers.
+    If the pages not exists, return None
     :param url:
     :return: BeautifulSoup
     """
-    url_connection = urllib.urlopen(url)
-    html = url_connection.read()
-    soup = BeautifulSoup(html)
-    url_connection.close()
-    return soup
+    try:
+        urllib2.urlopen(url)
+        url_connection = urllib.urlopen(url)
+        html = url_connection.read()
+        soup = BeautifulSoup(html)
+        url_connection.close()
+        return soup
+    except urllib2.URLError:
+        print None
 
 
 def get_team_link(url):

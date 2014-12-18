@@ -70,6 +70,13 @@ def conference_parser(session, season_id, division):
         year = row.year
         url = "http://stats.ncaa.org/team/inst_team_list/%s?division=%s" % (season_id, division)
         soup = soupify(url)
+        if soup is None:
+            error_message = """
+            url: %s
+            This page may not exist.
+            """ % url
+            write_error_to_file(error_message)
+            return
         conference_a_list = list(set([x.find('a') for x in soup.find_all('li')]))
         conference_record_list = []
         conference_id_list = []
@@ -112,6 +119,13 @@ def schedule_parser(session, squad_record):
     season_id = squad_record.season_id
     url = "http://stats.ncaa.org/team/index/%s?org_id=%s" % (season_id, team_id)
     soup = soupify(url)
+    if soup is None:
+        error_message = """
+        url: %s
+        This page may not exist.
+        """ % url
+        write_error_to_file(error_message)
+        return
     """NOTE: there maybe team not in NCAA, they don't have <a> tag"""
     try:
         # links = soup.find_all('table')[1].find_all(lambda tag: tag.name == 'a' and tag.findParent('td', attrs={'class':'smtext'}))
@@ -243,6 +257,13 @@ def game_parser(session, game_record):
 
         url = "http://stats.ncaa.org/game/index/%s" % (game_id)
         soup = soupify(url)
+        if soup is None:
+            error_message = """
+            url: %s
+            This page may not exist.
+            """ % url
+            write_error_to_file(error_message)
+            return
         tables = soup.find_all('table')
 
         #score table could have 0, 1 or 2 OverTime
@@ -304,6 +325,13 @@ def player_parser(session, squad_record):
     try:
         url = "http://stats.ncaa.org/team/roster/%s?org_id=%s" % (season_id, team_id)
         soup = soupify(url)
+        if soup is None:
+            error_message = """
+            url: %s
+            This page may not exist.
+            """ % url
+            write_error_to_file(error_message)
+            return
         players_info = soup.find('tbody').find_all('tr')
         for one_player in players_info:
             info = one_player.find_all('td')
@@ -359,7 +387,15 @@ def season_stat_parser(session, squad_record):
 
     url = "http://stats.ncaa.org/team/stats?org_id=%s&sport_year_ctl_id=%s" % (team_id, season_id)
     soup = soupify(url)
+    if soup is None:
+        error_message = """
+        url: %s
+        This page may not exist.
+        """ % url
+        write_error_to_file(error_message)
+        return
     team_stats = None
+    opnt_stats = None
     player_stat_trs = soup.find_all('tr', attrs={'class':'text'})
     for player_stat_tr in player_stat_trs:
         player_stat_tds = player_stat_tr.find_all('td')
@@ -427,7 +463,6 @@ def season_stat_parser(session, squad_record):
 
     team_stat_trs = soup.find_all('tr', attrs={'class':'grey_heading'})
     team_stat_tr = team_stat_trs[1]
-    opnt_stat_tr = team_stat_trs[2]
     # Scrap Team's Total stat
     team_stat_list = preprocess_stat_list(team_stat_tr.find_all('td'))
     total_stats = {
@@ -455,39 +490,47 @@ def season_stat_parser(session, squad_record):
             'double_doubles':team_stat_list[28].string,
             'triple_doubles':team_stat_list[29].string
         }
-    # Scrap Team's Opponent stat
-    opnt_stat_list = preprocess_stat_list(opnt_stat_tr.find_all('td'))
-    opnt_stats = {
-            'Opnt_minutes_played':opnt_stat_list[7].string,
-            'Opnt_field_goals_made':opnt_stat_list[8].string.replace(',',''),
-            'Opnt_field_goals_attempted':opnt_stat_list[9].string.replace(',',''),
-            'Opnt_field_goals_percentage':opnt_stat_list[10].string,
-            'Opnt_three_field_goals_made':opnt_stat_list[11].string.replace(',',''),
-            'Opnt_three_field_goals_attempted':opnt_stat_list[12].string.replace(',',''),
-            'Opnt_three_field_goals_percentage':opnt_stat_list[13].string,
-            'Opnt_free_throws_made':opnt_stat_list[14].string.replace(',',''),
-            'Opnt_free_throws_attempted':opnt_stat_list[15].string.replace(',',''),
-            'Opnt_free_throws_percentage':opnt_stat_list[16].string,
-            'Opnt_points':opnt_stat_list[17].string.replace(',',''),
-            'Opnt_average_points':opnt_stat_list[18].string.replace(',',''),
-            'Opnt_offensive_rebounds':opnt_stat_list[19].string.replace(',',''),
-            'Opnt_defensive_rebounds':opnt_stat_list[20].string.replace(',',''),
-            'Opnt_total_rebounds':opnt_stat_list[21].string.replace(',',''),
-            'Opnt_average_rebounds':opnt_stat_list[22].string.replace(',',''),
-            'Opnt_assists': opnt_stat_list[23].string.replace(',',''),
-            'Opnt_turnovers':opnt_stat_list[24].string.replace(',',''),
-            'Opnt_steals':opnt_stat_list[25].string.replace(',',''),
-            'Opnt_blocks':opnt_stat_list[26].string.replace(',',''),
-            'Opnt_fouls':opnt_stat_list[27].string.replace(',',''),
-            'Opnt_double_doubles':opnt_stat_list[28].string,
-            'Opnt_triple_doubles':opnt_stat_list[29].string
-        }
 
-    if team_stats is not None:
+    # Some page don't have opponent's stat
+    if len(team_stat_trs) == 2:
+        opnt_stat_tr = team_stat_trs[2]
+        # Scrap Team's Opponent stat
+        opnt_stat_list = preprocess_stat_list(opnt_stat_tr.find_all('td'))
+        opnt_stats = {
+                'Opnt_minutes_played':opnt_stat_list[7].string,
+                'Opnt_field_goals_made':opnt_stat_list[8].string.replace(',',''),
+                'Opnt_field_goals_attempted':opnt_stat_list[9].string.replace(',',''),
+                'Opnt_field_goals_percentage':opnt_stat_list[10].string,
+                'Opnt_three_field_goals_made':opnt_stat_list[11].string.replace(',',''),
+                'Opnt_three_field_goals_attempted':opnt_stat_list[12].string.replace(',',''),
+                'Opnt_three_field_goals_percentage':opnt_stat_list[13].string,
+                'Opnt_free_throws_made':opnt_stat_list[14].string.replace(',',''),
+                'Opnt_free_throws_attempted':opnt_stat_list[15].string.replace(',',''),
+                'Opnt_free_throws_percentage':opnt_stat_list[16].string,
+                'Opnt_points':opnt_stat_list[17].string.replace(',',''),
+                'Opnt_average_points':opnt_stat_list[18].string.replace(',',''),
+                'Opnt_offensive_rebounds':opnt_stat_list[19].string.replace(',',''),
+                'Opnt_defensive_rebounds':opnt_stat_list[20].string.replace(',',''),
+                'Opnt_total_rebounds':opnt_stat_list[21].string.replace(',',''),
+                'Opnt_average_rebounds':opnt_stat_list[22].string.replace(',',''),
+                'Opnt_assists': opnt_stat_list[23].string.replace(',',''),
+                'Opnt_turnovers':opnt_stat_list[24].string.replace(',',''),
+                'Opnt_steals':opnt_stat_list[25].string.replace(',',''),
+                'Opnt_blocks':opnt_stat_list[26].string.replace(',',''),
+                'Opnt_fouls':opnt_stat_list[27].string.replace(',',''),
+                'Opnt_double_doubles':opnt_stat_list[28].string,
+                'Opnt_triple_doubles':opnt_stat_list[29].string
+            }
+
+    if team_stats is not None and opnt_stats is not None:
         # Combine Total_stats and Team_stats and Opnt_stats
         stats = dict(total_stats.items() + team_stats.items() + opnt_stats.items())
-    else:
+    elif team_stats is None and opnt_stats is not None:
         stats = dict(total_stats.items() + opnt_stats.items())
+    elif team_stats is not None and opnt_stats is None:
+        stats = dict(total_stats.items() + team_stats.items())
+    else:
+        stats = total_stats
 
     # If this season is over
     if not is_current_season_ongoing(squad_record.year):
@@ -523,6 +566,13 @@ def game_stat_parser(session, game_record):
         year = str(int(year)+1)
     url = "http://stats.ncaa.org/game/box_score/%s" % game_id
     soup = soupify(url)
+    if soup is None:
+        error_message = """
+        url: %s
+        This page may not exist.
+        """ % url
+        write_error_to_file(error_message)
+        return
     team_stats = None
     tables = soup.find_all('table')
     #tables[0] has team name and team id
@@ -653,14 +703,19 @@ def game_stat_parser(session, game_record):
             This combination may not exists.
             """ % (game_id, squad_id)
             write_error_to_file(error_message)
-            raise
 
 def gamedetail_parser(session, game_record):
     game_id = game_record.id
     print game_id
     url = "http://stats.ncaa.org/game/play_by_play/%s" % game_id
     soup = soupify(url)
-
+    if soup is None:
+        error_message = """
+        url: %s
+        This page may not exist.
+        """ % url
+        write_error_to_file(error_message)
+        return
     tables = soup.find_all("table")
 
     score_details = tables[0]
