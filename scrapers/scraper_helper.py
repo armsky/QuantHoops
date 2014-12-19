@@ -24,6 +24,7 @@ def soupify(url):
         return soup
     except urllib2.URLError:
         try:
+            # If didn't get the information, try a second time
             urllib2.urlopen(url)
             url_connection = urllib.urlopen(url)
             html = url_connection.read()
