@@ -400,6 +400,11 @@ def season_stat_parser(session, squad_record):
     #TODO: http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020
     # If this page has an empty table, skip it.
     if not player_stat_trs:
+        error_message = """
+        url: %s
+        This page has empty table, skip.
+        """ % url
+        write_error_to_file(error_message)
         return
     for player_stat_tr in player_stat_trs:
         player_stat_tds = player_stat_tr.find_all('td')
@@ -494,7 +499,7 @@ def season_stat_parser(session, squad_record):
         }
 
     # Some page don't have opponent's stat
-    if len(team_stat_trs) == 2:
+    if len(team_stat_trs) == 3:
         opnt_stat_tr = team_stat_trs[2]
         # Scrap Team's Opponent stat
         opnt_stat_list = preprocess_stat_list(opnt_stat_tr.find_all('td'))
