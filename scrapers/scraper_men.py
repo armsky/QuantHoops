@@ -399,7 +399,7 @@ def season_stat_parser(session, squad_record):
     player_stat_trs = soup.find_all('tr', attrs={'class':'text'})
     #TODO: http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020
     # If this page has an empty table, skip it.
-    if player_stat_trs is None:
+    if not player_stat_trs:
         return
     for player_stat_tr in player_stat_trs:
         player_stat_tds = player_stat_tr.find_all('td')
