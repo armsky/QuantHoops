@@ -269,6 +269,7 @@ if session.query(Squad).filter(Squad.team_id==1).first() is None:
     session.flush()
 session.close()
 
+
 # initial_team_squad_scrap()
 
 # initial_schedule_game_player_scrap()

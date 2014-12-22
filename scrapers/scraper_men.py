@@ -288,7 +288,7 @@ def game_parser(session, game_record):
                 game_record.loser_second_OT_score = second_team_tds[3].string if first_team_is_winner else first_team_tds[3].string
 
         # Game details (date, location, etc) in tables[2]
-        #TODO: different layour (table)
+        #TODO: different layout (table)
         game_details = tables[2]
         game_record.date = parse(game_details.find_all('td')[1].string.split(' ')[0]).date()
         game_record.location = game_details.find_all('td')[3].string
@@ -364,7 +364,6 @@ def player_parser(session, squad_record):
                     squadmember_record.games_played = games_played
                     squadmember_record.games_started = games_started
                     session.add(squadmember_record)
-
         session.flush()
 
     # If this season&squad combination doesn't exist

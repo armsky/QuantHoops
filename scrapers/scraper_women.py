@@ -46,17 +46,15 @@ def squad_parser(session, season_id, division):
 
         squad_records = list()
         for team in team_links:
-            ncaa_id = int(team["href"].split("=")[1])
-            # name = team.string
-            team_record = session.query(Team).filter_by(id=ncaa_id).first()
-            print team_record.id, year, division
+            team_id = int(team["href"].split("=")[1])
+            team_record = session.query(Team).filter_by(id=team_id).first()
 
             if session.query(Squad).filter(Squad.year == year,
                                     Squad.division == division,
-                                    Squad.team_id == ncaa_id).first() is None:
+                                    Squad.team_id == team_id).first() is None:
                 squad_record = Squad(division, season_id, year, team_record.id)
                 squad_records.append(squad_record)
-                print year, division, ncaa_id
+                print team_id, year, division, "added"
 
         session.add_all(squad_records)
         session.flush()
@@ -72,6 +70,13 @@ def conference_parser(session, season_id, division):
         year = row.year
         url = "http://stats.ncaa.org/team/inst_team_list/%s?division=%s" % (season_id, division)
         soup = soupify(url)
+        if soup is None:
+            error_message = """
+            url: %s
+            This page may not exist.
+            """ % url
+            write_error_to_file(error_message)
+            return
         conference_a_list = list(set([x.find('a') for x in soup.find_all('li')]))
         conference_record_list = []
         conference_id_list = []
@@ -114,105 +119,117 @@ def schedule_parser(session, squad_record):
     season_id = squad_record.season_id
     url = "http://stats.ncaa.org/team/index/%s?org_id=%s" % (season_id, team_id)
     soup = soupify(url)
-    #TODO: there maybe team not in NCAA, they don't have <a> tag
+    if soup is None:
+        error_message = """
+        url: %s
+        This page may not exist.
+        """ % url
+        write_error_to_file(error_message)
+        return
+    """NOTE: there maybe team not in NCAA, they don't have <a> tag"""
     try:
-        links = soup.find_all('table')[1].find_all(lambda tag: tag.name == 'a' and tag.findParent('td', attrs={'class':'smtext'}))
-        opponent_flag = False
-        for link in links:
-            print link
-            winner_id = None
-            loser_id = None
-            #contains home/away information
-            game_id = None
-            if re.search("team", link["href"]):
-                #TODO: What if there are incomplete data for upcoming season
-                opponent_id = int(link["href"].split("?")[1].split("=")[1])
-                opponent_name = link.contents[0].strip()
-
-                # A game with home and away team
-                if len(link.contents) == 1:
-                    #The opponent is the home team
-                    if "@ " in opponent_name:
-                        opponent_type = "home"
-                        team_type = "away"
-                    #The opponent is the away team
-                    else:
-                        team_type = "home"
-                        opponent_type = "away"
-                # A neutral game
+        # links = soup.find_all('table')[1].find_all(lambda tag: tag.name == 'a' and tag.findParent('td', attrs={'class':'smtext'}))
+        tr_list = soup.find('table', attrs={'class':'mytable', 'align':'center'}).find_all('tr')
+        for tr in tr_list:
+            # This contains game information
+            if len(tr.find_all('td')) == 3 and not tr.has_attr('class'):
+                both_teams_are_ncaa = False
+                winner_id = None
+                loser_id = None
+                game_td_list = tr.find_all('td', attrs={'class':'smtext'})
+                opponent = game_td_list[1].find('a')
+                result = game_td_list[2].find('a')
+                # This is a future game, skip
+                if result is None:
+                    print "This is a future game with %s, skip" % game_td_list[1].string.strip() \
+                            if len(game_td_list[1]) == 1 else game_td_list[1].contents[2].strip()
+                # A game that already happened
                 else:
-                    team_type = "neutral"
-                    opponent_type = "neutral"
+                    # Opponent team is a ncaa team
+                    if opponent is not None:
+                        opponent_id = int(opponent["href"].split("?")[1].split("=")[1])
 
-                # Both teams are NCAA team
-                opponent_flag = True
-
-            #contains game information (id, score and other vital statistics)
-            elif re.search("game", link["href"]):
-                game_id = int(link["href"].split("?")[0].split("/")[3])
-                # game_ids.append(game_id)
-                # An example of score_string: W 91 - 88 (2OT)
-                score_string_list = link.string.split(" ")
-
-                # A regular game
-                try:
-                    # Both winner_id and loser_id will be squad_id
-                    if score_string_list[0] == "W":
-                        winner_id = squad_id
-                        #A tournament game
-                        if not opponent_flag:
-                            # Use fake squad_id (1) and fake year (0)
-                            loser_id = session.query(Squad).filter(Squad.team_id == 1,
-                                                                   Squad.year == 0).first().id
+                        if len(opponent.contents) == 1:
+                            # The opponent is the home team
+                            if '@ ' in opponent.contents[0].strip():
+                                opponent_type = "home"
+                                team_type = "away"
+                            # The opponent is the away team
+                            else:
+                                team_type = "home"
+                                opponent_type = "away"
+                        # Both teams are neutral
                         else:
-                            loser_id = session.query(Squad).filter(Squad.team_id == opponent_id,
-                                                                   Squad.season_id == season_id).first().id
-                        winner_score = score_string_list[1]
-                        loser_score = score_string_list[3]
-                    #score_string_list[0] == "L"
+                            team_type = "neutral"
+                            opponent_type = "neutral"
+
+                        both_teams_are_ncaa = True
+
+                    # A tournament game: Opponent is a non-ncaa team
                     else:
-                        loser_id = squad_id
-                        #A tournament game
-                        if not opponent_flag:
-                            #set up a fake squad_id (0) and fake year
-                            winner_id = session.query(Squad).filter(Squad.team_id == 1,
-                                                                    Squad.year == 0).first().id
-                        else:
-                            winner_id = session.query(Squad).filter(Squad.team_id == opponent_id,
+                        print "Opponent team is not a ncaa team"
+                        both_teams_are_ncaa = False
+                        non_ncaa_id = 1
+
+                    game_id = int(result['href'].split("?")[0].split("/")[-1])
+                    print game_id
+                    # An example of score_string: W 91 - 88 (2OT)
+                    score_string_list = result.string.split(" ")
+                    try:
+                        if score_string_list[0] == "W":
+                            winner_id = squad_id
+                            # tournament game
+                            if not both_teams_are_ncaa:
+                                # Use fake squad_id = 1
+                                loser_id = non_ncaa_id
+                            # A regular game
+                            else:
+                                loser_id = session.query(Squad).filter(Squad.team_id == opponent_id,
+                                                                    Squad.season_id == season_id).first().id
+                            winner_score = score_string_list[1]
+                            loser_score = score_string_list[3]
+                        elif score_string_list[0] == "L":
+                            loser_id = squad_id
+                            # tournament game
+                            if not both_teams_are_ncaa:
+                                # Use fake squad_id = 1
+                                winner_id = non_ncaa_id
+                            # A regular game
+                            else:
+                                winner_id = session.query(Squad).filter(Squad.team_id == opponent_id,
                                                                     Squad.season_id == season_id).first().id
 
-                        winner_score = score_string_list[3]
-                        loser_score = score_string_list[1]
-                except:
-                    message = """
-                    team_id: %s
-                    season_id: %s
-                    do not have valid page to scrap""" % (opponent_id, season_id)
-                    write_error_to_file(message)
-                    pass
+                            winner_score = score_string_list[3]
+                            loser_score = score_string_list[1]
+                    except:
+                            message = """
+                            team_id: %s
+                            season_id: %s
+                            do not exist in database""" % (opponent_id, season_id)
+                            write_error_to_file(message)
+                            pass
 
-                print winner_id, loser_id
-                if winner_id and loser_id:
-                    if session.query(Game).filter_by(id=game_id).first() is None:
-                        game_record = Game(game_id, winner_id, loser_id, winner_score, loser_score)
-                        session.add(game_record)
-                        session.flush()
-                        game_parser(session, game_record)
+                    if winner_id and loser_id:
+                        if session.query(Game).filter_by(id=game_id).first() is None:
+                            game_record = Game(game_id, winner_id, loser_id, winner_score, loser_score)
+                            session.add(game_record)
+                            session.flush()
+                            game_parser(session, game_record)
 
-                    # Create Schedule records based on two teams
-                    if opponent_flag:
-                        if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
+                        # Create Schedule records based on two teams
+                        if both_teams_are_ncaa:
+                            if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
 
-                            session.add_all([Schedule(game_id,winner_id,team_type),
-                                            Schedule(game_id,loser_id,opponent_type)])
-                        opponent_flag = False
-                    # One of the team if not a NCAA team
-                    else:
-                        # Create Schedule records based on one teams
-                        team_type = "tournament"
-                        if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
-                            session.add(Schedule(game_id,squad_id,team_type))
-            session.flush()
+                                session.add_all([Schedule(game_id,winner_id,team_type),
+                                                Schedule(game_id,loser_id,opponent_type)])
+                        # One of the team if not a NCAA team
+                        else:
+                            # Create Schedule records based on one teams
+                            team_type = "tournament"
+                            if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
+                                session.add(Schedule(game_id,squad_id,team_type))
+                session.flush()
+
     except Exception, e:
         message="""
         url: %s
@@ -240,6 +257,13 @@ def game_parser(session, game_record):
 
         url = "http://stats.ncaa.org/game/index/%s" % (game_id)
         soup = soupify(url)
+        if soup is None:
+            error_message = """
+            url: %s
+            This page may not exist.
+            """ % url
+            write_error_to_file(error_message)
+            return
         tables = soup.find_all('table')
 
         #score table could have 0, 1 or 2 OverTime
@@ -248,7 +272,7 @@ def game_parser(session, game_record):
         second_team_tds = score_details.find_all('tr')[2].find_all('td', {"align":"right"})
 
         # Some games don't have first and second half (i.e. game: 744710)
-        if len(first_team_tds) > 3:
+        if len(first_team_tds) >= 3:
             first_team_is_winner = int(first_team_tds[-1].string) > int(second_team_tds[-1].string)
             game_record.winner_first_half_score = first_team_tds[0].string if first_team_is_winner else second_team_tds[0].string
             game_record.loser_first_half_score = second_team_tds[0].string if first_team_is_winner else first_team_tds[0].string
@@ -272,7 +296,8 @@ def game_parser(session, game_record):
             game_record.attendance = int(game_details.find_all('td')[5].contents[0].replace(',',''))
         except:
             game_record.attendance = None
-        game_record.officials = soup.find_all('table')[3].find_all('td')[1].string.strip()
+        # Officials info in the tables[3]
+        game_record.officials = tables[3].find_all('td')[1].string.strip()
 
         session.add(game_record)
         print game_record.date, game_record.location, game_record.attendance, game_record.officials
@@ -300,6 +325,13 @@ def player_parser(session, squad_record):
     try:
         url = "http://stats.ncaa.org/team/roster/%s?org_id=%s" % (season_id, team_id)
         soup = soupify(url)
+        if soup is None:
+            error_message = """
+            url: %s
+            This page may not exist.
+            """ % url
+            write_error_to_file(error_message)
+            return
         players_info = soup.find('tbody').find_all('tr')
         for one_player in players_info:
             info = one_player.find_all('td')
@@ -320,10 +352,18 @@ def player_parser(session, squad_record):
             if player_id:
                 if session.query(Player).filter_by(id=player_id).first() is None:
                     session.add(Player(player_id, name))
-                if session.query(SquadMember).filter(SquadMember.squad_id==squad_id,
-                                                     SquadMember.player_id==player_id).first() is None:
+
+                squadmember_record = session.query(SquadMember).filter(SquadMember.squad_id==squad_id,
+                                                     SquadMember.player_id==player_id).first()
+                # Add new squad_member record
+                if squadmember_record is None:
                     session.add(SquadMember(player_id, squad_id, name, jersey, position,
                                             height, year, games_played, games_started))
+                # Update existing squad_member record
+                else:
+                    squadmember_record.games_played = games_played
+                    squadmember_record.games_started = games_started
+                    session.add(squadmember_record)
         session.flush()
 
     # If this season&squad combination doesn't exist
@@ -346,11 +386,26 @@ def season_stat_parser(session, squad_record):
 
     url = "http://stats.ncaa.org/team/stats?org_id=%s&sport_year_ctl_id=%s" % (team_id, season_id)
     soup = soupify(url)
+    if soup is None:
+        error_message = """
+        url: %s
+        This page may not exist.
+        """ % url
+        write_error_to_file(error_message)
+        return
     team_stats = None
+    opnt_stats = None
     player_stat_trs = soup.find_all('tr', attrs={'class':'text'})
+    #TODO: http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020
+    # If this page has an empty table, skip it.
+    if player_stat_trs is None:
+        return
     for player_stat_tr in player_stat_trs:
+        player_stat_tds = player_stat_tr.find_all('td')
+        if player_stat_tds[1].find('a') is not None:
+            player_id = player_stat_tds[1].find('a')['href'].split('=')[-1]
         # Pre-process the list, all none value or white space will be "0"
-        player_stat_list = preprocess_stat_list(player_stat_tr.find_all('td'))
+        player_stat_list = preprocess_stat_list(player_stat_tds)
         if player_stat_list[1].string != 'TEAM' and player_stat_list[1].string != 'Player':
             stats = {
                 'minutes_played':player_stat_list[7].string,
@@ -374,17 +429,21 @@ def season_stat_parser(session, squad_record):
                 'steals':player_stat_list[25].string,
                 'blocks':player_stat_list[26].string,
                 'fouls':player_stat_list[27].string,
-                'double_doubles':"0" if player_stat_list[28].string == u'\xa0' else player_stat_list[28].string,
-                'triple_doubles':"0" if player_stat_list[29].string == u'\xa0' else player_stat_list[29].string
+                'double_doubles':player_stat_list[28].string,
+                'triple_doubles':player_stat_list[29].string
             }
-            player_id = player_stat_list[1].find('a')['href'].split('=')[-1]
             squadmember = session.query(SquadMember).filter(SquadMember.squad_id == squad_id,
                                               SquadMember.player_id == player_id).first()
             if squadmember:
                 if session.query(PlayerSeasonStat).filter_by(squadmember_id=squadmember.id).first() is None:
                     session.add(PlayerSeasonStat(squadmember.id, stats))
                 else:
-                    print "squadmember season stat (id=%s) already existed" % squadmember.id
+                    # The season is ongoing, update it every time
+                    if is_current_season_ongoing(squad_record.year):
+                        session.add(PlayerSeasonStat(squadmember.id, stats))
+                    # The season is over, don't need to update
+                    else:
+                        print "squadmember season stat (id=%s) already existed" % squadmember.id
 
         if player_stat_list[1].string == 'TEAM':
             team_stats = {
@@ -399,69 +458,100 @@ def season_stat_parser(session, squad_record):
                 'team_steals':player_stat_list[25].string,
                 'team_blocks':player_stat_list[26].string,
                 'team_fouls':player_stat_list[27].string,
-                'double_doubles':player_stat_list[28].string,
-                'triple_doubles':player_stat_list[29].string
+                'team_double_doubles':player_stat_list[28].string,
+                'team_triple_doubles':player_stat_list[29].string
             }
 
-
     team_stat_trs = soup.find_all('tr', attrs={'class':'grey_heading'})
-    for team_stat_tr in team_stat_trs:
-        # Pre-process the list, all none value or white space will be "0"
-        team_stat_list = preprocess_stat_list(team_stat_tr.find_all('td'))
-        if team_stat_list[1].string == "Totals":
-            team_stat_list = team_stat_tr.find_all('td')
-            total_stats = {
-                    'minutes_played':team_stat_list[7].string,
-                    'field_goals_made':team_stat_list[8].string.replace(',',''),
-                    'field_goals_attempted':team_stat_list[9].string.replace(',',''),
-                    'field_goals_percentage':team_stat_list[10].string,
-                    'three_field_goals_made':team_stat_list[11].string.replace(',',''),
-                    'three_field_goals_attempted':team_stat_list[12].string.replace(',',''),
-                    'three_field_goals_percentage':team_stat_list[13].string,
-                    'free_throws_made':team_stat_list[14].string.replace(',',''),
-                    'free_throws_attempted':team_stat_list[15].string.replace(',',''),
-                    'free_throws_percentage':team_stat_list[16].string,
-                    'points':team_stat_list[17].string.replace(',',''),
-                    'average_points':team_stat_list[18].string.replace(',',''),
-                    'offensive_rebounds':team_stat_list[19].string.replace(',',''),
-                    'defensive_rebounds':team_stat_list[20].string.replace(',',''),
-                    'total_rebounds':team_stat_list[21].string.replace(',',''),
-                    'average_rebounds':team_stat_list[22].string.replace(',',''),
-                    'assists': team_stat_list[23].string.replace(',',''),
-                    'turnovers':team_stat_list[24].string.replace(',',''),
-                    'steals':team_stat_list[25].string.replace(',',''),
-                    'blocks':team_stat_list[26].string.replace(',',''),
-                    'fouls':team_stat_list[27].string.replace(',',''),
-                    'double_doubles':team_stat_list[28].string,
-                    'triple_doubles':team_stat_list[29].string
-                }
+    team_stat_tr = team_stat_trs[1]
+    # Scrap Team's Total stat
+    team_stat_list = preprocess_stat_list(team_stat_tr.find_all('td'))
+    total_stats = {
+            'minutes_played':team_stat_list[7].string,
+            'field_goals_made':team_stat_list[8].string.replace(',',''),
+            'field_goals_attempted':team_stat_list[9].string.replace(',',''),
+            'field_goals_percentage':team_stat_list[10].string,
+            'three_field_goals_made':team_stat_list[11].string.replace(',',''),
+            'three_field_goals_attempted':team_stat_list[12].string.replace(',',''),
+            'three_field_goals_percentage':team_stat_list[13].string,
+            'free_throws_made':team_stat_list[14].string.replace(',',''),
+            'free_throws_attempted':team_stat_list[15].string.replace(',',''),
+            'free_throws_percentage':team_stat_list[16].string,
+            'points':team_stat_list[17].string.replace(',',''),
+            'average_points':team_stat_list[18].string.replace(',',''),
+            'offensive_rebounds':team_stat_list[19].string.replace(',',''),
+            'defensive_rebounds':team_stat_list[20].string.replace(',',''),
+            'total_rebounds':team_stat_list[21].string.replace(',',''),
+            'average_rebounds':team_stat_list[22].string.replace(',',''),
+            'assists': team_stat_list[23].string.replace(',',''),
+            'turnovers':team_stat_list[24].string.replace(',',''),
+            'steals':team_stat_list[25].string.replace(',',''),
+            'blocks':team_stat_list[26].string.replace(',',''),
+            'fouls':team_stat_list[27].string.replace(',',''),
+            'double_doubles':team_stat_list[28].string,
+            'triple_doubles':team_stat_list[29].string
+        }
 
-            if team_stats is not None:
-                # Combine Total_stats and Team_stats
-                stats = dict(total_stats.items() + team_stats.items())
-            else:
-                stats = total_stats
+    # Some page don't have opponent's stat
+    if len(team_stat_trs) == 2:
+        opnt_stat_tr = team_stat_trs[2]
+        # Scrap Team's Opponent stat
+        opnt_stat_list = preprocess_stat_list(opnt_stat_tr.find_all('td'))
+        opnt_stats = {
+                'Opnt_minutes_played':opnt_stat_list[7].string,
+                'Opnt_field_goals_made':opnt_stat_list[8].string.replace(',',''),
+                'Opnt_field_goals_attempted':opnt_stat_list[9].string.replace(',',''),
+                'Opnt_field_goals_percentage':opnt_stat_list[10].string,
+                'Opnt_three_field_goals_made':opnt_stat_list[11].string.replace(',',''),
+                'Opnt_three_field_goals_attempted':opnt_stat_list[12].string.replace(',',''),
+                'Opnt_three_field_goals_percentage':opnt_stat_list[13].string,
+                'Opnt_free_throws_made':opnt_stat_list[14].string.replace(',',''),
+                'Opnt_free_throws_attempted':opnt_stat_list[15].string.replace(',',''),
+                'Opnt_free_throws_percentage':opnt_stat_list[16].string,
+                'Opnt_points':opnt_stat_list[17].string.replace(',',''),
+                'Opnt_average_points':opnt_stat_list[18].string.replace(',',''),
+                'Opnt_offensive_rebounds':opnt_stat_list[19].string.replace(',',''),
+                'Opnt_defensive_rebounds':opnt_stat_list[20].string.replace(',',''),
+                'Opnt_total_rebounds':opnt_stat_list[21].string.replace(',',''),
+                'Opnt_average_rebounds':opnt_stat_list[22].string.replace(',',''),
+                'Opnt_assists': opnt_stat_list[23].string.replace(',',''),
+                'Opnt_turnovers':opnt_stat_list[24].string.replace(',',''),
+                'Opnt_steals':opnt_stat_list[25].string.replace(',',''),
+                'Opnt_blocks':opnt_stat_list[26].string.replace(',',''),
+                'Opnt_fouls':opnt_stat_list[27].string.replace(',',''),
+                'Opnt_double_doubles':opnt_stat_list[28].string,
+                'Opnt_triple_doubles':opnt_stat_list[29].string
+            }
 
-            # If this season is over
-            if str(squad_record.year) < get_current_year() \
-                    or (str(squad_record.year) >= get_current_year() and int(get_current_month() >= 5)):
-                if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
-                    print "$$$ Found squad season stat"
-                    squad_season_stat_record = SquadSeasonStat(squad_id, stats)
-                    session.add(squad_season_stat_record)
-                else:
-                    print "squad season stat (id=%s) already existed" % squad_id
-            # The season is ongoing, need to UPDATE database every time
-            else:
+    if team_stats is not None and opnt_stats is not None:
+        # Combine Total_stats and Team_stats and Opnt_stats
+        stats = dict(total_stats.items() + team_stats.items() + opnt_stats.items())
+    elif team_stats is None and opnt_stats is not None:
+        stats = dict(total_stats.items() + opnt_stats.items())
+    elif team_stats is not None and opnt_stats is None:
+        stats = dict(total_stats.items() + team_stats.items())
+    else:
+        stats = total_stats
 
-                if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
-                    squad_season_stat_record = SquadSeasonStat(squad_id, stats)
-                    session.add(squad_season_stat_record)
-                else:
-                    print "$$$ squad season stat need to be updated"
-                    squad_record_id = session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first().id
-                    squad_season_stat_record = SquadSeasonStat(squad_id, stats, squad_record_id)
-                    session.add(squad_season_stat_record)
+    # If this season is over
+    if not is_current_season_ongoing(squad_record.year):
+        if session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first() is None:
+            print "$$$ Found squad season stat"
+            squad_season_stat_record = SquadSeasonStat(squad_id, stats)
+            session.add(squad_season_stat_record)
+        else:
+            print "squad season stat (id=%s) already existed" % squad_id
+    # The season is ongoing, need to UPDATE database every time
+    else:
+        squad_season_stat_record = session.query(SquadSeasonStat).filter_by(squad_id=squad_id).first()
+        if squad_season_stat_record is None:
+            print "$$$ Found squad season stat"
+            squad_season_stat_record = SquadSeasonStat(squad_id, stats)
+            session.add(squad_season_stat_record)
+        else:
+            print "$$$ squad season stat need to be updated"
+            squad_season_stat_record.update(stats)
+            session.add(squad_season_stat_record)
 
     session.flush()
 
@@ -477,6 +567,13 @@ def game_stat_parser(session, game_record):
         year = str(int(year)+1)
     url = "http://stats.ncaa.org/game/box_score/%s" % game_id
     soup = soupify(url)
+    if soup is None:
+        error_message = """
+        url: %s
+        This page may not exist.
+        """ % url
+        write_error_to_file(error_message)
+        return
     team_stats = None
     tables = soup.find_all('table')
     #tables[0] has team name and team id
@@ -508,12 +605,13 @@ def game_stat_parser(session, game_record):
                 squad_id = squad_record.id
                 player_stat_tr_list = table.find_all('tr', {"class":"smtext"})
                 for player_stat_tr in player_stat_tr_list:
-                    # Pre-process the list, all none value or white space will be "0"
-                    # Also remove the "*/-"
-                    player_stat_list = preprocess_stat_list(player_stat_tr.find_all('td'))
+                    player_stat_list = player_stat_tr.find_all('td')
                     # player_stat
                     if player_stat_list[0].a != None:
                         player_id = player_stat_list[0].find('a')['href'].split("=")[-1]
+                        # Pre-process the list, all none value or white space will be "0"
+                        # Also remove the "*/-"
+                        player_stat_list = preprocess_stat_list(player_stat_list)
 
                         print squad_id, player_id
                         try:
@@ -527,7 +625,6 @@ def game_stat_parser(session, game_record):
                             This combination may not exists.
                             """ % (game_id, squad_id, player_id)
                             write_error_to_file(message)
-                            print "*****"
                             continue
 
                         stats = {
@@ -556,6 +653,8 @@ def game_stat_parser(session, game_record):
                     # TEAM stats
                     elif player_stat_list[0].a is None and (player_stat_list[0].string.strip() == 'TEAM' or \
                                                             player_stat_list[0].string.strip() == 'Team'):
+                        # Pre-process the list, all none value or white space will be "0"
+                        player_stat_list = preprocess_stat_list(player_stat_list)
                         team_stats = {
                             'team_offensive_rebounds':player_stat_list[10].string,
                             'team_defensive_rebounds':player_stat_list[11].string,
@@ -589,8 +688,7 @@ def game_stat_parser(session, game_record):
             }
             if team_stats is not None:
                 stats = dict(total_stats.items() + team_stats.items())
-                if session.query(SquadGameStat).filter(SquadGameStat.squad_id==squad_id,
-                                                       SquadGameStat.game_id==game_id).first() is None:
+                if game_record.has_stat == 0:
                     print "$$$$$ Found squad game stat"
                     squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
                     session.add(squad_game_stat_record)
@@ -606,14 +704,19 @@ def game_stat_parser(session, game_record):
             This combination may not exists.
             """ % (game_id, squad_id)
             write_error_to_file(error_message)
-            raise
 
 def gamedetail_parser(session, game_record):
     game_id = game_record.id
     print game_id
     url = "http://stats.ncaa.org/game/play_by_play/%s" % game_id
     soup = soupify(url)
-
+    if soup is None:
+        error_message = """
+        url: %s
+        This page may not exist.
+        """ % url
+        write_error_to_file(error_message)
+        return
     tables = soup.find_all("table")
 
     score_details = tables[0]
@@ -662,4 +765,12 @@ def gamedetail_parser(session, game_record):
     session.flush()
 
 
+def is_current_season_ongoing(season_year):
+    if int(season_year) < get_current_year():
+        return False
+    elif int(season_year) == get_current_year():
+        if int(get_current_month()) >= 5:
+            return False
+    else:
+        return True
 

@@ -53,6 +53,7 @@ class Game(Base):
 
     id = Column(Integer, primary_key=True)
     date = Column(Date)
+    has_stat = Column(Integer)
 
     winner_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
     winner_score = Column(Integer)
@@ -74,13 +75,14 @@ class Game(Base):
     # NOTE boxscore = one-to-many map to PlayerStatSheets.
 
     def __init__(self, game_id, winner_id, loser_id, winner_score,loser_score,
-                 date=None, location=None, attendance=None, officials=None):
+                 date=None, has_stat = None, location=None, attendance=None, officials=None):
         # First and 2nd Teams date Location attendance and officials are mandatory.
         # Location equals to Home team's location, or a specified neutral site
         # Specify loser and winner;
         # If the game haven't happened yet (future game), do not scrape it
         self.id = game_id
         self.date = date
+        self.has_stat = 0
         self.winner_id = winner_id
         self.loser_id = loser_id
         self.winner_score = winner_score
@@ -153,12 +155,8 @@ class SquadMember(Base):
     games_played = Column(Integer)
     games_started = Column(Integer)
 
-    # NOTE statsheets = one-to-many mapping to PlayerStatSheets
-
-    # Vital-ish stats
-
     def __init__(self, player_id, squad_id, name, jersey=None, position=None,
-                 height=None, year=None, games_played=None, games_started=None, stats_id=None):
+                 height=None, year=None, games_played=None, games_started=None):
         self.player_id = player_id
         self.squad_id = squad_id
         self.name = name
@@ -168,7 +166,6 @@ class SquadMember(Base):
         self.year = year
         self.games_played = games_played
         self.games_started = games_started
-        self.stats_id = stats_id
 
     def __repr__(self):
         return "<SquadMember('%s %s', '%s', '%s')>" % \
@@ -301,7 +298,7 @@ class PlayerSeasonStat(Base):
             setattr(self, k, v)
 
 
-# - PlayerSeasonStat -- /
+# - SquadSeasonStat -- /
 class SquadSeasonStat(Base):
     """Contains the stats of one Squad in one Season"""
     __tablename__ = 'squadseasonstat'
@@ -310,10 +307,9 @@ class SquadSeasonStat(Base):
         'mysql_charset': 'utf8'
     }
 
-    id = Column(Integer, primary_key=True)
     squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
 
-    # Individual Game Statistics
+    # Team's total season Statistics
     minutes_played = Column(String(16))
     field_goals_made = Column(Integer)
     field_goals_attempted = Column(Integer)
@@ -338,7 +334,32 @@ class SquadSeasonStat(Base):
     double_doubles = Column(Integer)
     triple_doubles = Column(Integer)
 
-    #team_stats that cannot assigned to players
+    # Opponent's total season Statistics
+    Opnt_minutes_played = Column(String(16))
+    Opnt_field_goals_made = Column(Integer)
+    Opnt_field_goals_attempted = Column(Integer)
+    Opnt_field_goals_percentage = Column(Float)
+    Opnt_three_field_goals_made = Column(Integer)
+    Opnt_three_field_goals_attempted = Column(Integer)
+    Opnt_three_field_goals_percentage = Column(Float)
+    Opnt_free_throws_made = Column(Integer)
+    Opnt_free_throws_attempted = Column(Integer)
+    Opnt_free_throws_percentage = Column(Float)
+    Opnt_points = Column(Integer)
+    Opnt_average_points = Column(Float)
+    Opnt_offensive_rebounds = Column(Integer)
+    Opnt_defensive_rebounds = Column(Integer)
+    Opnt_total_rebounds = Column(Integer)
+    Opnt_average_rebounds = Column(Float)
+    Opnt_assists = Column(Integer)
+    Opnt_turnovers = Column(Integer)
+    Opnt_steals = Column(Integer)
+    Opnt_blocks = Column(Integer)
+    Opnt_fouls = Column(Integer)
+    Opnt_double_doubles = Column(Integer)
+    Opnt_triple_doubles = Column(Integer)
+
+    # Team_stats that cannot assigned to players
     team_points = Column(Integer)
     team_average_points = Column(Float)
     team_offensive_rebounds = Column(Integer)
@@ -353,10 +374,12 @@ class SquadSeasonStat(Base):
     team_double_doubles = Column(Integer)
     team_triple_doubles = Column(Integer)
 
-    def __init__(self, squad_id, stats, id=None):
-        if id is not None:
-            self.id = id
+    def __init__(self, squad_id, stats):
         self.squad_id = squad_id
+        for k, v in stats.iteritems():
+            setattr(self, k, v)
+
+    def update(self, stats):
         for k, v in stats.iteritems():
             setattr(self, k, v)
 
@@ -414,43 +437,11 @@ class Team(Base):
     name = Column(String(128), nullable=False)
 
     # NOTE squads = one-to-many map to Squads
-    # NOTE aliases = one-to-many map to TeamAliases
 
     def __init__(self, name, id):
         self.name = name
         self.id = id
-        # if id is not None:
-        #     self.id = id
 
-
-# # - TeamAlias -- /
-# class TeamAlias(Base):
-#     """TeamAlias is used for record linkage. When querying the database for a
-#     Team by name it is not necessarily (read: usually) the case that there is
-#     a standardized way of referring to the Team. Different sources abbreviate
-#     teams in different ways, e.g. 'Pitt' versus 'Pittsburgh.' This class helps
-#     mitigate this problem by keeping track of different ways of referring to
-#     a team. Names in this class are normalized by entirely removing all
-#     non-alpha-numeric characters and transforming to upper case.
-#
-#     TeamAliases are in a many-to-one relationship with Teams"""
-#     __tablename__ = 'teamalias'
-#     __table_args__ = {
-#         'mysql_engine': 'InnoDB',
-#         'mysql_charset': 'utf8'
-#     }
-#
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(128), nullable=False)
-#
-#     team_id = Column(Integer, ForeignKey('team.id', onupdate='cascade', ondelete='cascade'))
-#     team = relationship("Team", backref=backref('aliases', order_by=id))
-#
-#     # def __init__(self, name):
-#     #     self.name = normalize_name(name)
-#
-#     def __repr__(self):
-#         return "<TeamAlias('%s', '%s')>" % (self.team.name, self.name)
 
 # - Season -- /
 class Season(Base):
