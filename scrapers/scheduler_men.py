@@ -48,9 +48,20 @@ def initial_team_squad_scrap():
         raise
 
 def initial_schedule_game_player_scrap():
+    game_id_list = []
+    squad_id_finish_list = []
+
     session = Session()
     squads = session.query(Squad).all()
+    # schedules = session.query(Schedule).group_by(Schedule.game_id).all()
+    squadmembers_per_squad = session.query(SquadMember).group_by(SquadMember.squad_id).all()
+
+    # for schedule_record in schedules:
+    #     game_id_list.append(schedule_record.game_id)
+    for squadmember_record in squadmembers_per_squad:
+        squad_id_finish_list.append(squadmember_record.squad_id)
     session.close()
+
     try:
         for squad_record in squads:
             # If the squad_id != fake_id (non-ncaa squad id)
@@ -58,8 +69,9 @@ def initial_schedule_game_player_scrap():
                 session = Session()
                 schedule_parser(session, squad_record)
                 #game_parser() is inside schedule_parser()
-                player_parser(session, squad_record)
-                #squadmember_parser() is inside player_parser()
+                if squad_record.id not in squad_id_finish_list:
+                    player_parser(session, squad_record)
+                    #squadmember_parser() is inside player_parser()
                 session.close()
 
     except Exception, e:
