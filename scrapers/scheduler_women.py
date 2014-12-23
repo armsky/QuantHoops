@@ -245,7 +245,7 @@ def new_game_stat_scrap():
     except :
         message = """
         game_id: %s
-        Something wrong in game_stat_parser
+        Something wrong in game_stat_parserq
         """ % (game_record.id)
         write_error_to_file(message)
         raise
@@ -255,9 +255,9 @@ def new_game_detail_scrap():
     print "need to implement"
 
 
-#Create fake (non-ncaa) team and squad
-#fake team: id=1, name=non-ncaa team
-#fake squad: id=1, team_id=1, season_id=None, division=0, year=0
+# Create fake (non-ncaa) team and squad
+# fake team: id=1, name=non-ncaa team
+# fake squad: id=1, team_id=1, season_id=None, division=0, year=0
 session = Session()
 if session.query(Team).filter(Team.id==1).first() is None:
     fake_team_record = Team("non-ncaa team", 1)

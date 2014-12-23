@@ -272,7 +272,7 @@ session.close()
 
 # initial_team_squad_scrap()
 
-# initial_schedule_game_player_scrap()
+initial_schedule_game_player_scrap()
 
 # initial_season_stat_scrap()
 
@@ -285,6 +285,6 @@ session.close()
 
 # new_season_stat_scrap()
 
-new_game_stat_scrap()
+# new_game_stat_scrap()
 
 # new_game_detail_scrap()

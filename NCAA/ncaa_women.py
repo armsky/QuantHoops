@@ -307,7 +307,7 @@ class SquadSeasonStat(Base):
         'mysql_charset': 'utf8'
     }
 
-    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
+    squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'), primary_key=True)
 
     # Team's total season Statistics
     minutes_played = Column(String(16))
