@@ -17,7 +17,7 @@ Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 def team_parser(session, season_id, division):
     try:
-        row = session.query(Season).filter_by(id=season_id).first()
+        # row = session.query(Season).filter_by(id=season_id).first()
         url = "http://stats.ncaa.org/team/inst_team_list/%s?division=%s" % (season_id, division)
         team_links = get_team_link(url)
 
@@ -697,7 +697,10 @@ def game_stat_parser(session, game_record):
                     print "$$$$$ Found squad game stat"
                     squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
                     session.add(squad_game_stat_record)
-
+                    # Update has_stat to 1
+                    game_record_to_update = session.query(Game).filter_by(id=game_id).first()
+                    game_record_to_update.has_stat = 1
+                    session.add(game_record_to_update)
                     session.flush()
                 else:
                     print "squad game stat (squad_id=%s, squad_id=%s) already existed" % (squad_id, game_id)

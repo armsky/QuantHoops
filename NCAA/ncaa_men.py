@@ -72,7 +72,6 @@ class Game(Base):
     location = Column(String(128))
     attendance = Column(Integer)
     officials = Column(String(128))
-    # NOTE boxscore = one-to-many map to PlayerStatSheets.
 
     def __init__(self, game_id, winner_id, loser_id, winner_score,loser_score,
                  date=None, has_stat = None, location=None, attendance=None, officials=None):
@@ -90,10 +89,6 @@ class Game(Base):
         self.location = location
         self.attendance = attendance
         self.officials = officials
-
-
-    # def __contains__(self, squad):
-    #     return squad in game.opponents
 
     def __repr__(self):
         teams = "%s vs. %s" % (self.opponents[0].team.name,

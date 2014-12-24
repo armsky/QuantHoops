@@ -72,6 +72,8 @@ def initial_schedule_game_player_scrap():
                 if squad_record.id not in squad_id_finish_list:
                     player_parser(session, squad_record)
                     #squadmember_parser() is inside player_parser()
+                else:
+                    print "Already scrapped, skip squad_id: ", squad_record.id
                 session.close()
 
     except Exception, e:
@@ -107,7 +109,7 @@ def initial_season_stat_scrap():
         This combination may not exists.
 
         %s
-        """ %  (squad_record.id, squad_record.season_id, squad_record.team_id, e)
+        """ % (squad_record.id, squad_record.season_id, squad_record.team_id, e)
         write_error_to_file(str(message))
         raise
 
@@ -123,7 +125,7 @@ def initial_game_stat_scrap():
             game_stat_parser(session, game_record)
             session.close()
 
-    except :
+    except:
         message = """
         game_id: %s
         Something wrong in game_stat_parser
@@ -250,8 +252,6 @@ def new_game_stat_scrap():
             print "%%%% game_id is "+str(game_record.id)
             session = Session()
             game_stat_parser(session, game_record)
-            game_record.has_stat = 1
-            # session.add(game_record)
             session.close()
 
     except :
@@ -284,7 +284,7 @@ session.close()
 
 # initial_team_squad_scrap()
 
-initial_schedule_game_player_scrap()
+# initial_schedule_game_player_scrap()
 
 # initial_season_stat_scrap()
 
@@ -297,6 +297,6 @@ initial_schedule_game_player_scrap()
 
 # new_season_stat_scrap()
 
-# new_game_stat_scrap()
+new_game_stat_scrap()
 
 # new_game_detail_scrap()
