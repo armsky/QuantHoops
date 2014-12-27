@@ -592,6 +592,9 @@ def game_stat_parser(session, game_record):
         team_id = int(team_links[0]["href"].split("=")[-1])
 
     for table in tables[4:]:
+        # In case the table has no player's stat
+        if not table.find_all('tr', {"class":"smtext"}):
+            continue
         if table.find_all('tr', {"class":"smtext"})[0].find_all('td')[0].a == None:
             continue
 

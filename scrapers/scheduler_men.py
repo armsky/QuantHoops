@@ -116,7 +116,7 @@ def initial_season_stat_scrap():
 
 def initial_game_stat_scrap():
     session = Session()
-    games = session.query(Game).all()
+    games = session.query(Game).filter_by(has_stat=0).order_by(desc(Game.id))
     session.close()
     try:
         for game_record in games:
