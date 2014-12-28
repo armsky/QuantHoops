@@ -1,5 +1,3 @@
-from NCAA import settings
-
 __author__ = 'Hao Lin'
 
 '''
@@ -7,6 +5,7 @@ Library defines ORM database accessor classes for NCAA
 '''
 
 import sys
+import settings
 from sqlalchemy import *
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base

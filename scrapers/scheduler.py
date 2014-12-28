@@ -11,11 +11,11 @@ from sqlalchemy import *
 
 def initial_team_squad_scrap(engine):
     session = settings.create_session(engine)
-    rows = session.query(Season).all()
+    seasons = session.query(Season).all()
     session.close()
     try:
-        for row in rows:
-            season_id = row.id
+        for season_record in seasons:
+            season_id = season_record.id
             print "#####"+str(season_id)
             for division in [1, 2, 3]:
                 session = settings.create_session(engine)
@@ -74,7 +74,7 @@ def initial_schedule_game_player_scrap(engine):
                     player_parser(session, squad_record)
                     # squadmember_parser() is inside player_parser()
                 else:
-                    print "Already scrapped, skip squad_id: ", squad_record.id
+                    print 'Already scrapped, skip squad_id: ', squad_record.id
                 session.close()
 
     except Exception, e:

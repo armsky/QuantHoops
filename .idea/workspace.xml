@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="288bec63-ff5f-476b-83f1-c6b0b15ae6dd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/NCAA/settings.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NCAA/ncaa_women.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scrapers/scheduler_women.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scrapers/scraper_women.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/NCAA/ncaa_men.py" afterPath="$PROJECT_DIR$/NCAA/ncaa.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scrapers/scheduler_men.py" afterPath="$PROJECT_DIR$/scrapers/scheduler.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scrapers/scraper_men.py" afterPath="$PROJECT_DIR$/scrapers/scraper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scrapers/fix_men.py" afterPath="$PROJECT_DIR$/scrapers/fix_men.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NCAA/ncaa.py" afterPath="$PROJECT_DIR$/NCAA/ncaa.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scrapers/scheduler.py" afterPath="$PROJECT_DIR$/scrapers/scheduler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="QuantHoops.iws" />
@@ -29,7 +23,7 @@
     <SUITE FILE_PATH="coverage/QuantHoops$ncaa_men.coverage" NAME="ncaa_men Coverage Results" MODIFIED="1419724838910" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NCAA" />
     <SUITE FILE_PATH="coverage/QuantHoops$fix_men.coverage" NAME="fix_men Coverage Results" MODIFIED="1418949374194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scrapers" />
     <SUITE FILE_PATH="coverage/QuantHoops$ncaa.coverage" NAME="ncaa Coverage Results" MODIFIED="1419724911561" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NCAA" />
-    <SUITE FILE_PATH="coverage/QuantHoops$scheduler.coverage" NAME="scheduler Coverage Results" MODIFIED="1419727583059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scrapers" />
+    <SUITE FILE_PATH="coverage/QuantHoops$scheduler.coverage" NAME="scheduler Coverage Results" MODIFIED="1419730245122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scrapers" />
     <SUITE FILE_PATH="coverage/QuantHoops$test.coverage" NAME="test Coverage Results" MODIFIED="1419701751613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BeautifulSoup" />
     <SUITE FILE_PATH="coverage/QuantHoops$check_total_stat_per_team.coverage" NAME="check_total_stat_per_team Coverage Results" MODIFIED="1419387831163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/QuantHoops$scheduler_men.coverage" NAME="scheduler_men Coverage Results" MODIFIED="1419383769063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scrapers" />
@@ -54,11 +48,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.47777778">
       <split-first>
         <leaf>
-          <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/NCAA/settings.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="750">
-                  <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+                <state vertical-scroll-proportion="0.7815631" vertical-offset="120" max-vertical-offset="750">
+                  <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
                   <folding>
                     <element signature="e#24#34#0" expanded="true" />
                   </folding>
@@ -66,10 +60,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="scraper.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="scraper.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scrapers/scraper.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.22245763" vertical-offset="0" max-vertical-offset="11985">
+                <state vertical-scroll-proportion="-3.8888888" vertical-offset="0" max-vertical-offset="11985">
                   <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
                   <folding>
                     <element signature="e#24#33#0" expanded="true" />
@@ -95,9 +89,11 @@
           <file leaf-file-name="ncaa.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/NCAA/ncaa.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="7286" max-vertical-offset="7905">
-                  <caret line="492" column="7" selection-start-line="492" selection-start-column="7" selection-end-line="492" selection-end-column="7" />
-                  <folding />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7890">
+                  <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+                  <folding>
+                    <element signature="e#88#98#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -105,8 +101,8 @@
           <file leaf-file-name="scheduler.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/scrapers/scheduler.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-0.9216102" vertical-offset="900" max-vertical-offset="5400">
-                  <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+                <state vertical-scroll-proportion="0.75951904" vertical-offset="4451" max-vertical-offset="5400">
+                  <caret line="322" column="19" selection-start-line="322" selection-start-column="19" selection-end-line="322" selection-end-column="19" />
                   <folding>
                     <element signature="e#24#34#0" expanded="true" />
                   </folding>
@@ -147,10 +143,10 @@
         <option value="$PROJECT_DIR$/scrapers/scheduler_men.py" />
         <option value="$PROJECT_DIR$/scrapers/settings.py" />
         <option value="$PROJECT_DIR$/old/ncaa_men.py" />
-        <option value="$PROJECT_DIR$/NCAA/settings.py" />
-        <option value="$PROJECT_DIR$/NCAA/ncaa.py" />
-        <option value="$PROJECT_DIR$/scrapers/scheduler.py" />
         <option value="$PROJECT_DIR$/scrapers/scraper.py" />
+        <option value="$PROJECT_DIR$/NCAA/ncaa.py" />
+        <option value="$PROJECT_DIR$/NCAA/settings.py" />
+        <option value="$PROJECT_DIR$/scrapers/scheduler.py" />
       </list>
     </option>
   </component>
@@ -431,7 +427,7 @@
       <module name="QuantHoops" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scrapers/scheduler.py" />
-      <option name="PARAMETERS" value="-g men -t initial -p schedule_game_player" />
+      <option name="PARAMETERS" value="-g women -t initial -p team_squad" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <RunnerSettings RunnerId="PyDebugRunner" />
       <RunnerSettings RunnerId="PythonCover" />
@@ -712,9 +708,9 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21101573" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21101573" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32950193" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32522407" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="21" y="331" width="1398" height="257" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32522407" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="21" y="331" width="1398" height="257" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32950193" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -807,7 +803,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7905">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#88#98#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -947,13 +945,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/season_content.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6183953" vertical-offset="29" max-vertical-offset="540">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="30" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/sqlalchemy/engine/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33245033" vertical-offset="664" max-vertical-offset="5430">
@@ -1020,10 +1011,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scrapers/scraper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.8888888" vertical-offset="0" max-vertical-offset="11985">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+          <folding>
+            <element signature="e#24#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/NCAA/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="750">
-          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.7815631" vertical-offset="120" max-vertical-offset="750">
+          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
           <folding>
             <element signature="e#24#34#0" expanded="true" />
           </folding>
@@ -1032,28 +1033,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/NCAA/ncaa.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7286" max-vertical-offset="7905">
-          <caret line="492" column="7" selection-start-line="492" selection-start-column="7" selection-end-line="492" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7890">
+          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+          <folding>
+            <element signature="e#88#98#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/season_content.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="29" max-vertical-offset="540">
+          <caret line="23" column="35" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scrapers/scheduler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.9216102" vertical-offset="900" max-vertical-offset="5400">
-          <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.75951904" vertical-offset="4451" max-vertical-offset="5400">
+          <caret line="322" column="19" selection-start-line="322" selection-start-column="19" selection-end-line="322" selection-end-column="19" />
           <folding>
             <element signature="e#24#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scrapers/scraper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22245763" vertical-offset="0" max-vertical-offset="11985">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
-          <folding>
-            <element signature="e#24#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
