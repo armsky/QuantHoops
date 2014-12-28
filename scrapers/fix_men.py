@@ -1,8 +1,10 @@
 __author__ = 'armsky'
 
-from scraper_men import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
+
+from old.scraper_men import *
+
 
 engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Men', echo=False)
 Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)

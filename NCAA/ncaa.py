@@ -1,19 +1,28 @@
+from NCAA import settings
+
 __author__ = 'Hao Lin'
 
 '''
 Library defines ORM database accessor classes for NCAA
 '''
 
+import sys
 from sqlalchemy import *
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Men', echo=False)
+try:
+    # sys.argv[1] shoud be "-g", sys.argv[2] should be gender -- Men or Women
+    engine = settings.create_engine(sys.argv[2])
+except:
+    print "No database specified..."
+    raise
 metadata = MetaData()
 
-## -- CLASSES --
+# -- CLASSES --
 
 Base = declarative_base()
+
 
 # - Schedule -- /
 class Schedule(Base):
@@ -27,7 +36,7 @@ class Schedule(Base):
                      primary_key=True)
     squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'),
                      primary_key=True)
-    type = Column('type', Enum('home', 'away','neutral','tournament'))
+    type = Column('type', Enum('home', 'away', 'neutral', 'tournament'))
 
     def __init__(self, game_id, squad_id, type):
         self.game_id = game_id
@@ -54,6 +63,7 @@ class Game(Base):
     id = Column(Integer, primary_key=True)
     date = Column(Date)
     has_stat = Column(Integer)
+    has_detail = Column(Integer)
 
     winner_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'))
     winner_score = Column(Integer)
@@ -73,8 +83,8 @@ class Game(Base):
     attendance = Column(Integer)
     officials = Column(String(128))
 
-    def __init__(self, game_id, winner_id, loser_id, winner_score,loser_score,
-                 date=None, has_stat = None, location=None, attendance=None, officials=None):
+    def __init__(self, game_id, winner_id, loser_id, winner_score, loser_score,
+                 date=None, location=None, attendance=None, officials=None):
         # First and 2nd Teams date Location attendance and officials are mandatory.
         # Location equals to Home team's location, or a specified neutral site
         # Specify loser and winner;
@@ -82,6 +92,7 @@ class Game(Base):
         self.id = game_id
         self.date = date
         self.has_stat = 0
+        self.has_detail = 0
         self.winner_id = winner_id
         self.loser_id = loser_id
         self.winner_score = winner_score
@@ -164,8 +175,8 @@ class SquadMember(Base):
 
     def __repr__(self):
         return "<SquadMember('%s %s', '%s', '%s')>" % \
-                (self.player.first_name, self.player.last_name,
-                 self.squad.team.name, self.squad.season)
+            (self.player.first_name, self.player.last_name,
+             self.squad.team.name, self.squad.season)
 
 
 # - PlayerGameStat -- /
@@ -237,7 +248,7 @@ class SquadGameStat(Base):
     blocks = Column(Integer)
     fouls = Column(Integer)
 
-    #team_stats that cannot assigned to players
+    # team_stats that cannot assigned to players
     team_offensive_rebounds = Column(Integer)
     team_defensive_rebounds = Column(Integer)
     team_total_rebounds = Column(Integer)
@@ -249,6 +260,7 @@ class SquadGameStat(Base):
         self.game_id = game_id
         for k, v in stats.iteritems():
             setattr(self, k, v)
+
 
 # - PlayerSeasonStat -- /
 class PlayerSeasonStat(Base):
@@ -453,6 +465,7 @@ class Season(Base):
     id = Column(Integer, primary_key=True)
     year = Column(Integer, nullable=False)
 
+
 # - Conference -- /
 class Conference(Base):
     """
@@ -475,7 +488,7 @@ class Conference(Base):
         self.name = name
 
 
-# - Conference -- /
+# - GameDetail -- /
 class GameDetail(Base):
     """
     Play-by-Play
@@ -488,7 +501,7 @@ class GameDetail(Base):
 
     id = Column(Integer, primary_key=True)
     game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade', ondelete='cascade'))
-    #section could be 1st Half, 2nd Half with or without 1st OT
+    # section could be 1st Half, 2nd Half with or without 1st OT
     section = Column(String(16))
 
     time = Column(String(16))
@@ -506,4 +519,3 @@ class GameDetail(Base):
 
 
 Base.metadata.create_all(engine, checkfirst=True)
-

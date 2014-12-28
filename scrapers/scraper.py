@@ -5,19 +5,13 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
 sys.path.insert(1, '../NCAA')
-from ncaa_men import *
+from ncaa import *
 from scraper_helper import *
 from dateutil.parser import *
-from sqlalchemy import *
-from sqlalchemy.orm import sessionmaker
-
-engine = create_engine('mysql://root:QuantH00p!@localhost/NCAA_Men', echo=False)
-Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
 
 
 def team_parser(session, season_id, division):
     try:
-        # row = session.query(Season).filter_by(id=season_id).first()
         url = "http://stats.ncaa.org/team/inst_team_list/%s?division=%s" % (season_id, division)
         team_links = get_team_link(url)
 
@@ -90,7 +84,7 @@ def conference_parser(session, season_id, division):
                         conference_record_list.append(Conference(conference_id, conference_name))
                         session.add(Conference(conference_id, conference_name))
 
-        #update Squad records with conference information
+        # update Squad records with conference information
         for conference_id in conference_id_list:
             url = "http://stats.ncaa.org/team/inst_team_list?academic_year=%s&amp;" \
                 "conf_id=%s&amp;division=%s&amp;sport_code=MBB" % (year, conference_id, division)
@@ -128,21 +122,20 @@ def schedule_parser(session, squad_record):
         return
     """NOTE: there maybe team not in NCAA, they don't have <a> tag"""
     try:
-        # links = soup.find_all('table')[1].find_all(lambda tag: tag.name == 'a' and tag.findParent('td', attrs={'class':'smtext'}))
-        tr_list = soup.find('table', attrs={'class':'mytable', 'align':'center'}).find_all('tr')
+        tr_list = soup.find('table', attrs={'class': 'mytable', 'align': 'center'}).find_all('tr')
         for tr in tr_list:
             # This contains game information
             if len(tr.find_all('td')) == 3 and not tr.has_attr('class'):
                 both_teams_are_ncaa = False
                 winner_id = None
                 loser_id = None
-                game_td_list = tr.find_all('td', attrs={'class':'smtext'})
+                game_td_list = tr.find_all('td', attrs={'class': 'smtext'})
                 opponent = game_td_list[1].find('a')
                 result = game_td_list[2].find('a')
                 # This is a future game, skip
                 if result is None:
                     print "This is a future game with %s, skip" % game_td_list[1].string.strip() \
-                            if len(game_td_list[1]) == 1 else game_td_list[1].contents[2].strip()
+                        if len(game_td_list[1]) == 1 else game_td_list[1].contents[2].strip()
                 # A game that already happened
                 else:
                     # Opponent team is a ncaa team
@@ -172,7 +165,6 @@ def schedule_parser(session, squad_record):
                         non_ncaa_id = 1
 
                     game_id = int(result['href'].split("?")[0].split("/")[-1])
-                    print game_id
                     # An example of score_string: W 91 - 88 (2OT)
                     score_string_list = result.string.split(" ")
                     try:
@@ -220,18 +212,20 @@ def schedule_parser(session, squad_record):
                         if both_teams_are_ncaa:
                             if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
 
-                                session.add_all([Schedule(game_id,winner_id,team_type),
-                                                Schedule(game_id,loser_id,opponent_type)])
+                                session.add_all([Schedule(game_id, winner_id, team_type),
+                                                Schedule(game_id, loser_id, opponent_type)])
                         # One of the team if not a NCAA team
                         else:
                             # Create Schedule records based on one teams
                             team_type = "tournament"
                             if game_id and session.query(Schedule).filter_by(game_id=game_id).first() is None:
-                                session.add(Schedule(game_id,squad_id,team_type))
+                                session.add(Schedule(game_id, squad_id, team_type))
+                            else:
+                                print "game_id: %s already in schedule table." % game_id
                 session.flush()
 
     except Exception, e:
-        message="""
+        message = """
         url: %s
         This page has something wrong
         %s
@@ -255,7 +249,7 @@ def game_parser(session, game_record):
         game_id = game_record.id
         print "$$$$ game_id: "+str(game_id)
 
-        url = "http://stats.ncaa.org/game/index/%s" % (game_id)
+        url = "http://stats.ncaa.org/game/index/%s" % game_id
         soup = soupify(url)
         if soup is None:
             error_message = """
@@ -266,7 +260,7 @@ def game_parser(session, game_record):
             return
         tables = soup.find_all('table')
 
-        #score table could have 0, 1 or 2 OverTime
+        # Score table could have 0, 1 or 2 OverTime
         score_details = tables[0]
         first_team_tds = score_details.find_all('tr')[1].find_all('td', {"align":"right"})
         second_team_tds = score_details.find_all('tr')[2].find_all('td', {"align":"right"})
@@ -274,21 +268,29 @@ def game_parser(session, game_record):
         # Some games don't have first and second half (i.e. game: 744710)
         if len(first_team_tds) >= 3:
             first_team_is_winner = int(first_team_tds[-1].string) > int(second_team_tds[-1].string)
-            game_record.winner_first_half_score = first_team_tds[0].string if first_team_is_winner else second_team_tds[0].string
-            game_record.loser_first_half_score = second_team_tds[0].string if first_team_is_winner else first_team_tds[0].string
-            game_record.winner_second_half_score = first_team_tds[1].string if first_team_is_winner else second_team_tds[1].string
-            game_record.loser_second_half_score = second_team_tds[1].string if first_team_is_winner else first_team_tds[1].string
+            game_record.winner_first_half_score = first_team_tds[0].string \
+                if first_team_is_winner else second_team_tds[0].string
+            game_record.loser_first_half_score = second_team_tds[0].string \
+                if first_team_is_winner else first_team_tds[0].string
+            game_record.winner_second_half_score = first_team_tds[1].string \
+                if first_team_is_winner else second_team_tds[1].string
+            game_record.loser_second_half_score = second_team_tds[1].string \
+                if first_team_is_winner else first_team_tds[1].string
             # If has 1st OT
             if len(first_team_tds) >= 4:
-                game_record.winner_first_OT_score = first_team_tds[2].string if first_team_is_winner else second_team_tds[2].string
-                game_record.loser_first_OT_score = second_team_tds[2].string if first_team_is_winner else first_team_tds[2].string
+                game_record.winner_first_OT_score = first_team_tds[2].string \
+                    if first_team_is_winner else second_team_tds[2].string
+                game_record.loser_first_OT_score = second_team_tds[2].string \
+                    if first_team_is_winner else first_team_tds[2].string
             # If has 2nd OT
             if len(first_team_tds) >= 5:
-                game_record.winner_second_OT_score = first_team_tds[3].string if first_team_is_winner else second_team_tds[3].string
-                game_record.loser_second_OT_score = second_team_tds[3].string if first_team_is_winner else first_team_tds[3].string
+                game_record.winner_second_OT_score = first_team_tds[3].string \
+                    if first_team_is_winner else second_team_tds[3].string
+                game_record.loser_second_OT_score = second_team_tds[3].string \
+                    if first_team_is_winner else first_team_tds[3].string
 
         # Game details (date, location, etc) in tables[2]
-        #TODO: different layout (table)
+        # TODO: different layout (table)
         game_details = tables[2]
         game_record.date = parse(game_details.find_all('td')[1].string.split(' ')[0]).date()
         game_record.location = game_details.find_all('td')[3].string
@@ -395,8 +397,8 @@ def season_stat_parser(session, squad_record):
         return
     team_stats = None
     opnt_stats = None
-    player_stat_trs = soup.find_all('tr', attrs={'class':'text'})
-    #TODO: http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020
+    player_stat_trs = soup.find_all('tr', attrs={'class': 'text'})
+    # TODO: http://stats.ncaa.org/team/stats?org_id=10972&sport_year_ctl_id=12020
     # If this page has an empty table, skip it.
     if not player_stat_trs:
         error_message = """
@@ -413,29 +415,29 @@ def season_stat_parser(session, squad_record):
         player_stat_list = preprocess_stat_list(player_stat_tds)
         if player_stat_list[1].string != 'TEAM' and player_stat_list[1].string != 'Player':
             stats = {
-                'minutes_played':player_stat_list[7].string,
-                'field_goals_made':player_stat_list[8].string,
-                'field_goals_attempted':player_stat_list[9].string,
-                'field_goals_percentage':player_stat_list[10].string,
-                'three_field_goals_made':player_stat_list[11].string,
-                'three_field_goals_attempted':player_stat_list[12].string,
-                'three_field_goals_percentage':player_stat_list[13].string,
-                'free_throws_made':player_stat_list[14].string,
-                'free_throws_attempted':player_stat_list[15].string,
-                'free_throws_percentage':player_stat_list[16].string,
-                'points':player_stat_list[17].string,
-                'average_points':player_stat_list[18].string,
-                'offensive_rebounds':player_stat_list[19].string,
-                'defensive_rebounds':player_stat_list[20].string,
-                'total_rebounds':player_stat_list[21].string,
-                'average_rebounds':player_stat_list[22].string,
-                'assists': player_stat_list[23].string,
-                'turnovers':player_stat_list[24].string,
-                'steals':player_stat_list[25].string,
-                'blocks':player_stat_list[26].string,
-                'fouls':player_stat_list[27].string,
-                'double_doubles':player_stat_list[28].string,
-                'triple_doubles':player_stat_list[29].string
+                'minutes_played': player_stat_list[7].string,
+                'field_goals_made': player_stat_list[8].string,
+                'field_goals_attempted': player_stat_list[9].string,
+                'field_goals_percentage': player_stat_list[10].string,
+                'three_field_goals_made': player_stat_list[11].string,
+                'three_field_goals_attempted': player_stat_list[12].string,
+                'three_field_goals_percentage': player_stat_list[13].string,
+                'free_throws_made': player_stat_list[14].string,
+                'free_throws_attempted': player_stat_list[15].string,
+                'free_throws_percentage': player_stat_list[16].string,
+                'points': player_stat_list[17].string,
+                'average_points': player_stat_list[18].string,
+                'offensive_rebounds': player_stat_list[19].string,
+                'defensive_rebounds': player_stat_list[20].string,
+                'total_rebounds': player_stat_list[21].string,
+                'average_rebounds': player_stat_list[22].string,
+                'assists':  player_stat_list[23].string,
+                'turnovers': player_stat_list[24].string,
+                'steals': player_stat_list[25].string,
+                'blocks': player_stat_list[26].string,
+                'fouls': player_stat_list[27].string,
+                'double_doubles': player_stat_list[28].string,
+                'triple_doubles': player_stat_list[29].string
             }
             squadmember = session.query(SquadMember).filter(SquadMember.squad_id == squad_id,
                                               SquadMember.player_id == player_id).first()
@@ -452,50 +454,50 @@ def season_stat_parser(session, squad_record):
 
         if player_stat_list[1].string == 'TEAM':
             team_stats = {
-                'team_points':player_stat_list[17].string,
-                'team_average_points':player_stat_list[18].string,
-                'team_offensive_rebounds':player_stat_list[19].string,
-                'team_defensive_rebounds':player_stat_list[20].string,
-                'team_total_rebounds':player_stat_list[21].string,
-                'team_average_rebounds':player_stat_list[22].string,
-                'team_assists': player_stat_list[23].string,
-                'team_turnovers':player_stat_list[24].string,
-                'team_steals':player_stat_list[25].string,
-                'team_blocks':player_stat_list[26].string,
-                'team_fouls':player_stat_list[27].string,
-                'team_double_doubles':player_stat_list[28].string,
-                'team_triple_doubles':player_stat_list[29].string
+                'team_points': player_stat_list[17].string,
+                'team_average_points': player_stat_list[18].string,
+                'team_offensive_rebounds': player_stat_list[19].string,
+                'team_defensive_rebounds': player_stat_list[20].string,
+                'team_total_rebounds': player_stat_list[21].string,
+                'team_average_rebounds': player_stat_list[22].string,
+                'team_assists':  player_stat_list[23].string,
+                'team_turnovers': player_stat_list[24].string,
+                'team_steals': player_stat_list[25].string,
+                'team_blocks': player_stat_list[26].string,
+                'team_fouls': player_stat_list[27].string,
+                'team_double_doubles': player_stat_list[28].string,
+                'team_triple_doubles': player_stat_list[29].string
             }
 
-    team_stat_trs = soup.find_all('tr', attrs={'class':'grey_heading'})
+    team_stat_trs = soup.find_all('tr', attrs={'class': 'grey_heading'})
     team_stat_tr = team_stat_trs[1]
     # Scrap Team's Total stat
     team_stat_list = preprocess_stat_list(team_stat_tr.find_all('td'))
     total_stats = {
-            'minutes_played':team_stat_list[7].string,
-            'field_goals_made':team_stat_list[8].string.replace(',',''),
-            'field_goals_attempted':team_stat_list[9].string.replace(',',''),
-            'field_goals_percentage':team_stat_list[10].string,
-            'three_field_goals_made':team_stat_list[11].string.replace(',',''),
-            'three_field_goals_attempted':team_stat_list[12].string.replace(',',''),
-            'three_field_goals_percentage':team_stat_list[13].string,
-            'free_throws_made':team_stat_list[14].string.replace(',',''),
-            'free_throws_attempted':team_stat_list[15].string.replace(',',''),
-            'free_throws_percentage':team_stat_list[16].string,
-            'points':team_stat_list[17].string.replace(',',''),
-            'average_points':team_stat_list[18].string.replace(',',''),
-            'offensive_rebounds':team_stat_list[19].string.replace(',',''),
-            'defensive_rebounds':team_stat_list[20].string.replace(',',''),
-            'total_rebounds':team_stat_list[21].string.replace(',',''),
-            'average_rebounds':team_stat_list[22].string.replace(',',''),
-            'assists': team_stat_list[23].string.replace(',',''),
-            'turnovers':team_stat_list[24].string.replace(',',''),
-            'steals':team_stat_list[25].string.replace(',',''),
-            'blocks':team_stat_list[26].string.replace(',',''),
-            'fouls':team_stat_list[27].string.replace(',',''),
-            'double_doubles':team_stat_list[28].string,
-            'triple_doubles':team_stat_list[29].string
-        }
+        'minutes_played': team_stat_list[7].string,
+        'field_goals_made': team_stat_list[8].string.replace(',', ''),
+        'field_goals_attempted': team_stat_list[9].string.replace(',', ''),
+        'field_goals_percentage': team_stat_list[10].string,
+        'three_field_goals_made': team_stat_list[11].string.replace(',', ''),
+        'three_field_goals_attempted': team_stat_list[12].string.replace(',', ''),
+        'three_field_goals_percentage': team_stat_list[13].string,
+        'free_throws_made': team_stat_list[14].string.replace(',', ''),
+        'free_throws_attempted': team_stat_list[15].string.replace(',', ''),
+        'free_throws_percentage': team_stat_list[16].string,
+        'points': team_stat_list[17].string.replace(',', ''),
+        'average_points': team_stat_list[18].string.replace(',', ''),
+        'offensive_rebounds': team_stat_list[19].string.replace(',', ''),
+        'defensive_rebounds': team_stat_list[20].string.replace(',', ''),
+        'total_rebounds': team_stat_list[21].string.replace(',', ''),
+        'average_rebounds': team_stat_list[22].string.replace(',', ''),
+        'assists':  team_stat_list[23].string.replace(',', ''),
+        'turnovers': team_stat_list[24].string.replace(',', ''),
+        'steals': team_stat_list[25].string.replace(',', ''),
+        'blocks': team_stat_list[26].string.replace(',', ''),
+        'fouls': team_stat_list[27].string.replace(',', ''),
+        'double_doubles': team_stat_list[28].string,
+        'triple_doubles': team_stat_list[29].string
+    }
 
     # Some page don't have opponent's stat
     if len(team_stat_trs) == 3:
@@ -503,30 +505,30 @@ def season_stat_parser(session, squad_record):
         # Scrap Team's Opponent stat
         opnt_stat_list = preprocess_stat_list(opnt_stat_tr.find_all('td'))
         opnt_stats = {
-                'Opnt_minutes_played':opnt_stat_list[7].string,
-                'Opnt_field_goals_made':opnt_stat_list[8].string.replace(',',''),
-                'Opnt_field_goals_attempted':opnt_stat_list[9].string.replace(',',''),
-                'Opnt_field_goals_percentage':opnt_stat_list[10].string,
-                'Opnt_three_field_goals_made':opnt_stat_list[11].string.replace(',',''),
-                'Opnt_three_field_goals_attempted':opnt_stat_list[12].string.replace(',',''),
-                'Opnt_three_field_goals_percentage':opnt_stat_list[13].string,
-                'Opnt_free_throws_made':opnt_stat_list[14].string.replace(',',''),
-                'Opnt_free_throws_attempted':opnt_stat_list[15].string.replace(',',''),
-                'Opnt_free_throws_percentage':opnt_stat_list[16].string,
-                'Opnt_points':opnt_stat_list[17].string.replace(',',''),
-                'Opnt_average_points':opnt_stat_list[18].string.replace(',',''),
-                'Opnt_offensive_rebounds':opnt_stat_list[19].string.replace(',',''),
-                'Opnt_defensive_rebounds':opnt_stat_list[20].string.replace(',',''),
-                'Opnt_total_rebounds':opnt_stat_list[21].string.replace(',',''),
-                'Opnt_average_rebounds':opnt_stat_list[22].string.replace(',',''),
-                'Opnt_assists': opnt_stat_list[23].string.replace(',',''),
-                'Opnt_turnovers':opnt_stat_list[24].string.replace(',',''),
-                'Opnt_steals':opnt_stat_list[25].string.replace(',',''),
-                'Opnt_blocks':opnt_stat_list[26].string.replace(',',''),
-                'Opnt_fouls':opnt_stat_list[27].string.replace(',',''),
-                'Opnt_double_doubles':opnt_stat_list[28].string,
-                'Opnt_triple_doubles':opnt_stat_list[29].string
-            }
+            'Opnt_minutes_played': opnt_stat_list[7].string,
+            'Opnt_field_goals_made': opnt_stat_list[8].string.replace(',', ''),
+            'Opnt_field_goals_attempted': opnt_stat_list[9].string.replace(',', ''),
+            'Opnt_field_goals_percentage': opnt_stat_list[10].string,
+            'Opnt_three_field_goals_made': opnt_stat_list[11].string.replace(',', ''),
+            'Opnt_three_field_goals_attempted': opnt_stat_list[12].string.replace(',', ''),
+            'Opnt_three_field_goals_percentage': opnt_stat_list[13].string,
+            'Opnt_free_throws_made': opnt_stat_list[14].string.replace(',', ''),
+            'Opnt_free_throws_attempted': opnt_stat_list[15].string.replace(',', ''),
+            'Opnt_free_throws_percentage': opnt_stat_list[16].string,
+            'Opnt_points': opnt_stat_list[17].string.replace(',', ''),
+            'Opnt_average_points': opnt_stat_list[18].string.replace(',', ''),
+            'Opnt_offensive_rebounds': opnt_stat_list[19].string.replace(',', ''),
+            'Opnt_defensive_rebounds': opnt_stat_list[20].string.replace(',', ''),
+            'Opnt_total_rebounds': opnt_stat_list[21].string.replace(',', ''),
+            'Opnt_average_rebounds': opnt_stat_list[22].string.replace(',', ''),
+            'Opnt_assists':  opnt_stat_list[23].string.replace(',', ''),
+            'Opnt_turnovers': opnt_stat_list[24].string.replace(',', ''),
+            'Opnt_steals': opnt_stat_list[25].string.replace(',', ''),
+            'Opnt_blocks': opnt_stat_list[26].string.replace(',', ''),
+            'Opnt_fouls': opnt_stat_list[27].string.replace(',', ''),
+            'Opnt_double_doubles': opnt_stat_list[28].string,
+            'Opnt_triple_doubles': opnt_stat_list[29].string
+        }
 
     if team_stats is not None and opnt_stats is not None:
         # Combine Total_stats and Team_stats and Opnt_stats
@@ -581,7 +583,7 @@ def game_stat_parser(session, game_record):
         return
     team_stats = None
     tables = soup.find_all('table')
-    #tables[0] has team name and team id
+    # tables[0] has team name and team id
     team_links = [x.find('a') for x in tables[0].find_all('td')]
     team_links = filter(None, team_links)
     # Two teams are both NCAA team
@@ -593,16 +595,16 @@ def game_stat_parser(session, game_record):
 
     for table in tables[4:]:
         # In case the table has no player's stat
-        if not table.find_all('tr', {"class":"smtext"}):
+        if not table.find_all('tr', {"class": "smtext"}):
             continue
-        if table.find_all('tr', {"class":"smtext"})[0].find_all('td')[0].a == None:
+        if not table.find_all('tr', {"class": "smtext"})[0].find_all('td')[0].a:
             continue
 
         if len(team_links) == 2:
-            #table[4] is the first team
+            # table[4] is the first team
             if tables.index(table) == 4:
                 team_id = first_team_id
-            #table[5] is the second team
+            # table[5] is the second team
             elif tables.index(table) == 5:
                 team_id = second_team_id
             print team_id, year
@@ -611,7 +613,7 @@ def game_stat_parser(session, game_record):
                                       Squad.year == year).first()
             if squad_record:
                 squad_id = squad_record.id
-                player_stat_tr_list = table.find_all('tr', {"class":"smtext"})
+                player_stat_tr_list = table.find_all('tr', {"class": "smtext"})
                 for player_stat_tr in player_stat_tr_list:
                     player_stat_list = player_stat_tr.find_all('td')
                     # player_stat
@@ -626,7 +628,7 @@ def game_stat_parser(session, game_record):
                             squadmember_id = session.query(SquadMember).filter(SquadMember.player_id == player_id,
                                                             SquadMember.squad_id == squad_id).first().id
                         except:
-                            message="""
+                            message = """
                             game_id: %s
                             squad_id: %s
                             player_id: %s
@@ -636,63 +638,63 @@ def game_stat_parser(session, game_record):
                             continue
 
                         stats = {
-                            'minutes_played':player_stat_list[2].string,
-                            'field_goals_made':player_stat_list[3].string,
-                            'field_goals_attempted':player_stat_list[4].string,
-                            'three_field_goals_made':player_stat_list[5].string,
-                            'three_field_goals_attempted':player_stat_list[6].string,
-                            'free_throws_made':player_stat_list[7].string,
-                            'free_throws_attempted':player_stat_list[8].string,
-                            'points':player_stat_list[9].string,
-                            'offensive_rebounds':player_stat_list[10].string,
-                            'defensive_rebounds':player_stat_list[11].string,
-                            'total_rebounds':player_stat_list[12].string,
-                            'assists': player_stat_list[13].string,
-                            'turnovers':player_stat_list[14].string,
-                            'steals':player_stat_list[15].string,
-                            'blocks':player_stat_list[16].string,
-                            'fouls':player_stat_list[17].string
+                            'minutes_played': player_stat_list[2].string,
+                            'field_goals_made': player_stat_list[3].string,
+                            'field_goals_attempted': player_stat_list[4].string,
+                            'three_field_goals_made': player_stat_list[5].string,
+                            'three_field_goals_attempted': player_stat_list[6].string,
+                            'free_throws_made': player_stat_list[7].string,
+                            'free_throws_attempted': player_stat_list[8].string,
+                            'points': player_stat_list[9].string,
+                            'offensive_rebounds': player_stat_list[10].string,
+                            'defensive_rebounds': player_stat_list[11].string,
+                            'total_rebounds': player_stat_list[12].string,
+                            'assists':  player_stat_list[13].string,
+                            'turnovers': player_stat_list[14].string,
+                            'steals': player_stat_list[15].string,
+                            'blocks': player_stat_list[16].string,
+                            'fouls': player_stat_list[17].string
                         }
                         # print stats
-                        if session.query(PlayerGameStat).filter(PlayerGameStat.squadmember_id==squadmember_id,
-                                                             PlayerGameStat.game_id==game_id).first() is None:
+                        if session.query(PlayerGameStat).filter(PlayerGameStat.squadmember_id == squadmember_id,
+                                                             PlayerGameStat.game_id == game_id).first() is None:
                             session.add(PlayerGameStat(squadmember_id, game_id, stats))
                             session.flush()
                     # TEAM stats
-                    elif player_stat_list[0].a is None and (player_stat_list[0].string.strip() == 'TEAM' or \
+                    elif player_stat_list[0].a is None and (player_stat_list[0].string.strip() == 'TEAM' or
                                                             player_stat_list[0].string.strip() == 'Team'):
                         # Pre-process the list, all none value or white space will be "0"
                         player_stat_list = preprocess_stat_list(player_stat_list)
                         team_stats = {
-                            'team_offensive_rebounds':player_stat_list[10].string,
-                            'team_defensive_rebounds':player_stat_list[11].string,
-                            'team_total_rebounds':player_stat_list[12].string,
-                            'team_turnovers':player_stat_list[14].string,
-                            'team_fouls':player_stat_list[17].string,
+                            'team_offensive_rebounds': player_stat_list[10].string,
+                            'team_defensive_rebounds': player_stat_list[11].string,
+                            'team_total_rebounds': player_stat_list[12].string,
+                            'team_turnovers': player_stat_list[14].string,
+                            'team_fouls': player_stat_list[17].string,
                         }
 
             # Squad total stats
             total_stat_tr = table.find_all('tr', {"class":"grey_heading"})[1]
             # Pre-process the list, all none value or white space will be "0"
             # Also remove the "*/-"
-            total_stat_list = preprocess_stat_list(total_stat_tr.find_all("td", {"align":"right"}))
+            total_stat_list = preprocess_stat_list(total_stat_tr.find_all("td", {"align": "right"}))
             total_stats = {
-                'minutes_played':total_stat_list[0].string,
-                'field_goals_made':total_stat_list[1].string,
-                'field_goals_attempted':total_stat_list[2].string,
-                'three_field_goals_made':total_stat_list[3].string,
-                'three_field_goals_attempted':total_stat_list[4].string,
-                'free_throws_made':total_stat_list[5].string,
-                'free_throws_attempted':total_stat_list[6].string,
-                'points':total_stat_list[7].string,
-                'offensive_rebounds':total_stat_list[8].string,
-                'defensive_rebounds':total_stat_list[9].string,
-                'total_rebounds':total_stat_list[10].string,
-                'assists': total_stat_list[11].string,
-                'turnovers':total_stat_list[12].string,
-                'steals':total_stat_list[13].string,
-                'blocks':total_stat_list[14].string,
-                'fouls':total_stat_list[15].string
+                'minutes_played': total_stat_list[0].string,
+                'field_goals_made': total_stat_list[1].string,
+                'field_goals_attempted': total_stat_list[2].string,
+                'three_field_goals_made': total_stat_list[3].string,
+                'three_field_goals_attempted': total_stat_list[4].string,
+                'free_throws_made': total_stat_list[5].string,
+                'free_throws_attempted': total_stat_list[6].string,
+                'points': total_stat_list[7].string,
+                'offensive_rebounds': total_stat_list[8].string,
+                'defensive_rebounds': total_stat_list[9].string,
+                'total_rebounds': total_stat_list[10].string,
+                'assists':  total_stat_list[11].string,
+                'turnovers': total_stat_list[12].string,
+                'steals': total_stat_list[13].string,
+                'blocks': total_stat_list[14].string,
+                'fouls': total_stat_list[15].string
             }
             if team_stats is not None:
                 stats = dict(total_stats.items() + team_stats.items())
@@ -716,9 +718,9 @@ def game_stat_parser(session, game_record):
             """ % (game_id, squad_id)
             write_error_to_file(error_message)
 
+
 def gamedetail_parser(session, game_record):
     game_id = game_record.id
-    print game_id
     url = "http://stats.ncaa.org/game/play_by_play/%s" % game_id
     soup = soupify(url)
     if soup is None:
@@ -731,8 +733,8 @@ def gamedetail_parser(session, game_record):
     tables = soup.find_all("table")
 
     score_details = tables[0]
-    first_team_tds = score_details.find_all('tr')[1].find_all('td', {"align":"right"})
-    second_team_tds = score_details.find_all('tr')[2].find_all('td', {"align":"right"})
+    first_team_tds = score_details.find_all('tr')[1].find_all('td', {"align": "right"})
+    second_team_tds = score_details.find_all('tr')[2].find_all('td', {"align": "right"})
     first_team_is_winner = int(first_team_tds[-1].string) > int(second_team_tds[-1].string)
     if first_team_is_winner:
         first_squad_id = game_record.winner_id
@@ -754,8 +756,8 @@ def gamedetail_parser(session, game_record):
 
         table_trs = table.find_all("tr")
         for one_line in table_trs[1:]:
-            score = one_line.find('td', {"align":"center"}).string
-            info = one_line.find_all('td', {"class":"smtext"})
+            score = one_line.find('td', {"align": "center"}).string
+            info = one_line.find_all('td', {"class": "smtext"})
             if info:
                 time = info[0].string
                 if info[1].string is not None:
@@ -765,14 +767,18 @@ def gamedetail_parser(session, game_record):
                     detail = info[3].string
                     squad_id = second_squad_id
 
-                if session.query(GameDetail).filter(GameDetail.game_id==game_id,
-                                                    GameDetail.section==section,
-                                                    GameDetail.time==time,
-                                                    GameDetail.detail==detail).first() is None:
+                if session.query(GameDetail).filter(GameDetail.game_id == game_id,
+                                                    GameDetail.section == section,
+                                                    GameDetail.time == time,
+                                                    GameDetail.detail == detail).first() is None:
                     gamedetail_record = GameDetail(game_id, section, time, score, squad_id, detail)
                     gamedetail_records.append(gamedetail_record)
 
     session.add_all(gamedetail_records)
+    # Update
+    game_record_to_update = session.query(Game).filter_by(id=game_id).first()
+    game_record_to_update.has_detail = 1
+    session.add(game_record_to_update)
     session.flush()
 
 
