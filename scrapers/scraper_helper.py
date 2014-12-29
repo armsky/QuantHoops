@@ -5,7 +5,9 @@ import traceback
 import urllib
 import urllib2
 import datetime
+import socket
 from bs4 import BeautifulSoup
+
 
 def soupify(url):
     """
@@ -22,7 +24,7 @@ def soupify(url):
         soup = BeautifulSoup(html)
         url_connection.close()
         return soup
-    except urllib2.URLError:
+    except (urllib2.URLError, socket.error):
         try:
             # If didn't get the information, try a second time
             urllib2.urlopen(url)
@@ -31,8 +33,21 @@ def soupify(url):
             soup = BeautifulSoup(html)
             url_connection.close()
             return soup
-        except urllib2.URLError:
-            return None
+        except Exception, e:
+            error_message = """
+                Bad connection with NCAA
+                %s
+                """ % e
+            write_error_to_file(error_message)
+            raise
+    except Exception, e:
+        error_message = """
+            Bad connection with NCAA
+            %s
+            """ % e
+        write_error_to_file(error_message)
+        raise
+
 
 
 def get_team_link(url):
