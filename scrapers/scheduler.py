@@ -96,7 +96,7 @@ def initial_season_stat_scrap(engine):
 
     try:
         for squad_record in squads:
-            if squad_record.id != 0:
+            if squad_record.id != 1:
                 print "%%%% squad_id is "+str(squad_record.id)
                 session = settings.create_session(engine)
                 season_stat_parser(session, squad_record)

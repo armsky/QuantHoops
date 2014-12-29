@@ -702,7 +702,7 @@ def game_stat_parser(session, game_record):
                     print "$$$$$ Found squad game stat"
                     squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
                     session.add(squad_game_stat_record)
-                    # Update
+                    # Update has_stat to 1
                     game_record_to_update = session.query(Game).filter_by(id=game_id).first()
                     game_record_to_update.has_stat = 1
                     session.add(game_record_to_update)
