@@ -381,7 +381,7 @@ def player_parser(session, squad_record):
         write_error_to_file(error_message)
 
 
-def season_stat_parser(session, squad_record):
+def season_stat_parser(session, squad_record, gender):
     squad_id = squad_record.id
     season_id = squad_record.season_id
     team_id = squad_record.team_id
@@ -436,8 +436,10 @@ def season_stat_parser(session, squad_record):
                 'steals': player_stat_list[25].string,
                 'blocks': player_stat_list[26].string,
                 'fouls': player_stat_list[27].string,
-                'double_doubles': player_stat_list[28].string,
-                'triple_doubles': player_stat_list[29].string
+                'double_doubles': 0 if gender == "women"
+                                    else player_stat_list[28].string,
+                'triple_doubles': 0 if gender == "women"
+                                    else player_stat_list[29].string
             }
             squadmember = session.query(SquadMember).filter(SquadMember.squad_id == squad_id,
                                               SquadMember.player_id == player_id).first()
@@ -465,8 +467,10 @@ def season_stat_parser(session, squad_record):
                 'team_steals': player_stat_list[25].string,
                 'team_blocks': player_stat_list[26].string,
                 'team_fouls': player_stat_list[27].string,
-                'team_double_doubles': player_stat_list[28].string,
-                'team_triple_doubles': player_stat_list[29].string
+                'team_double_doubles': 0 if gender == "women"
+                                        else player_stat_list[28].string,
+                'team_triple_doubles': 0 if gender == "women"
+                                        else player_stat_list[29].string
             }
 
     team_stat_trs = soup.find_all('tr', attrs={'class': 'grey_heading'})
@@ -495,8 +499,10 @@ def season_stat_parser(session, squad_record):
         'steals': team_stat_list[25].string.replace(',', ''),
         'blocks': team_stat_list[26].string.replace(',', ''),
         'fouls': team_stat_list[27].string.replace(',', ''),
-        'double_doubles': team_stat_list[28].string,
-        'triple_doubles': team_stat_list[29].string
+        'double_doubles': 0 if gender == "women"
+                            else team_stat_list[28].string,
+        'triple_doubles': 0 if gender == "women"
+                            else team_stat_list[29].string
     }
 
     # Some page don't have opponent's stat
@@ -526,8 +532,10 @@ def season_stat_parser(session, squad_record):
             'Opnt_steals': opnt_stat_list[25].string.replace(',', ''),
             'Opnt_blocks': opnt_stat_list[26].string.replace(',', ''),
             'Opnt_fouls': opnt_stat_list[27].string.replace(',', ''),
-            'Opnt_double_doubles': opnt_stat_list[28].string,
-            'Opnt_triple_doubles': opnt_stat_list[29].string
+            'Opnt_double_doubles': 0 if gender == "women"
+                                    else opnt_stat_list[28].string,
+            'Opnt_triple_doubles': 0 if gender == "women"
+                                    else opnt_stat_list[29].string
         }
 
     if team_stats is not None and opnt_stats is not None:

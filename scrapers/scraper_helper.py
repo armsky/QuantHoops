@@ -18,6 +18,7 @@ def soupify(url):
     :return: BeautifulSoup
     """
     try:
+        print url
         urllib2.urlopen(url)
         url_connection = urllib.urlopen(url)
         html = url_connection.read()
@@ -39,14 +40,14 @@ def soupify(url):
                 %s
                 """ % e
             write_error_to_file(error_message)
-            raise
+            return None
     except Exception, e:
         error_message = """
             Bad connection with NCAA
             %s
             """ % e
         write_error_to_file(error_message)
-        raise
+        return None
 
 
 

@@ -89,7 +89,7 @@ def initial_schedule_game_player_scrap(engine):
         raise
 
 
-def initial_season_stat_scrap(engine):
+def initial_season_stat_scrap(engine, gender):
     session = settings.create_session(engine)
     squads = session.query(Squad).all()
     session.close()
@@ -99,7 +99,7 @@ def initial_season_stat_scrap(engine):
             if squad_record.id != 1:
                 print "%%%% squad_id is "+str(squad_record.id)
                 session = settings.create_session(engine)
-                season_stat_parser(session, squad_record)
+                season_stat_parser(session, squad_record, gender)
 
     except Exception, e:
         message = """
@@ -213,7 +213,7 @@ def new_schedule_game_player_scrap(engine):
         raise
 
 
-def new_season_stat_scrap(engine):
+def new_season_stat_scrap(engine, gender):
     session = settings.create_session(engine)
     this_season_id = session.query(func.max(Season.id)).first()[0]
     squads = session.query(Squad).filter_by(season_id=this_season_id).all()
@@ -225,7 +225,7 @@ def new_season_stat_scrap(engine):
             if squad_record.id != 1:
                 print "%%%% squad_id is "+str(squad_record.id)
                 session = settings.create_session(engine)
-                season_stat_parser(session, squad_record)
+                season_stat_parser(session, squad_record, gender)
                 session.close()
     except Exception, e:
         message = """
@@ -328,7 +328,7 @@ def main(argv):
         elif process == "schedule_game_player" or process == "2":
             new_schedule_game_player_scrap(engine)
         elif process == "season_stat" or process == "3":
-            new_season_stat_scrap(engine)
+            new_season_stat_scrap(engine, gender)
         elif process == "game_stat" or process == "4":
             new_game_stat_scrap(engine)
         elif process == "game_detail" or process == "5":
@@ -342,7 +342,7 @@ def main(argv):
         elif process == "schedule_game_player" or process == "2":
             initial_schedule_game_player_scrap(engine)
         elif process == "season_stat" or process == "3":
-            initial_season_stat_scrap(engine)
+            initial_season_stat_scrap(engine, gender)
         elif process == "game_stat" or process == "4":
             initial_game_stat_scrap(engine)
         elif process == "game_detail" or process == "5":
