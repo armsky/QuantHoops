@@ -5,8 +5,8 @@ reload(sys)
 sys.setdefaultencoding("utf8")
 sys.path.insert(1, '../scrapers')
 sys.path.insert(1, '../NCAA')
-from scraper_men import *
-from ncaa_men import *
+from scraper import *
+from ncaa import *
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
@@ -20,23 +20,22 @@ for squad_season_record in squad_season_stat_list:
     squad_id = squad_season_record.squad_id
     print squad_id
     total_stats = {
-            'field_goals_made':squad_season_record.field_goals_made,
-            'field_goals_attempted':squad_season_record.field_goals_attempted,
-            'three_field_goals_made':squad_season_record.three_field_goals_made,
-            'three_field_goals_attempted':squad_season_record.three_field_goals_attempted,
-            'free_throws_made':squad_season_record.free_throws_made,
-            'free_throws_attempted':squad_season_record.free_throws_attempted,
-            'points':squad_season_record.points,
-            'offensive_rebounds':squad_season_record.offensive_rebounds,
-            'defensive_rebounds':squad_season_record.defensive_rebounds,
-            'total_rebounds':squad_season_record.total_rebounds,
-            'assists': squad_season_record.assists,
-            'turnovers':squad_season_record.turnovers,
-            'steals':squad_season_record.steals,
-            'blocks':squad_season_record.blocks,
-            'fouls':squad_season_record.fouls
-        }
-
+        'field_goals_made':squad_season_record.field_goals_made,
+        'field_goals_attempted':squad_season_record.field_goals_attempted,
+        'three_field_goals_made':squad_season_record.three_field_goals_made,
+        'three_field_goals_attempted':squad_season_record.three_field_goals_attempted,
+        'free_throws_made':squad_season_record.free_throws_made,
+        'free_throws_attempted':squad_season_record.free_throws_attempted,
+        'points':squad_season_record.points,
+        'offensive_rebounds':squad_season_record.offensive_rebounds,
+        'defensive_rebounds':squad_season_record.defensive_rebounds,
+        'total_rebounds':squad_season_record.total_rebounds,
+        'assists': squad_season_record.assists,
+        'turnovers':squad_season_record.turnovers,
+        'steals':squad_season_record.steals,
+        'blocks':squad_season_record.blocks,
+        'fouls':squad_season_record.fouls
+    }
     stats_sum = {
         'field_goals_made':0,
         'field_goals_attempted':0,

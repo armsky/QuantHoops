@@ -101,8 +101,7 @@ class Game(Base):
         self.officials = officials
 
     def __repr__(self):
-        teams = "%s vs. %s" % (self.opponents[0].team.name,
-                                self.opponents[1].team.name)
+        teams = "%s vs. %s" % (self.opponents[0].team.name, self.opponents[1].team.name)
         date = self.date.strftime('%h %d, %Y')
         return "<Game('%s', '%s')>" % (teams, date)
 

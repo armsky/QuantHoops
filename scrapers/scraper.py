@@ -233,14 +233,14 @@ def schedule_parser(session, squad_record):
         write_error_to_file(message)
 
 
-
 def game_parser(session, game_record):
     """
     Check the game_id before parse, since these two pages have the same content
     i.e.:
     http://stats.ncaa.org/game/index/2785974?org_id=260
     http://stats.ncaa.org/game/index/2785974?org_id=133
-    :param game_id:
+    :param: session
+    :param: game_record
     :return:
     """
 
@@ -262,8 +262,8 @@ def game_parser(session, game_record):
 
         # Score table could have 0, 1 or 2 OverTime
         score_details = tables[0]
-        first_team_tds = score_details.find_all('tr')[1].find_all('td', {"align":"right"})
-        second_team_tds = score_details.find_all('tr')[2].find_all('td', {"align":"right"})
+        first_team_tds = score_details.find_all('tr')[1].find_all('td', {"align": "right"})
+        second_team_tds = score_details.find_all('tr')[2].find_all('td', {"align": "right"})
 
         # Some games don't have first and second half (i.e. game: 744710)
         if len(first_team_tds) >= 3:

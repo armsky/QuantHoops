@@ -7,6 +7,7 @@ from ncaa import *
 import settings
 from scraper import *
 from sqlalchemy import *
+import datetime
 
 
 def initial_team_squad_scrap(engine):
@@ -16,7 +17,7 @@ def initial_team_squad_scrap(engine):
     try:
         for season_record in seasons:
             season_id = season_record.id
-            print "#####"+str(season_id)
+            print "#####"+str(season_id), str(datetime.datetime.now())
             for division in [1, 2, 3]:
                 session = settings.create_session(engine)
                 # Men&Women year 2010 only has division I
@@ -31,7 +32,7 @@ def initial_team_squad_scrap(engine):
                         print "$$$$"
                         print division, season_id
                         continue
-                print "*****"
+                print "*****", str(datetime.datetime.now())
                 team_parser(session, season_id, division)
                 squad_parser(session, season_id, division)
                 conference_parser(session, season_id, division)
@@ -89,15 +90,19 @@ def initial_schedule_game_player_scrap(engine):
         raise
 
 
-def initial_season_stat_scrap(engine, gender):
+def initial_season_stat_scrap(engine, gender, season):
     session = settings.create_session(engine)
-    squads = session.query(Squad).all()
+    if season:
+        season_year = int(season)
+        squads = session.query(Squad).filter_by(year=season_year).all()
+    else:
+        squads = session.query(Squad).all()
     session.close()
 
     try:
         for squad_record in squads:
             if squad_record.id != 1:
-                print "%%%% squad_id is "+str(squad_record.id)
+                print "%%%% squad_id is "+str(squad_record.id), str(datetime.datetime.now())
                 session = settings.create_session(engine)
                 season_stat_parser(session, squad_record, gender)
 
@@ -121,7 +126,7 @@ def initial_game_stat_scrap(engine):
     session.close()
     try:
         for game_record in games:
-            print "%%%% game_id is "+str(game_record.id)
+            print "%%%% game_id is "+str(game_record.id), str(datetime.datetime.now())
             session = settings.create_session(engine)
             game_stat_parser(session, game_record)
             session.close()
@@ -194,7 +199,7 @@ def new_schedule_game_player_scrap(engine):
         for squad_record in squads:
             # If the squad_id != fake_id (non-ncaa squad id)
             if squad_record.id != 1:
-                print "####", squad_record.id
+                print "####", squad_record.id, str(datetime.datetime.now())
                 session = settings.create_session(engine)
                 schedule_parser(session, squad_record)
                 # game_parser() is inside schedule_parser()
@@ -223,7 +228,7 @@ def new_season_stat_scrap(engine, gender):
         for squad_record in squads:
             # If the squad_id != fake_id (non-ncaa squad id)
             if squad_record.id != 1:
-                print "%%%% squad_id is "+str(squad_record.id)
+                print "%%%% squad_id is "+str(squad_record.id), str(datetime.datetime.now())
                 session = settings.create_session(engine)
                 season_stat_parser(session, squad_record, gender)
                 session.close()
@@ -247,7 +252,7 @@ def new_game_stat_scrap(engine):
     session.close()
     try:
         for game_record in games:
-            print "%%%% game_id is "+str(game_record.id)
+            print "%%%% game_id is "+str(game_record.id), str(datetime.datetime.now())
             session = settings.create_session(engine)
             game_stat_parser(session, game_record)
             session.close()
@@ -270,7 +275,7 @@ def new_game_detail_scrap(engine):
     session.close()
     try:
         for game_record in games:
-            print "%%%% game_id is "+str(game_record.id)
+            print "%%%% game_id is "+str(game_record.id), str(datetime.datetime.now())
             session = settings.create_session(engine)
             gamedetail_parser(session, game_record)
             session.close()
@@ -290,10 +295,11 @@ def main(argv):
     gender = ''
     ptype = ''
     process = ''
+    season = ''
     try:
-        opts, args = getopt.getopt(argv, "g:t:p:", ["gender", "type=", "process="])
+        opts, args = getopt.getopt(argv, "g:t:p:s:", ["gender", "type=", "process=", "season="])
     except getopt.GetoptError:
-        print 'scheduler.py -g <gender> -t <type> -p <process>'
+        print 'scheduler.py -g <gender> -t <type> -p <process> -s <season>'
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-g", "--gender"):
@@ -305,6 +311,8 @@ def main(argv):
             ptype = arg
         elif opt in ("-p", "--process"):
             process = arg
+        elif opt in ("-s", "--season"):
+            season = arg
 
     engine = settings.create_engine(gender)
 
@@ -342,7 +350,7 @@ def main(argv):
         elif process == "schedule_game_player" or process == "2":
             initial_schedule_game_player_scrap(engine)
         elif process == "season_stat" or process == "3":
-            initial_season_stat_scrap(engine, gender)
+            initial_season_stat_scrap(engine, gender, season)
         elif process == "game_stat" or process == "4":
             initial_game_stat_scrap(engine)
         elif process == "game_detail" or process == "5":
