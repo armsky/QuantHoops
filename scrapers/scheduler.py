@@ -50,11 +50,15 @@ def initial_team_squad_scrap(engine):
         raise
 
 
-def initial_schedule_game_player_scrap(engine):
+def initial_schedule_game_player_scrap(engine, season):
     squad_id_finish_list = []
 
     session = settings.create_session(engine)
-    squads = session.query(Squad).all()
+    if season:
+        season_year = int(season)
+        squads = session.query(Squad).filter_by(year=season_year).all()
+    else:
+        squads = session.query(Squad).all()
     # schedules = session.query(Schedule).group_by(Schedule.game_id).all()
     squadmembers_per_squad = session.query(SquadMember).group_by(SquadMember.squad_id).all()
 
@@ -348,7 +352,7 @@ def main(argv):
         if process == "team_squad" or process == "1":
             initial_team_squad_scrap(engine)
         elif process == "schedule_game_player" or process == "2":
-            initial_schedule_game_player_scrap(engine)
+            initial_schedule_game_player_scrap(engine, season)
         elif process == "season_stat" or process == "3":
             initial_season_stat_scrap(engine, gender, season)
         elif process == "game_stat" or process == "4":

@@ -631,7 +631,6 @@ def game_stat_parser(session, game_record):
                         # Also remove the "*/-"
                         player_stat_list = preprocess_stat_list(player_stat_list)
 
-                        print squad_id, player_id
                         try:
                             squadmember_id = session.query(SquadMember).filter(SquadMember.player_id == player_id,
                                                             SquadMember.squad_id == squad_id).first().id
@@ -667,6 +666,7 @@ def game_stat_parser(session, game_record):
                         if session.query(PlayerGameStat).filter(PlayerGameStat.squadmember_id == squadmember_id,
                                                              PlayerGameStat.game_id == game_id).first() is None:
                             session.add(PlayerGameStat(squadmember_id, game_id, stats))
+                            print "adding squad_id: ", squad_id," palyer_id: ", player_id
                             session.flush()
                     # TEAM stats
                     elif player_stat_list[0].a is None and (player_stat_list[0].string.strip() == 'TEAM' or

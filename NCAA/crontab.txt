@@ -1,0 +1,39 @@
+# Initial daily scraps
+# game detail scrap
+00 1,4,7 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p game_detail > ../Logs/`date +%Y-%m-%d`_men_game_detail.log
+10 1,4,7 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p game_detail > ../Logs/`date +%Y-%m-%d`_women_game_detail.log
+
+# Game schedule scrap
+00 2,14 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p schedule_game_player > ../Logs/`date +%Y-%m-%d`_men_schedule_game_player.log
+10 2,14 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p schedule_game_player > ../Logs/`date +%Y-%m-%d`_women_schedule_game_player.log
+
+# Season stat scrap
+40 00 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p season_stat > ../Logs/`date +%Y-%m-%d`_men_season_stat.log
+45 00 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p season_stat > ../Logs/`date +%Y-%m-%d`_women_season_stat.log
+
+# Game stat scrap
+50 01 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p game_stat > ../Logs/`date +%Y-%m-%d`_men_game_stat.log
+55 01 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p game_stat > ../Logs/`date +%Y-%m-%d`_women_game_stat.log
+
+#--------------------
+
+# Scrap new game details every day from Nov to Apr. Men at 01:00PM, Women at 05:00PM
+00 13 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p game_detail > ../Logs/`date +%Y-%m-%d`_men_new_game_detail.log
+00 17 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p game_detail > ../Logs/`date +%Y-%m-%d`_women_new_game_detail.log
+
+# Scrap new game stats every day from Nov to Apr. Men at 01:00AM, Women at 05:00AM
+00 01 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p game_stat > ../Logs/`date +%Y-%m-%d`_men_new_game_stat.log
+00 05 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p game_stat > ../Logs/`date +%Y-%m-%d`_women_new_game_stat.log
+
+# Scrap new season stats every day from Nov to Apr. Men at 11:30PM, Women at 12:00AM
+30 23 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p season_stat > ../Logs/`date +%Y-%m-%d`_men_new_season_stat.log
+00 00 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p season_stat > ../Logs/`date +%Y-%m-%d`_women_new_season_stat.log
+
+# Scrap new games schedules and players every day from Nov to Apr. Men at 10:30PM, Women at 11:00PM
+30 22 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p schedule_game_player > ../Logs/`date +%Y-%m-%d`_men_new_schedule_game_player.log
+00 23 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p schedule_game_player > ../Logs/`date +%Y-%m-%d`_women_new_schedule_game_player.log
+
+# Scrap new teams every day from Nov to Apr. Men at 10:00PM, Women at 10:10PM
+00 22 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p team_squad > ../Logs/`date +%Y-%m-%d`_men_new_team_squad.log
+10 22 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p team_squad > ../Logs/`date +%Y-%m-%d`_women_new_team_squad.log
+
