@@ -64,7 +64,7 @@ def write_error_to_file(message):
     :return: None
     """
     today = datetime.date.today()
-    file_name = str(today.year)+"_"+str(today.month)+"_"+str(today.day)+".txt"
+    file_name = str(today.year)+"_"+'{:02d}'.format(today.month)+"_"+'{:02d}'.format(today.day)+".txt"
     file_path = '../Logs/%s'% file_name
     with open(file_path, "a") as f:
         f.write("========"+str(datetime.datetime.now())+"========\n")
