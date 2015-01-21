@@ -38,3 +38,4 @@
 0 22 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p team_squad >> ../Logs/$(date +\%Y-\%m-\%d)_men_new_team_squad.log
 10 22 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p team_squad >> ../Logs/$(date +\%Y-\%m-\%d)_women_new_team_squad.log
 
+
