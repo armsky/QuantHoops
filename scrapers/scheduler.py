@@ -59,11 +59,8 @@ def initial_schedule_game_player_scrap(engine, season):
         squads = session.query(Squad).filter_by(year=season_year).all()
     else:
         squads = session.query(Squad).all()
-    # schedules = session.query(Schedule).group_by(Schedule.game_id).all()
     squadmembers_per_squad = session.query(SquadMember).group_by(SquadMember.squad_id).all()
 
-    # for schedule_record in schedules:
-    #     game_id_list.append(schedule_record.game_id)
     for squadmember_record in squadmembers_per_squad:
         squad_id_finish_list.append(squadmember_record.squad_id)
     session.close()
