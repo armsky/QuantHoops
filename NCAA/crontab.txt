@@ -12,9 +12,9 @@
 40 00 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p season_stat >> ../Logs/$(date +\%Y-\%m-\%d)_men_season_stat.log
 45 00 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p season_stat >> ../Logs/$(date +\%Y-\%m-\%d)_women_season_stat.log
 
-# Game stat scrape
-50 01 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p game_stat >> ../Logs/$(date +\%Y-\%m-\%d)_men_game_stat.log
-55 01 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p game_stat >> ../Logs/$(date +\%Y-\%m-\%d)_women_game_stat.log
+# Game stat scrape every hour
+50 * * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p game_stat >> ../Logs/$(date +\%Y-\%m-\%d)_men_game_stat.log
+55 * * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p game_stat >> ../Logs/$(date +\%Y-\%m-\%d)_women_game_stat.log
 
 #--------------------
 # Just Scrape the ongoing season
