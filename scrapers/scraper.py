@@ -796,6 +796,8 @@ def is_current_season_ongoing(season_year):
     elif int(season_year) == get_current_year():
         if int(get_current_month()) >= 5:
             return False
+        else:
+            return True
     else:
         return True
 
