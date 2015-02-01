@@ -249,7 +249,7 @@ def new_season_stat_scrap(engine, gender):
 
 def new_game_stat_scrap(engine):
     session = settings.create_session(engine)
-    games = session.query(Game).filter_by(has_stat=0).order_by(asc(Game.id)).all()
+    games = session.query(Game).filter_by(has_stat=0).order_by(desc(Game.id)).all()
     session.close()
     try:
         for game_record in games:
@@ -272,7 +272,7 @@ def new_game_stat_scrap(engine):
 
 def new_game_detail_scrap(engine):
     session = settings.create_session(engine)
-    games = session.query(Game).filter_by(has_detail=0).order_by(asc(Game.id)).all()
+    games = session.query(Game).filter_by(has_detail=0).order_by(desc(Game.id)).all()
     session.close()
     try:
         for game_record in games:

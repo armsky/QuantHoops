@@ -43,7 +43,26 @@ def fix_dup_gamestat(engine):
 
 
 def fix_only_one_gamestat(engine):
+    """
+    Some games might only have one stat record due to the broken scraping process.
+    (But if the other team is a non-ncaa team, there is no need to fix)
+    :param engine:
+    :return:
+    """
+
     session = settings.create_session(engine)
+    game_id_list = session.query(SquadGameStat.game_id)\
+        .group_by(SquadGameStat.game_id).having(func.count(SquadGameStat.game_id) == 1).all()
+    # Compare each game_id in table Schedule
+    for game_id_result in game_id_list:
+        game_id = game_id_result[0]
+        schedules = session.query(Schedule).filter_by(game_id=game_id).all()
+        if len(schedules) == 2:
+            # Has two schedules for each team, need to be fixed
+            game_record = session.query(Game).filter_by(id=game_id).first()
+            print game_record
+            game_stat_parser(session, game_record)
+            print "added 1 game_stat"
 
     session.close()
 
@@ -74,7 +93,8 @@ def main(argv):
         fix_game_with_no_date(engine)
     elif process == "fix_dup_gamestat" or process == "dup_gamestat":
         fix_dup_gamestat(engine)
-
+    elif process == "fix_only_one_gamestat" or process == "single_gamestat":
+        fix_only_one_gamestat(engine)
     elif process == "all":
         fix_game_with_no_date(engine)
         fix_dup_gamestat(engine)

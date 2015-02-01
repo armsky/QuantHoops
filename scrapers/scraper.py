@@ -704,17 +704,38 @@ def game_stat_parser(session, game_record):
                 'blocks': total_stat_list[14].string,
                 'fouls': total_stat_list[15].string
             }
-            if team_stats is not None:
-                stats = dict(total_stats.items() + team_stats.items())
-                if game_record.has_stat == 0:
-                    print "$$$$$ Found squad game stat"
-                    squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
-                    session.add(squad_game_stat_record)
-                    # Update has_stat to 1
-                    game_record_to_update = session.query(Game).filter_by(id=game_id).first()
-                    game_record_to_update.has_stat = 1
-                    session.add(game_record_to_update)
-                    session.flush()
+            # TODO: some table has no "TEAM" data
+            if team_stats is None:
+                team_stats = {
+                    'team_offensive_rebounds': 0,
+                    'team_defensive_rebounds': 0,
+                    'team_total_rebounds': 0,
+                    'team_turnovers': 0,
+                    'team_fouls': 0,
+                }
+            stats = dict(total_stats.items() + team_stats.items())
+
+            if game_record.has_stat == 0:
+                print "$$$$$ Found squad game stat"
+                squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
+                session.add(squad_game_stat_record)
+                # Update has_stat to 1
+                game_record_to_update = session.query(Game).filter_by(id=game_id).first()
+                game_record_to_update.has_stat = 1
+                session.add(game_record_to_update)
+                session.flush()
+            else:
+                # If this game only has 1 squad_game_stat(should have 2)
+                print len(session.query(SquadGameStat).filter_by(game_id=game_id).all())
+                if len(session.query(SquadGameStat).filter_by(game_id=game_id).all()) == 1:
+                    # Make sure no duplicates
+                    if session.query(SquadGameStat).filter(SquadGameStat.game_id == game_id,
+                                                    SquadGameStat.squad_id == squad_id).first() is None:
+                        squad_game_stat_record = SquadGameStat(squad_id, game_id, stats)
+                        print "find squad_id: ", squad_id
+                        print "to be added"
+                        session.add(squad_game_stat_record)
+                        session.flush()
                 else:
                     print "squad game stat (squad_id=%s, squad_id=%s) already existed" % (squad_id, game_id)
 
