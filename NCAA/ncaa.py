@@ -25,6 +25,10 @@ Base = declarative_base()
 
 # - Schedule -- /
 class Schedule(Base):
+    """
+    One game will have two schedules for both team, indicate which one is
+    home team, and which one is away team.
+    """
     __tablename__ = 'schedule'
     __table_args__ = {
         'mysql_engine': 'InnoDB',
@@ -34,7 +38,7 @@ class Schedule(Base):
     game_id = Column(Integer, ForeignKey('game.id', onupdate='cascade', ondelete='cascade'),
                      primary_key=True)
     squad_id = Column(Integer, ForeignKey('squad.id', onupdate='cascade', ondelete='cascade'),
-                     primary_key=True)
+                      primary_key=True)
     type = Column('type', Enum('home', 'away', 'neutral', 'tournament'))
 
     def __init__(self, game_id, squad_id, type):
@@ -46,12 +50,12 @@ class Schedule(Base):
 # - Game -- /
 class Game(Base):
     """
-    Game holds references to two Squads. Holds a collection of references
-    to SquadMembers (from both Squads). Allow for specification of Winner.
-    Also hold vital statistics such as where and when.
+    Game holds references to two Squads. Holds a collection of total score,
+    first & second half score, first & second overtime score.
+    Allow for specification of winner and loser.
+    Also hold vital statistics such as where and when and attendance.
 
-    Many-to-many map to Squads via Schedule, one-to-many map to
-    PlayerStatSheets.
+    Many-to-many map to Squads via Schedule, one-to-many map to PlayerGameStat.
     """
     __tablename__ = 'game'
     __table_args__ = {
@@ -101,7 +105,6 @@ class Game(Base):
         self.officials = officials
 
     def __repr__(self):
-        # teams = "%s vs. %s" % (self.opponents[0].team.name, self.opponents[1].team.name)
         id = self.id
         date = self.date.strftime('%h %d, %Y')
         return "<Game('%s', '%s')>" % (id, date)
