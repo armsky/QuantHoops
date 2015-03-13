@@ -11,6 +11,11 @@ import datetime
 
 
 def initial_team_squad_scrap(engine):
+    """
+    Scrape Conference, Team and Squad based on season_id.
+    :param engine:
+    :return:
+    """
     session = settings.create_session(engine)
     seasons = session.query(Season).all()
     session.close()
@@ -51,8 +56,14 @@ def initial_team_squad_scrap(engine):
 
 
 def initial_schedule_game_player_scrap(engine, season):
+    """
+    Scrape Schedule, Player, SquadMember based on Squad.
+    Game_parser is inside schedule_parser.
+    :param engine:
+    :param season:
+    :return:
+    """
     squad_id_finish_list = []
-
     session = settings.create_session(engine)
     if season:
         season_year = int(season)
@@ -92,6 +103,13 @@ def initial_schedule_game_player_scrap(engine, season):
 
 
 def initial_season_stat_scrap(engine, gender, season):
+    """
+    Scrape season_stat for SquadMember and Squad.
+    :param engine:
+    :param gender:
+    :param season:
+    :return:
+    """
     session = settings.create_session(engine)
     if season:
         season_year = int(season)
@@ -122,6 +140,11 @@ def initial_season_stat_scrap(engine, gender, season):
 
 
 def initial_game_stat_scrap(engine):
+    """
+    Scrape game_stat for SquadMember and Squad.
+    :param engine:
+    :return:
+    """
     session = settings.create_session(engine)
     games = session.query(Game).filter_by(has_stat=0).order_by(asc(Game.id)).all()
     session.close()
@@ -144,6 +167,11 @@ def initial_game_stat_scrap(engine):
 
 
 def initial_game_detail_scrap(engine):
+    """
+    Scrape detail message for each game
+    :param engine:
+    :return:
+    """
     session = settings.create_session(engine)
     games = session.query(Game).filter_by(has_detail=0).order_by(asc(Game.id)).all()
     session.close()
@@ -165,6 +193,11 @@ def initial_game_detail_scrap(engine):
 
 
 def new_team_squad_scrap(engine):
+    """
+    Same as new_team_squad_scrap, only for current season.
+    :param engine:
+    :return:
+    """
     session = settings.create_session(engine)
     this_season_id = session.query(func.max(Season.id)).first()[0]
     session.close()
@@ -192,6 +225,11 @@ def new_team_squad_scrap(engine):
 
 
 def new_schedule_game_player_scrap(engine):
+    """
+    Same as new_schedule_game_player_scrap, only for current season.
+    :param engine:
+    :return:
+    """
     session = settings.create_session(engine)
     this_season_id = session.query(func.max(Season.id)).first()[0]
     squads = session.query(Squad).filter_by(season_id=this_season_id).all()
@@ -220,6 +258,12 @@ def new_schedule_game_player_scrap(engine):
 
 
 def new_season_stat_scrap(engine, gender):
+    """
+    Same as new_season_stat_scrap, only for current season.
+    :param engine:
+    :param gender:
+    :return:
+    """
     session = settings.create_session(engine)
     this_season_id = session.query(func.max(Season.id)).first()[0]
     squads = session.query(Squad).filter_by(season_id=this_season_id).all()
@@ -248,6 +292,11 @@ def new_season_stat_scrap(engine, gender):
 
 
 def new_game_stat_scrap(engine):
+    """
+    Same as new_game_stat_scrap, only for current season.
+    :param engine:
+    :return:
+    """
     session = settings.create_session(engine)
     games = session.query(Game).filter_by(has_stat=0).order_by(desc(Game.id)).all()
     session.close()
@@ -271,6 +320,11 @@ def new_game_stat_scrap(engine):
 
 
 def new_game_detail_scrap(engine):
+    """
+    Same as new_game_detail_scrap, only for current season.
+    :param engine:
+    :return:
+    """
     session = settings.create_session(engine)
     games = session.query(Game).filter_by(has_detail=0).order_by(desc(Game.id)).all()
     session.close()

@@ -234,16 +234,6 @@ def schedule_parser(session, squad_record):
 
 
 def game_parser(session, game_record):
-    """
-    Check the game_id before parse, since these two pages have the same content
-    i.e.:
-    http://stats.ncaa.org/game/index/2785974?org_id=260
-    http://stats.ncaa.org/game/index/2785974?org_id=133
-    :param: session
-    :param: game_record
-    :return:
-    """
-
     try:
         # In case the winner is not a NCAA team
         game_id = game_record.id
@@ -436,10 +426,8 @@ def season_stat_parser(session, squad_record, gender):
                 'steals': player_stat_list[25].string,
                 'blocks': player_stat_list[26].string,
                 'fouls': player_stat_list[27].string,
-                'double_doubles': 0 if gender == "women"
-                                    else player_stat_list[28].string,
-                'triple_doubles': 0 if gender == "women"
-                                    else player_stat_list[29].string
+                'double_doubles': 0 if gender == "women" else player_stat_list[28].string,
+                'triple_doubles': 0 if gender == "women" else player_stat_list[29].string
             }
             squadmember = session.query(SquadMember).filter(SquadMember.squad_id == squad_id,
                                               SquadMember.player_id == player_id).first()
@@ -467,15 +455,13 @@ def season_stat_parser(session, squad_record, gender):
                 'team_steals': player_stat_list[25].string,
                 'team_blocks': player_stat_list[26].string,
                 'team_fouls': player_stat_list[27].string,
-                'team_double_doubles': 0 if gender == "women"
-                                        else player_stat_list[28].string,
-                'team_triple_doubles': 0 if gender == "women"
-                                        else player_stat_list[29].string
+                'team_double_doubles': 0 if gender == "women" else player_stat_list[28].string,
+                'team_triple_doubles': 0 if gender == "women" else player_stat_list[29].string
             }
 
     team_stat_trs = soup.find_all('tr', attrs={'class': 'grey_heading'})
     team_stat_tr = team_stat_trs[1]
-    # Scrap Team's Total stat
+    # Scrape Team's Total stat
     team_stat_list = preprocess_stat_list(team_stat_tr.find_all('td'))
     total_stats = {
         'minutes_played': team_stat_list[7].string,
@@ -499,16 +485,14 @@ def season_stat_parser(session, squad_record, gender):
         'steals': team_stat_list[25].string.replace(',', ''),
         'blocks': team_stat_list[26].string.replace(',', ''),
         'fouls': team_stat_list[27].string.replace(',', ''),
-        'double_doubles': 0 if gender == "women"
-                            else team_stat_list[28].string,
-        'triple_doubles': 0 if gender == "women"
-                            else team_stat_list[29].string
+        'double_doubles': 0 if gender == "women" else team_stat_list[28].string,
+        'triple_doubles': 0 if gender == "women" else team_stat_list[29].string
     }
 
     # Some page don't have opponent's stat
     if len(team_stat_trs) == 3:
         opnt_stat_tr = team_stat_trs[2]
-        # Scrap Team's Opponent stat
+        # Scrape Team's Opponent stat
         opnt_stat_list = preprocess_stat_list(opnt_stat_tr.find_all('td'))
         opnt_stats = {
             'Opnt_minutes_played': opnt_stat_list[7].string,
@@ -532,10 +516,8 @@ def season_stat_parser(session, squad_record, gender):
             'Opnt_steals': opnt_stat_list[25].string.replace(',', ''),
             'Opnt_blocks': opnt_stat_list[26].string.replace(',', ''),
             'Opnt_fouls': opnt_stat_list[27].string.replace(',', ''),
-            'Opnt_double_doubles': 0 if gender == "women"
-                                    else opnt_stat_list[28].string,
-            'Opnt_triple_doubles': 0 if gender == "women"
-                                    else opnt_stat_list[29].string
+            'Opnt_double_doubles': 0 if gender == "women" else opnt_stat_list[28].string,
+            'Opnt_triple_doubles': 0 if gender == "women" else opnt_stat_list[29].string
         }
 
     if team_stats is not None and opnt_stats is not None:

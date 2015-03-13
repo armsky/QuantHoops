@@ -139,7 +139,7 @@ class Player(Base):
 
 # - SquadMember -- /
 class SquadMember(Base):
-    """This is the class that holds individual game statistics for a Player.
+    """This is the class that holds Player's basic information.
     Many-to-one maps to Player, Squad, and Game"""
     __tablename__ = 'squadmember'
     __table_args__ = {
@@ -395,8 +395,7 @@ class SquadSeasonStat(Base):
 
 # - Squad -- /
 class Squad(Base):
-    """Squads contain the roster and regular season record of a Team in
-    a given season.
+    """Squads contain basic information of a Team in a given season.
 
     One-to-many maps to SquadMembers, Games. Many-to-one map to Team."""
     __tablename__ = 'squad'
@@ -435,7 +434,7 @@ class Team(Base):
     and fuzzy matching capabilities are just in case another source is
     used.
 
-    One-to-many maps to Squads and TeamAliases."""
+    One-to-many maps to Squads."""
     __tablename__ = 'team'
     __table_args__ = {
         'mysql_engine': 'InnoDB',
@@ -455,8 +454,7 @@ class Team(Base):
 # - Season -- /
 class Season(Base):
     """
-    Use ncaa_id to determine season and gender, no matter what the division
-    is.
+    Use ncaa_id to determine season and gender, no matter what the division is.
     """
     __tablename__ = 'season'
     __table_args__ = {
@@ -471,7 +469,9 @@ class Season(Base):
 # - Conference -- /
 class Conference(Base):
     """
-    A team may belong to different in different year and division
+    A team may belong to different conference in different year and division.
+
+    So conference will have one-to-one maps to Squad.
     """
     __tablename__ = "conference"
     __table_args__ = {
@@ -493,7 +493,9 @@ class Conference(Base):
 # - GameDetail -- /
 class GameDetail(Base):
     """
-    Play-by-Play
+    Play-by-Play information
+
+    Many-to-one maps to Game.
     """
     __tablename__ = "gamedetail"
     __table_args__ = {

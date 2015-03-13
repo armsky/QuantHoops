@@ -11,7 +11,9 @@ from sqlalchemy import *
 
 def fix_game_with_no_date(engine):
     """
-
+    Some game has no date (and other information) because of the interruption
+    of the scrapping process. Give it a chance to scrape again.
+    Some of them are caused by ncaa corrupted pages. No way to fix.
     :param engine:
     :return: None
     """
@@ -24,7 +26,10 @@ def fix_game_with_no_date(engine):
 
 def fix_dup_gamestat(engine):
     """
-
+    For unknown reason (or bug), if one squad has multiple stat for one game,
+    find them and delete them.
+    Usually this will not happen because SquadGameStat use both squad_id and
+    game_id to identify itself.
     :param engine:
     :return: None
     """
