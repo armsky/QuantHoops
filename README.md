@@ -1,5 +1,5 @@
 # QuantHoops
-[March Madness](http://www.ncaa.com/march-madness) simulation with web scrapper  modules and a database implementation.
+[March Madness](http://www.ncaa.com/march-madness) simulation with web scrapper modules and a database implementation.
 # Description
 A Python application to store all NCAA men/women basketball Web-based statistics in database. It will run each process daily by default. Relies on [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/), [SQLAlchemy](www.sqlalchemy.org/) and MySQL database.
 # Files

@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Database design &mdash; QuantHoop 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <link rel="top" title="QuantHoop 1.0 documentation" href="../index.html" />
+    <link rel="next" title="This is a Title" href="example copy.html" />
+    <link rel="prev" title="What is QuantHoops" href="basic.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="example copy.html" title="This is a Title"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="basic.html" title="What is QuantHoops"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">QuantHoop 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="database-design">
+<h1>Database design<a class="headerlink" href="#database-design" title="Permalink to this headline">¶</a></h1>
+<p>The database is designed based on <a class="reference external" href="http://stats.ncaa.org/">stats.ncaa.org</a></p>
+<div class="section" id="season-table">
+<h2>Season table<a class="headerlink" href="#season-table" title="Permalink to this headline">¶</a></h2>
+<p>Use ncaa_id to determine season and gender, no matter what the division is.</p>
+<p>The data entry must be manually inserted into table, because we can not predict
+the season_id that ncaa will use for the next season. Men and Women will use
+same season_id for the same season.</p>
+<p>Table structure:</p>
+<img alt="../_images/season_table.png" src="../_images/season_table.png" />
+<p>Table content (until season 2014/2015):</p>
+<img alt="../_images/season_content.png" src="../_images/season_content.png" />
+</div>
+<div class="section" id="conference-table">
+<h2>Conference table<a class="headerlink" href="#conference-table" title="Permalink to this headline">¶</a></h2>
+<p>A team may belong to different conference in different year and division.</p>
+<p>So conference will have one-to-one maps to Squad.</p>
+<p>Table structure:</p>
+<img alt="../_images/conference_table.png" src="../_images/conference_table.png" />
+</div>
+<div class="section" id="team-table">
+<h2>Team table<a class="headerlink" href="#team-table" title="Permalink to this headline">¶</a></h2>
+<p>Teams contain a relationship to Squads for any available years.
+Also contain relationships to alternate team names.</p>
+<p>NCAA uses a permanent id (org_id, which is also known as ncaa_id)to
+represent a team no matter what the season is.</p>
+<p>Note that IDs have been assigned explicitly to match those used by
+NCAA.com to make record linkage easier. The alternate team names
+and fuzzy matching capabilities are just in case another source is
+used.</p>
+<p>One-to-many maps to Squads.</p>
+<p>Table structure:</p>
+<img alt="../_images/team_table.png" src="../_images/team_table.png" />
+</div>
+<div class="section" id="squad-table">
+<h2>Squad table<a class="headerlink" href="#squad-table" title="Permalink to this headline">¶</a></h2>
+<p>Squads contain basic information of a Team in a given season.</p>
+<p>One-to-many maps to SquadMembers, Games. Many-to-one map to Team.</p>
+<p>Table structure:</p>
+<img alt="../_images/squad_table.png" src="../_images/squad_table.png" />
+</div>
+<div class="section" id="schedule-table">
+<h2>Schedule table<a class="headerlink" href="#schedule-table" title="Permalink to this headline">¶</a></h2>
+<p>One game will have two schedules for both team, indicate which one is
+home team, and which one is away team.</p>
+<p>NCAA will post all schedules for the whole season, and fill the game
+details when match is complete.</p>
+<p>Table structure:</p>
+<img alt="../_images/schedule_table.png" src="../_images/schedule_table.png" />
+</div>
+<div class="section" id="game-table">
+<h2>Game table<a class="headerlink" href="#game-table" title="Permalink to this headline">¶</a></h2>
+<p>Game holds references to two Squads. Holds a collection of total score,
+first &amp; second half score, first &amp; second overtime score.
+Allow for specification of winner and loser.
+Also hold vital statistics such as where and when and attendance.</p>
+<p>Many-to-many map to Squads via Schedule, one-to-many map to PlayerGameStat.</p>
+<p>Table structure:</p>
+<img alt="../_images/game_table.png" src="../_images/game_table.png" />
+</div>
+<div class="section" id="player-table">
+<h2>Player table<a class="headerlink" href="#player-table" title="Permalink to this headline">¶</a></h2>
+<p>Players possess a one-to-many mapping to SquadMembers,
+which are essentially chrono-sensitive versions of the Player. For
+example, a Player&#8217;s corresponding SquadMember from 2010-11 will not
+have access to that Player&#8217;s statistics from 2011-12, nor will these
+latest statistics be incorporated into the earlier SquadMember&#8217;s record.
+This allows for more realistic simulations.</p>
+<p>Table structure:</p>
+<img alt="../_images/player_table.png" src="../_images/player_table.png" />
+</div>
+<div class="section" id="squadmember-table">
+<h2>SquadMember table<a class="headerlink" href="#squadmember-table" title="Permalink to this headline">¶</a></h2>
+<p>This is the class that holds Player&#8217;s basic information.
+Many-to-one maps to Player, Squad, and Game</p>
+<p>Table structure:</p>
+</div>
+<div class="section" id="playerseasonstat-table">
+<h2>PlayerSeasonStat table<a class="headerlink" href="#playerseasonstat-table" title="Permalink to this headline">¶</a></h2>
+<p>Contains the stats of one SquadMember in one Season</p>
+<p>Many-to-one maps to SquadMember</p>
+<p>Table structure:</p>
+</div>
+<div class="section" id="squadseasonstat-table">
+<h2>SquadSeasonStat table<a class="headerlink" href="#squadseasonstat-table" title="Permalink to this headline">¶</a></h2>
+<p>Contains the stats of one Squad in one Season.</p>
+<p>one-to-one maps to Squad.</p>
+<p>Table structure:</p>
+</div>
+<div class="section" id="playergamestat-table">
+<h2>PlayerGameStat table<a class="headerlink" href="#playergamestat-table" title="Permalink to this headline">¶</a></h2>
+<p>Contains the stats of one SquadMember in one Game</p>
+<p>Many-to-one maps to SquadMember and many-to-one maps
+to Game.</p>
+<p>Table structure:</p>
+</div>
+<div class="section" id="squadgamestat-table">
+<h2>SquadGameStat table<a class="headerlink" href="#squadgamestat-table" title="Permalink to this headline">¶</a></h2>
+<p>Contains the stats of one Squad in one Game</p>
+<p>Many-to-one maps to Squad and Game</p>
+<p>Table structure:</p>
+</div>
+<div class="section" id="gamedetail-table">
+<h2>GameDetail table<a class="headerlink" href="#gamedetail-table" title="Permalink to this headline">¶</a></h2>
+<p>Play-by-Play information</p>
+<p>Many-to-one maps to Game.</p>
+<p>Table structure:</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Database design</a><ul>
+<li><a class="reference internal" href="#season-table">Season table</a></li>
+<li><a class="reference internal" href="#conference-table">Conference table</a></li>
+<li><a class="reference internal" href="#team-table">Team table</a></li>
+<li><a class="reference internal" href="#squad-table">Squad table</a></li>
+<li><a class="reference internal" href="#schedule-table">Schedule table</a></li>
+<li><a class="reference internal" href="#game-table">Game table</a></li>
+<li><a class="reference internal" href="#player-table">Player table</a></li>
+<li><a class="reference internal" href="#squadmember-table">SquadMember table</a></li>
+<li><a class="reference internal" href="#playerseasonstat-table">PlayerSeasonStat table</a></li>
+<li><a class="reference internal" href="#squadseasonstat-table">SquadSeasonStat table</a></li>
+<li><a class="reference internal" href="#playergamestat-table">PlayerGameStat table</a></li>
+<li><a class="reference internal" href="#squadgamestat-table">SquadGameStat table</a></li>
+<li><a class="reference internal" href="#gamedetail-table">GameDetail table</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="basic.html"
+                        title="previous chapter">What is QuantHoops</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example copy.html"
+                        title="next chapter">This is a Title</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_static/database.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Hao Lin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.2</a>
+      
+      |
+      <a href="../_sources/_static/database.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
