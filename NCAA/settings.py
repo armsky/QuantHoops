@@ -9,9 +9,9 @@ def create_engine(gender, user=None, password=None, host=None, echo=False):
     """SQL connections, SQL execution and high-level DB-API interface.
 
     :param gender: Men or Women
-    :param user: Database user name
-    :param password: Database user password
-    :param host: Database hostname
+    :param user: database user name
+    :param password: database user password
+    :param host: database hostname
     :param echo=False: if True, the Engine will log all statements
         as well as a repr() of their parameter lists to the engines
         logger, which defaults to sys.stdout.

@@ -4,7 +4,7 @@ import sys
 import getopt
 sys.path.insert(1, '../NCAA')
 from ncaa import *
-import settings
+import Settings
 from scraper import *
 from sqlalchemy import *
 
@@ -17,7 +17,7 @@ def fix_game_with_no_date(engine):
     :param engine:
     :return: None
     """
-    session = settings.create_session(engine)
+    session = Settings.create_session(engine)
     games = session.query(Game).filter_by(date=None).order_by(asc(Game.id)).all()
     for game_record in games:
         game_parser(session, game_record)
@@ -33,7 +33,7 @@ def fix_dup_gamestat(engine):
     :param engine:
     :return: None
     """
-    session = settings.create_session(engine)
+    session = Settings.create_session(engine)
     dup_game_id = session.query(SquadGameStat.game_id)\
         .group_by(SquadGameStat.game_id).having(func.count(SquadGameStat.game_id) > 2).all()
     print dup_game_id
@@ -67,7 +67,7 @@ def fix_dup_game_in_one_day(engine):
     :param engine:
     :return: None
     """
-    session = settings.create_session(engine)
+    session = Settings.create_session(engine)
     dup_games = session.query(Game.id, Game.date, Game.winner_id).\
         filter(and_(Game.winner_id != 1, Game.loser_id != 1, Game.date != None)).\
         group_by(Game.date, Game.winner_id).having(func.count(Game.id) > 1).all()
@@ -85,7 +85,7 @@ def fix_only_one_gamestat(engine):
     :return: None
     """
 
-    session = settings.create_session(engine)
+    session = Settings.create_session(engine)
     game_id_list = session.query(SquadGameStat.game_id)\
         .group_by(SquadGameStat.game_id).having(func.count(SquadGameStat.game_id) == 1).all()
     # Compare each game_id in table Schedule
@@ -122,7 +122,7 @@ def main(argv):
         elif opt in ("-s", "--season"):
             season = arg
 
-    engine = settings.create_engine(gender)
+    engine = Settings.create_engine(gender)
 
     if process == "fix_game_with_no_date" or process == "date":
         fix_game_with_no_date(engine)

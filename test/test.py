@@ -4,7 +4,7 @@ import sys
 import getopt
 sys.path.insert(1, '../scrapers')
 sys.path.insert(1, '../NCAA')
-import settings
+import Settings
 from scraper import *
 from ncaa import *
 
@@ -14,7 +14,7 @@ def check_team_stat(engine, season):
     matched_num = 0
     unmatch_num = 0
     season_year = int(season)
-    session = settings.create_session(engine)
+    session = Settings.create_session(engine)
     squad_list = session.query(Squad).filter_by(year=season_year).all()
 
     try:
@@ -102,7 +102,7 @@ def check_player_stat(engine, season):
     matched_num = 0
     unmatch_num = 0
     season_year = int(season)
-    session = settings.create_session(engine)
+    session = Settings.create_session(engine)
     squad_list = session.query(Squad).filter_by(year=season_year).all()
 
     try:
@@ -211,7 +211,7 @@ def main(argv):
         elif opt in ("-s", "--season"):
             season = arg
 
-    engine = settings.create_engine(gender)
+    engine = Settings.create_engine(gender)
 
     if process == "team_stat" or process == "check_team_stat":
         check_team_stat(engine, season)
