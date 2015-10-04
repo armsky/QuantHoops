@@ -1,13 +1,15 @@
-__author__ = 'Hao Lin'
-
 import re
 import sys
 reload(sys)
 sys.setdefaultencoding("utf8")
-sys.path.insert(1, '../NCAA')
-from ncaa import *
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from NCAA.ncaa import *
 from scraper_helper import *
 from dateutil.parser import *
+
+
+__author__ = 'Hao Lin'
 
 
 def team_parser(session, season_id, division):
@@ -432,12 +434,15 @@ def season_stat_parser(session, squad_record, gender):
             squadmember = session.query(SquadMember).filter(SquadMember.squad_id == squad_id,
                                               SquadMember.player_id == player_id).first()
             if squadmember:
-                if session.query(PlayerSeasonStat).filter_by(squadmember_id=squadmember.id).first() is None:
+                player_season_stat_obj = session.query(PlayerSeasonStat).filter_by(squadmember_id=squadmember.id).first()
+                if player_season_stat_obj is None:
                     session.add(PlayerSeasonStat(squadmember.id, stats))
                 else:
                     # The season is ongoing, update it every time
                     if is_current_season_ongoing(squad_record.year):
-                        session.add(PlayerSeasonStat(squadmember.id, stats))
+                        player_season_stat_obj.update(stats)
+                        print "squad member ", str(squadmember.id), " has updated"
+                        session.commit()
                     # The season is over, don't need to update
                     else:
                         print "squadmember season stat (id=%s) already existed" % squadmember.id

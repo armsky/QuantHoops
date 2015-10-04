@@ -4,7 +4,7 @@ import sys
 import getopt
 sys.path.insert(1, '../NCAA')
 from ncaa import *
-import Settings
+from NCAA import settings
 from scraper import *
 from sqlalchemy import *
 import datetime
@@ -16,7 +16,7 @@ def initial_team_squad_scrap(engine):
     :param engine:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     seasons = session.query(Season).all()
     session.close()
     try:
@@ -24,7 +24,7 @@ def initial_team_squad_scrap(engine):
             season_id = season_record.id
             print "#####"+str(season_id), str(datetime.datetime.now())
             for division in [1, 2, 3]:
-                session = Settings.create_session(engine)
+                session = settings.create_session(engine)
                 # Men&Women year 2010 only has division I
                 if season_id == 10260 or season_id == 10261:
                     if division != 1:
@@ -64,7 +64,7 @@ def initial_schedule_game_player_scrap(engine, season):
     :return:
     """
     squad_id_finish_list = []
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     if season:
         season_year = int(season)
         squads = session.query(Squad).filter_by(year=season_year).all()
@@ -80,7 +80,7 @@ def initial_schedule_game_player_scrap(engine, season):
         for squad_record in squads:
             # If the squad_id != fake_id (non-ncaa squad id)
             if squad_record.id != 1:
-                session = Settings.create_session(engine)
+                session = settings.create_session(engine)
                 schedule_parser(session, squad_record)
                 # game_parser() is inside schedule_parser()
                 if squad_record.id not in squad_id_finish_list:
@@ -110,7 +110,7 @@ def initial_season_stat_scrap(engine, gender, season):
     :param season:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     if season:
         season_year = int(season)
         squads = session.query(Squad).filter_by(year=season_year).all()
@@ -122,7 +122,7 @@ def initial_season_stat_scrap(engine, gender, season):
         for squad_record in squads:
             if squad_record.id != 1:
                 print "%%%% squad_id is "+str(squad_record.id), str(datetime.datetime.now())
-                session = Settings.create_session(engine)
+                session = settings.create_session(engine)
                 season_stat_parser(session, squad_record, gender)
 
     except Exception, e:
@@ -145,13 +145,13 @@ def initial_game_stat_scrap(engine):
     :param engine:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     games = session.query(Game).filter_by(has_stat=0).order_by(asc(Game.id)).all()
     session.close()
     try:
         for game_record in games:
             print "%%%% game_id is "+str(game_record.id), str(datetime.datetime.now())
-            session = Settings.create_session(engine)
+            session = settings.create_session(engine)
             game_stat_parser(session, game_record)
             session.close()
     except Exception, e:
@@ -172,12 +172,12 @@ def initial_game_detail_scrap(engine):
     :param engine:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     games = session.query(Game).filter_by(has_detail=0).order_by(asc(Game.id)).all()
     session.close()
     try:
         for game_record in games:
-            session = Settings.create_session(engine)
+            session = settings.create_session(engine)
             gamedetail_parser(session, game_record)
             session.close()
     except Exception, e:
@@ -198,14 +198,14 @@ def new_team_squad_scrap(engine):
     :param engine:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     this_season_id = session.query(func.max(Season.id)).first()[0]
     session.close()
 
     try:
         print "#####"+str(this_season_id)
         for division in [1, 2, 3]:
-            session = Settings.create_session(engine)
+            session = settings.create_session(engine)
             print "*****"
             team_parser(session, this_season_id, division)
             squad_parser(session, this_season_id, division)
@@ -230,7 +230,7 @@ def new_schedule_game_player_scrap(engine):
     :param engine:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     this_season_id = session.query(func.max(Season.id)).first()[0]
     squads = session.query(Squad).filter_by(season_id=this_season_id).all()
     session.close()
@@ -239,7 +239,7 @@ def new_schedule_game_player_scrap(engine):
             # If the squad_id != fake_id (non-ncaa squad id)
             if squad_record.id != 1:
                 print "####", squad_record.id, str(datetime.datetime.now())
-                session = Settings.create_session(engine)
+                session = settings.create_session(engine)
                 schedule_parser(session, squad_record)
                 # game_parser() is inside schedule_parser()
                 player_parser(session, squad_record)
@@ -264,7 +264,7 @@ def new_season_stat_scrap(engine, gender):
     :param gender:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     this_season_id = session.query(func.max(Season.id)).first()[0]
     squads = session.query(Squad).filter_by(season_id=this_season_id).all()
     session.close()
@@ -274,7 +274,7 @@ def new_season_stat_scrap(engine, gender):
             # If the squad_id != fake_id (non-ncaa squad id)
             if squad_record.id != 1:
                 print "%%%% squad_id is "+str(squad_record.id), str(datetime.datetime.now())
-                session = Settings.create_session(engine)
+                session = settings.create_session(engine)
                 season_stat_parser(session, squad_record, gender)
                 session.close()
     except Exception, e:
@@ -297,13 +297,13 @@ def new_game_stat_scrap(engine):
     :param engine:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     games = session.query(Game).filter_by(has_stat=0).order_by(desc(Game.id)).all()
     session.close()
     try:
         for game_record in games:
             print "%%%% game_id is "+str(game_record.id), str(datetime.datetime.now())
-            session = Settings.create_session(engine)
+            session = settings.create_session(engine)
             game_stat_parser(session, game_record)
             session.close()
 
@@ -325,13 +325,13 @@ def new_game_detail_scrap(engine):
     :param engine:
     :return:
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     games = session.query(Game).filter_by(has_detail=0).order_by(desc(Game.id)).all()
     session.close()
     try:
         for game_record in games:
             print "%%%% game_id is "+str(game_record.id), str(datetime.datetime.now())
-            session = Settings.create_session(engine)
+            session = settings.create_session(engine)
             gamedetail_parser(session, game_record)
             session.close()
     except Exception, e:
@@ -369,17 +369,17 @@ def main(argv):
         elif opt in ("-s", "--season"):
             season = arg
 
-    engine = Settings.create_engine(gender)
+    engine = settings.create_engine(gender)
 
     # Create fake (non-ncaa) team and squad
     # fake team: id=1, name=non-ncaa team
     # fake squad: id=1, team_id=1, season_id=None, division=0, year=0
-    session = Settings.create_session(engine)
-    if session.query(Team).filter(Team.id==1).first() is None:
+    session = settings.create_session(engine)
+    if session.query(Team).filter(Team.id == 1).first() is None:
         fake_team_record = Team("non-ncaa team", 1)
         session.add(fake_team_record)
         session.flush()
-    if session.query(Squad).filter(Squad.team_id==1).first() is None:
+    if session.query(Squad).filter(Squad.team_id == 1).first() is None:
         fake_squad_record = Squad(0, None, 0, 1, None)
         session.add(fake_squad_record)
         session.flush()

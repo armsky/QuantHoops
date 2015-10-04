@@ -1,12 +1,13 @@
-__author__ = 'Hao Lin'
-
 import sys
 import getopt
-sys.path.insert(1, '../NCAA')
-from ncaa import *
-import Settings
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from NCAA.ncaa import *
+from NCAA import settings
 from scraper import *
 from sqlalchemy import *
+
+__author__ = 'Hao Lin'
 
 
 def fix_game_with_no_date(engine):
@@ -17,7 +18,7 @@ def fix_game_with_no_date(engine):
     :param engine:
     :return: None
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     games = session.query(Game).filter_by(date=None).order_by(asc(Game.id)).all()
     for game_record in games:
         game_parser(session, game_record)
@@ -33,7 +34,7 @@ def fix_dup_gamestat(engine):
     :param engine:
     :return: None
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     dup_game_id = session.query(SquadGameStat.game_id)\
         .group_by(SquadGameStat.game_id).having(func.count(SquadGameStat.game_id) > 2).all()
     print dup_game_id
@@ -67,7 +68,7 @@ def fix_dup_game_in_one_day(engine):
     :param engine:
     :return: None
     """
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     dup_games = session.query(Game.id, Game.date, Game.winner_id).\
         filter(and_(Game.winner_id != 1, Game.loser_id != 1, Game.date != None)).\
         group_by(Game.date, Game.winner_id).having(func.count(Game.id) > 1).all()
@@ -85,7 +86,7 @@ def fix_only_one_gamestat(engine):
     :return: None
     """
 
-    session = Settings.create_session(engine)
+    session = settings.create_session(engine)
     game_id_list = session.query(SquadGameStat.game_id)\
         .group_by(SquadGameStat.game_id).having(func.count(SquadGameStat.game_id) == 1).all()
     # Compare each game_id in table Schedule
@@ -100,6 +101,26 @@ def fix_only_one_gamestat(engine):
             print "added 1 game_stat"
 
     session.close()
+
+
+def fix_dup_playerseasonstat(engine):
+    """
+    One squad member should only have one season_stat
+    This should be a one time fix.
+    :param engine:
+    :return: None
+    """
+    session = settings.create_session(engine)
+    distinct_member_id_list = session.query(distinct(PlayerSeasonStat.squadmember_id)).all()
+    for member_id_result in distinct_member_id_list:
+        member_id = member_id_result[0]
+        # Query all duplicates in descending order
+        dup_stats = session.query(PlayerSeasonStat).filter_by(squadmember_id=member_id)\
+            .order_by(desc(PlayerSeasonStat.id)).all()
+        # Delete all other dups except for the most recent one
+        for one_stat in dup_stats[1:]:
+            session.query(PlayerSeasonStat).filter_by(id=one_stat.id).delete()
+        print "Cleaning dup for squad_member: ", str(member_id)
 
 
 def main(argv):
@@ -122,7 +143,7 @@ def main(argv):
         elif opt in ("-s", "--season"):
             season = arg
 
-    engine = Settings.create_engine(gender)
+    engine = settings.create_engine(gender)
 
     if process == "fix_game_with_no_date" or process == "date":
         fix_game_with_no_date(engine)
@@ -132,6 +153,8 @@ def main(argv):
         fix_dup_game_in_one_day(engine)
     elif process == "fix_only_one_gamestat" or process == "single_gamestat":
         fix_only_one_gamestat(engine)
+    elif process == "fix_dup_playerseasonstat" or process == "dup_playerseasonstat":
+        fix_dup_playerseasonstat(engine)
     elif process == "all":
         fix_game_with_no_date(engine)
         fix_dup_gamestat(engine)

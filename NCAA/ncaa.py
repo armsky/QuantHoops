@@ -340,6 +340,10 @@ class PlayerSeasonStat(Base):
         for k, v in stats.iteritems():
             setattr(self, k, v)
 
+    def update(self, stats):
+        for k, v in stats.iteritems():
+            setattr(self, k, v)
+
 
 # - SquadSeasonStat -- /
 class SquadSeasonStat(Base):

@@ -8475,7 +8475,7 @@ var rquery = (/\?/);
 var rvalidtokens = /(,)|(\[|{)|(}|])|"(?:[^"\\\r\n]|\\["\\\/bfnrt]|\\u[\da-fA-F]{4})*"\s*:?|true|false|null|-?(?!0\d)\d+(?:\.\d+|)(?:[eE][+-]?\d+|)/g;
 
 jQuery.parseJSON = function( data ) {
-	// Attempt to parse using the native JSON parser first
+	// Attempt to parse using the native JSON helper first
 	if ( window.JSON && window.JSON.parse ) {
 		// Support: Android 2.3
 		// Workaround failure to string-cast null input
