@@ -1,0 +1,50 @@
+How To Use
+==========
+This page provides simple use case for how to use this tool in backend.
+
+Command Line Interface
+----------------------
+There are two CLIs for this project.
+
+**scheduler.py** has 4 arguments to control the process:
+
+ #. ``-g`` <gender>: Use 'men' or 'women'
+
+ #. ``-t`` <type>: Use'new' or 'initial'. If this is your first time to run this app and would
+    like to get a full database of NCAA, use 'initial'. If you already created a database but want
+    to update it with newest data, use 'new'.
+
+ #. ``-p`` <process>: Use process name as below
+
+    #. '**schedule_game_player**': will scrap schedule, game and player information.
+    #. '**season_stat**': will scrap seasonal statistics information.
+    #. '**game_stat'**: will scrap each game's statistics information.
+    #. '**game_detail**': will scrap details of each game.
+
+ #. ``-s`` <season>: Use a season year, i.e. 2015 means season 2014-2015
+
+**fix.py** has very similar arguments with *scheduler.py* except for it does not has ``-t``. Because NCAA
+    website itself has many bugs, we will need this fix script to make sure data integrity of our database.
+
+ #. ``-g`` <gender>: Use 'men' or 'women'
+ #. ``-p`` <process>: Use process name as **scheduler.py** listed
+ #. ``-s`` <season>: Use a season year
+
+**Usage**:
+ * ``scheduler.py -g <gender> -t <type> -p <process> -s <season>``
+ * ``fix.py -g <gender> -p <process>``
+
+Schedule of Cron Entries
+------------------------
+This crapper runs with a cron (a time-based job scheduler in Unix-like computer operating systems). Once setup,
+you can sit back let the scrapper do the job itself.
+
+**Cron schedule**:
+
+    #. Scrape new teams every day in Nov to get a full list of all teams. (Men at 10:00PM, Women at 10:10PM)
+    #. Scrape new games, schedules and players every day from Nov to Apr. (Men at 10:30PM, Women at 11:00PM)
+    #. Scrape new game stats every day from Nov to Apr. (Men at 07:00PM, Women at 08:00PM)
+    #. Scrape new season stats every day from Nov to Apr. (Men at 11:30PM, Women at 12:00AM)
+    #. Scrape new game details every day from Nov to Apr. (Men at 01:00PM, Women at 05:00PM)
+    #. Fix game_with_no_date, dup_gamestat, etc, every day from Nov to Apr. (Men at 5:00AM, Women at 6:00AM)
+

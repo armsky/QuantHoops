@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How To Use &mdash; QuantHoop 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <link rel="top" title="QuantHoop 1.0 documentation" href="../index.html" />
+    <link rel="prev" title="Database design" href="database.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="how-to-use">
+<h1>How To Use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h1>
+<p>This page provides simple use case for how to use this tool in backend.</p>
+<div class="section" id="command-line-interface">
+<h2>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h2>
+<p>There are two CLIs for this project.</p>
+<p><strong>scheduler.py</strong> has 4 arguments to control the process:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">-g</span></code> &lt;gender&gt;: Use &#8216;men&#8217; or &#8216;women&#8217;</li>
+<li><code class="docutils literal"><span class="pre">-t</span></code> &lt;type&gt;: Use&#8217;new&#8217; or &#8216;initial&#8217;. If this is your first time to run this app and would
+like to get a full database of NCAA, use &#8216;initial&#8217;. If you already created a database but want
+to update it with newest data, use &#8216;new&#8217;.</li>
+<li><code class="docutils literal"><span class="pre">-p</span></code> &lt;process&gt;: Use process name as below<ol class="arabic">
+<li>&#8216;<strong>schedule_game_player</strong>&#8216;: will scrap schedule, game and player information.</li>
+<li>&#8216;<strong>season_stat</strong>&#8216;: will scrap seasonal statistics information.</li>
+<li>&#8216;<strong>game_stat&#8217;</strong>: will scrap each game&#8217;s statistics information.</li>
+<li>&#8216;<strong>game_detail</strong>&#8216;: will scrap details of each game.</li>
+</ol>
+</li>
+<li><code class="docutils literal"><span class="pre">-s</span></code> &lt;season&gt;: Use a season year, i.e. 2015 means season 2014-2015</li>
+</ol>
+</div></blockquote>
+<dl class="docutils">
+<dt><strong>fix.py</strong> has very similar arguments with <em>scheduler.py</em> except for it does not has <code class="docutils literal"><span class="pre">-t</span></code>. Because NCAA</dt>
+<dd><blockquote class="first">
+<div>website itself has many bugs, we will need this fix script to make sure data integrity of our database.</div></blockquote>
+<ol class="last arabic simple">
+<li><code class="docutils literal"><span class="pre">-g</span></code> &lt;gender&gt;: Use &#8216;men&#8217; or &#8216;women&#8217;</li>
+<li><code class="docutils literal"><span class="pre">-p</span></code> &lt;process&gt;: Use process name as <strong>scheduler.py</strong> listed</li>
+<li><code class="docutils literal"><span class="pre">-s</span></code> &lt;season&gt;: Use a season year</li>
+</ol>
+</dd>
+<dt><strong>Usage</strong>:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">scheduler.py</span> <span class="pre">-g</span> <span class="pre">&lt;gender&gt;</span> <span class="pre">-t</span> <span class="pre">&lt;type&gt;</span> <span class="pre">-p</span> <span class="pre">&lt;process&gt;</span> <span class="pre">-s</span> <span class="pre">&lt;season&gt;</span></code></li>
+<li><code class="docutils literal"><span class="pre">fix.py</span> <span class="pre">-g</span> <span class="pre">&lt;gender&gt;</span> <span class="pre">-p</span> <span class="pre">&lt;process&gt;</span></code></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="schedule-of-cron-entries">
+<h2>Schedule of Cron Entries<a class="headerlink" href="#schedule-of-cron-entries" title="Permalink to this headline">¶</a></h2>
+<p>This crapper runs with a cron (a time-based job scheduler in Unix-like computer operating systems). Once setup,
+you can sit back let the scrapper do the job itself.</p>
+<p><strong>Cron schedule</strong>:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Scrape new teams every day in Nov to get a full list of all teams. (Men at 10:00PM, Women at 10:10PM)</li>
+<li>Scrape new games, schedules and players every day from Nov to Apr. (Men at 10:30PM, Women at 11:00PM)</li>
+<li>Scrape new game stats every day from Nov to Apr. (Men at 07:00PM, Women at 08:00PM)</li>
+<li>Scrape new season stats every day from Nov to Apr. (Men at 11:30PM, Women at 12:00AM)</li>
+<li>Scrape new game details every day from Nov to Apr. (Men at 01:00PM, Women at 05:00PM)</li>
+<li>Fix game_with_no_date, dup_gamestat, etc, every day from Nov to Apr. (Men at 5:00AM, Women at 6:00AM)</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How To Use</a><ul>
+<li><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
+<li><a class="reference internal" href="#schedule-of-cron-entries">Schedule of Cron Entries</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="database.html" title="previous chapter">Database design</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_static/howto.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Hao Lin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/_static/howto.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

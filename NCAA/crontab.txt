@@ -31,8 +31,8 @@
 # Initial daily scrapes
 
 # game detail scrape
-0 1,4,7 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p game_detail >> ../Logs/$(date +\%Y-\%m-\%d)_men_game_detail.log
-10 1,4,7 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p game_detail >> ../Logs/$(date +\%Y-\%m-\%d)_women_game_detail.log
+#0 1,4,7 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p game_detail >> ../Logs/$(date +\%Y-\%m-\%d)_men_game_detail.log
+#10 1,4,7 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t initial -p game_detail >> ../Logs/$(date +\%Y-\%m-\%d)_women_game_detail.log
 
 # Game schedule scrape
 #0 2,14 * * * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t initial -p schedule_game_player >> ../Logs/$(date +\%Y-\%m-\%d)_men_schedule_game_player.log

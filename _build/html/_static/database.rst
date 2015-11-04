@@ -102,7 +102,7 @@ Many-to-one maps to Player, Squad, and Game
 
 Table structure:
 
-
+.. image:: squadmember_table.png
 
 PlayerSeasonStat table
 ----------------------
@@ -112,7 +112,7 @@ Many-to-one maps to SquadMember
 
 Table structure:
 
-
+.. image:: PlayerSeasonStat_table.png
 
 SquadSeasonStat table
 ---------------------
@@ -122,7 +122,8 @@ one-to-one maps to Squad.
 
 Table structure:
 
-
+.. image:: SquadSeasonStat_table1.png
+.. image:: SquadSeasonStat_table2.png
 
 PlayerGameStat table
 --------------------
@@ -133,7 +134,7 @@ to Game.
 
 Table structure:
 
-
+.. image:: PlayerGameStat_table.png
 
 SquadGameStat table
 -------------------
@@ -143,7 +144,7 @@ Many-to-one maps to Squad and Game
 
 Table structure:
 
-
+.. image:: SquadGameStat_table.png
 
 GameDetail table
 ----------------
@@ -153,5 +154,5 @@ Many-to-one maps to Game.
 
 Table structure:
 
-
+.. image:: GameDetail_table.png
 

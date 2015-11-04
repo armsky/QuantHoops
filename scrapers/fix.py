@@ -130,7 +130,7 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "g:p:s:", ["gender", "process=", "season="])
     except getopt.GetoptError:
-        print 'scheduler.py -g <gender> -p <process> -s <season>'
+        print 'fix.py -g <gender> -p <process> -s <season>'
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-g", "--gender"):

@@ -13,14 +13,12 @@ Contents:
 
    _static/basic
    _static/database
-   _static/example copy
+   _static/howto
 
 
-
-Indices and tables
-==================
+Other Resources
+===============
 
 * :ref:`genindex`
-* :ref:`modindex`
+* `Beautiful Soup <http://www.crummy.com/software/BeautifulSoup/bs4/doc/>`_
 * :ref:`search`
-

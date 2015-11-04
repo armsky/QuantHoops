@@ -31,22 +31,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="example copy.html" title="This is a Title"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="basic.html" title="What is QuantHoops"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">QuantHoop 1.0 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -130,18 +115,22 @@ This allows for more realistic simulations.</p>
 <p>This is the class that holds Player&#8217;s basic information.
 Many-to-one maps to Player, Squad, and Game</p>
 <p>Table structure:</p>
+<img alt="../_images/squadmember_table.png" src="../_images/squadmember_table.png" />
 </div>
 <div class="section" id="playerseasonstat-table">
 <h2>PlayerSeasonStat table<a class="headerlink" href="#playerseasonstat-table" title="Permalink to this headline">¶</a></h2>
 <p>Contains the stats of one SquadMember in one Season</p>
 <p>Many-to-one maps to SquadMember</p>
 <p>Table structure:</p>
+<img alt="../_images/PlayerSeasonStat_table.png" src="../_images/PlayerSeasonStat_table.png" />
 </div>
 <div class="section" id="squadseasonstat-table">
 <h2>SquadSeasonStat table<a class="headerlink" href="#squadseasonstat-table" title="Permalink to this headline">¶</a></h2>
 <p>Contains the stats of one Squad in one Season.</p>
 <p>one-to-one maps to Squad.</p>
 <p>Table structure:</p>
+<img alt="../_images/SquadSeasonStat_table1.png" src="../_images/SquadSeasonStat_table1.png" />
+<img alt="../_images/SquadSeasonStat_table2.png" src="../_images/SquadSeasonStat_table2.png" />
 </div>
 <div class="section" id="playergamestat-table">
 <h2>PlayerGameStat table<a class="headerlink" href="#playergamestat-table" title="Permalink to this headline">¶</a></h2>
@@ -149,18 +138,21 @@ Many-to-one maps to Player, Squad, and Game</p>
 <p>Many-to-one maps to SquadMember and many-to-one maps
 to Game.</p>
 <p>Table structure:</p>
+<img alt="../_images/PlayerGameStat_table.png" src="../_images/PlayerGameStat_table.png" />
 </div>
 <div class="section" id="squadgamestat-table">
 <h2>SquadGameStat table<a class="headerlink" href="#squadgamestat-table" title="Permalink to this headline">¶</a></h2>
 <p>Contains the stats of one Squad in one Game</p>
 <p>Many-to-one maps to Squad and Game</p>
 <p>Table structure:</p>
+<img alt="../_images/SquadGameStat_table.png" src="../_images/SquadGameStat_table.png" />
 </div>
 <div class="section" id="gamedetail-table">
 <h2>GameDetail table<a class="headerlink" href="#gamedetail-table" title="Permalink to this headline">¶</a></h2>
 <p>Play-by-Play information</p>
 <p>Many-to-one maps to Game.</p>
 <p>Table structure:</p>
+<img alt="../_images/GameDetail_table.png" src="../_images/GameDetail_table.png" />
 </div>
 </div>
 
@@ -189,13 +181,15 @@ to Game.</p>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="basic.html"
-                        title="previous chapter">What is QuantHoops</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="example copy.html"
-                        title="next chapter">This is a Title</a></p>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="basic.html" title="previous chapter">What is QuantHoops</a></li>
+      <li>Next: <a href="example copy.html" title="next chapter">This is a Title</a></li>
+  </ul></li>
+</ul>
+</div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -224,12 +218,12 @@ to Game.</p>
       &copy;2015, Hao Lin.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
       <a href="../_sources/_static/database.txt"
-          rel="nofollow">Page source</a></li>
+          rel="nofollow">Page source</a>
     </div>
 
     

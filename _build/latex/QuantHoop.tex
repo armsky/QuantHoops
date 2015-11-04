@@ -19,7 +19,7 @@
 
 
 \title{QuantHoop Documentation}
-\date{March 14, 2015}
+\date{October 14, 2015}
 \release{1.0}
 \author{Hao Lin}
 \newcommand{\sphinxlogo}{}
@@ -352,6 +352,8 @@ Many-to-one maps to Player, Squad, and Game
 
 Table structure:
 
+\includegraphics{squadmember_table.png}
+
 
 \section{PlayerSeasonStat table}
 \label{_static/database:playerseasonstat-table}
@@ -361,6 +363,8 @@ Many-to-one maps to SquadMember
 
 Table structure:
 
+\includegraphics{PlayerSeasonStat_table.png}
+
 
 \section{SquadSeasonStat table}
 \label{_static/database:squadseasonstat-table}
@@ -369,6 +373,10 @@ Contains the stats of one Squad in one Season.
 one-to-one maps to Squad.
 
 Table structure:
+
+\includegraphics{SquadSeasonStat_table1.png}
+
+\includegraphics{SquadSeasonStat_table2.png}
 
 
 \section{PlayerGameStat table}
@@ -380,6 +388,8 @@ to Game.
 
 Table structure:
 
+\includegraphics{PlayerGameStat_table.png}
+
 
 \section{SquadGameStat table}
 \label{_static/database:squadgamestat-table}
@@ -388,6 +398,8 @@ Contains the stats of one Squad in one Game
 Many-to-one maps to Squad and Game
 
 Table structure:
+
+\includegraphics{SquadGameStat_table.png}
 
 
 \section{GameDetail table}
@@ -398,29 +410,35 @@ Many-to-one maps to Game.
 
 Table structure:
 
-
-\chapter{This is a Title}
-\label{_static/example copy::doc}\label{_static/example copy:this-is-a-title}
-That has a paragraph about a main subject and is set when the `='
-is at least the same length of the title itself.
+\includegraphics{GameDetail_table.png}
 
 
-\section{Subject Subtitle}
-\label{_static/example copy:subject-subtitle}
-Subtitles are set with `-` and are required to have the same length
-of the subtitle itself, just like titles.
+\chapter{How To Use}
+\label{_static/howto:how-to-use}\label{_static/howto::doc}
+This page provides simple use case for how to use this tool in backend.
 
-Lists can be unnumbered like:
-\begin{itemize}
+
+\section{Command Line Interface}
+\label{_static/howto:command-line-interface}
+There are two CLIs for this project.
+
+scheduler.py has 4 arguments to control the process:
+\begin{enumerate}
 \item {} 
-Item Foo
+-g \textless{}gender\textgreater{}: Use `men' or `women'
 
 \item {} 
-Item Bar
+-t \textless{}type\textgreater{}: Use'new' or `initial'. If this is your first time to run this app and would like to get a full database of NCAA, use `initial'. If you already created a database but want to update it with newest data, use `new'.
 
-\end{itemize}
+\item {} 
+-p \textless{}process\textgreater{}
 
-Or automatically numbered:
+\item {} 
+-s \textless{}season\textgreater{}
+
+\end{enumerate}
+
+fix.py:
 \begin{enumerate}
 \item {} 
 Item 1
@@ -429,22 +447,33 @@ Item 1
 Item 2
 
 \end{enumerate}
+\begin{description}
+\item[{Usecase:}] \leavevmode\begin{itemize}
+\item {} 
+scheduler.py -g \textless{}gender\textgreater{} -t \textless{}type\textgreater{} -p \textless{}process\textgreater{} -s \textless{}season\textgreater{}
+
+\item {} 
+fix.py -g \textless{}gender\textgreater{} -p \textless{}process\textgreater{}
+
+\end{itemize}
+
+\end{description}
 
 
-\section{Inline Markup}
-\label{_static/example copy:inline-markup}
+\section{Schedule of Cron Entries}
+\label{_static/howto:schedule-of-cron-entries}
 Words can have \emph{emphasis in italics} or be \textbf{bold} and you can define
 code samples with back quotes, like when you talk about a command: \code{sudo}
 gives you super user powers!
 
 
-\chapter{Indices and tables}
-\label{index:indices-and-tables}\begin{itemize}
+\chapter{Other Resources}
+\label{index:other-resources}\begin{itemize}
 \item {} 
 \DUspan{xref,std,std-ref}{genindex}
 
 \item {} 
-\DUspan{xref,std,std-ref}{modindex}
+\href{http://www.crummy.com/software/BeautifulSoup/bs4/doc/}{Beautiful Soup}
 
 \item {} 
 \DUspan{xref,std,std-ref}{search}
