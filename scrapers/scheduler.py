@@ -4,7 +4,7 @@ import sys
 import getopt
 sys.path.insert(1, '../NCAA')
 from ncaa import *
-from NCAA import settings
+import settings
 from scraper import *
 from sqlalchemy import *
 import datetime
@@ -203,10 +203,10 @@ def new_team_squad_scrap(engine):
     session.close()
 
     try:
-        print "#####"+str(this_season_id)
+        print "Season id is", str(this_season_id)
         for division in [1, 2, 3]:
             session = settings.create_session(engine)
-            print "*****"
+            print "Search for division", str(division)
             team_parser(session, this_season_id, division)
             squad_parser(session, this_season_id, division)
             conference_parser(session, this_season_id, division)

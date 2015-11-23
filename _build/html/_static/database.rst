@@ -8,7 +8,10 @@ Use ncaa_id to determine season and gender, no matter what the division is.
 
 The data entry must be manually inserted into table, because we can not predict
 the season_id that ncaa will use for the next season. Men and Women will use
-same season_id for the same season.
+different season_id for the same season.
+
+You must manually add new season_id into database every time the new season begins. See: :ref:`How to Add New season_id`
+
 
 Table structure:
 

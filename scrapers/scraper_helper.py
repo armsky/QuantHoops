@@ -1,12 +1,11 @@
-__author__ = 'Hao Lin'
-
-
 import traceback
 import urllib
 import urllib2
 import datetime
 import socket
 from bs4 import BeautifulSoup
+
+__author__ = 'Hao Lin'
 
 
 def soupify(url):
@@ -19,11 +18,16 @@ def soupify(url):
     """
     try:
         print url
-        urllib2.urlopen(url)
-        url_connection = urllib.urlopen(url)
-        html = url_connection.read()
+        # url_connection = urllib.urlopen(url)
+        # html = url_connection.read()
+        # soup = BeautifulSoup(html)
+        # url_connection.close()
+
+        request = urllib2.Request(url)
+        request.add_header("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5")
+        html = urllib2.urlopen(request).read()
         soup = BeautifulSoup(html)
-        url_connection.close()
+
         return soup
     except (urllib2.URLError, socket.error):
         try:
@@ -50,7 +54,6 @@ def soupify(url):
         return None
 
 
-
 def get_team_link(url):
     soup = soupify(url)
     team_links = list(set([x.find('a') for x in soup.find_all('td')]))
@@ -65,7 +68,7 @@ def write_error_to_file(message):
     """
     today = datetime.date.today()
     file_name = str(today.year)+"_"+str(today.month)+"_"+str(today.day)+".txt"
-    file_path = '../Logs/%s'% file_name
+    file_path = '../Logs/%s' % file_name
     with open(file_path, "a") as f:
         f.write("========"+str(datetime.datetime.now())+"========\n")
         f.write(message)
@@ -101,4 +104,3 @@ def get_current_year():
 def get_current_month():
     today = datetime.date.today()
     return int(today.month)
-

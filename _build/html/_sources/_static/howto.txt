@@ -48,3 +48,15 @@ you can sit back let the scrapper do the job itself.
     #. Scrape new game details every day from Nov to Apr. (Men at 01:00PM, Women at 05:00PM)
     #. Fix game_with_no_date, dup_gamestat, etc, every day from Nov to Apr. (Men at 5:00AM, Women at 6:00AM)
 
+.. _How to Add New season_id:
+
+How to Add New season_id
+------------------------
+**Steps**:
+    #. Find the team list page `http://stats.ncaa.org/team/inst_team_list <http://stats.ncaa.org/team/inst_team_list/>`_
+    #. Select the sport and season year
+    #. Click any team in this list
+    #. You should see a url like http://stats.ncaa.org/team/index/12260?org_id=26172 , the first number `12260` would be the season id you want
+    #. Add this season in your database
+        #. Find ``season`` table
+        #. Type in SQL statement: ``INSERT INTO season (id, year) VALUES (12260, 2016)``

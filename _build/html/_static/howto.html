@@ -94,6 +94,32 @@ you can sit back let the scrapper do the job itself.</p>
 </ol>
 </div></blockquote>
 </div>
+<div class="section" id="how-to-add-new-season-id">
+<span id="id1"></span><h2>How to Add New season_id<a class="headerlink" href="#how-to-add-new-season-id" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Steps</strong>:</dt>
+<dd><ol class="first last arabic">
+<li><p class="first">Find the team list page <a class="reference external" href="http://stats.ncaa.org/team/inst_team_list/">http://stats.ncaa.org/team/inst_team_list</a></p>
+</li>
+<li><p class="first">Select the sport and season year</p>
+</li>
+<li><p class="first">Click any team in this list</p>
+</li>
+<li><p class="first">You should see a url like <a class="reference external" href="http://stats.ncaa.org/team/index/12260?org_id=26172">http://stats.ncaa.org/team/index/12260?org_id=26172</a> , the first number <cite>12260</cite> would be the season id you want</p>
+</li>
+<li><dl class="first docutils">
+<dt>Add this season in your database</dt>
+<dd><ol class="first last arabic simple">
+<li>Find <code class="docutils literal"><span class="pre">season</span></code> table</li>
+<li>Type in SQL statement: <code class="docutils literal"><span class="pre">INSERT</span> <span class="pre">INTO</span> <span class="pre">season</span> <span class="pre">(id,</span> <span class="pre">year)</span> <span class="pre">VALUES</span> <span class="pre">(12260,</span> <span class="pre">2016)</span></code></li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</div>
 </div>
 
 
@@ -107,6 +133,7 @@ you can sit back let the scrapper do the job itself.</p>
 <li><a class="reference internal" href="#">How To Use</a><ul>
 <li><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
 <li><a class="reference internal" href="#schedule-of-cron-entries">Schedule of Cron Entries</a></li>
+<li><a class="reference internal" href="#how-to-add-new-season-id">How to Add New season_id</a></li>
 </ul>
 </li>
 </ul>
