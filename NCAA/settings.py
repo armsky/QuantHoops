@@ -23,7 +23,7 @@ def create_engine(gender, user=None, password=None, host=None, echo=False):
     if gender == "men":
         database = "linhao_ncaa_men"
     elif gender == "women":
-        database = "linhao_ncaa_Women"
+        database = "linhao_ncaa_women"
     else:
         print "No database specified or gender wrong..."
         sys.exit()

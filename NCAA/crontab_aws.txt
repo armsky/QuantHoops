@@ -1,0 +1,28 @@
+# Fix process
+
+# Fix game_with_no_date, dup_gamestat every day from Nov to Apr. Men at 5:00AM, Women at 6:00AM
+0 5 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python fix.py -g men -p all >> ../Logs/$(date +\%Y-\%m-\%d)_fix.log
+0 6 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python fix.py -g women -p all >> ../Logs/$(date +\%Y-\%m-\%d)_fix.log
+
+# Daily scrape
+
+# scrape new teams every day in Nov. Men at 10:00PM, Women at 10:10PM
+# No need to scrap teams everyday
+#0 22 * 11 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p team_squad >> ../Logs/$(date +\%Y-\%m-\%d)_men_new_team_squad.log
+#10 22 * 11 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p team_squad >> ../Logs/$(date +\%Y-\%m-\%d)_women_new_team_squad.log
+
+# scrape new games schedules and players every day from Nov to Apr. Men at 10:30PM, Women at 11:00PM
+30 22 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p schedule_game_player >> ../Logs/$(date +\%Y-\%m-\%d)_men_new_schedule_game_player.log
+0 23 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p schedule_game_player >> ../Logs/$(date +\%Y-\%m-\%d)_women_new_schedule_game_player.log
+
+# scrape new game stats every day from Nov to Apr. Men at 07:00PM, Women at 08:00PM
+0 19 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p game_stat >> ../Logs/$(date +\%Y-\%m-\%d)_men_new_game_stat.log
+0 20 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p game_stat >> ../Logs/$(date +\%Y-\%m-\%d)_women_new_game_stat.log
+
+# scrape new season stats every day from Nov to Apr. Men at 11:30PM, Women at 12:00AM
+30 23 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p season_stat >> ../Logs/$(date +\%Y-\%m-\%d)_men_new_season_stat.log
+0 00 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p season_stat >> ../Logs/$(date +\%Y-\%m-\%d)_women_new_season_stat.log
+
+# scrape new game details every day from Nov to Apr. Men at 01:00PM, Women at 05:00PM
+0 13 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g men -t new -p game_detail >> ../Logs/$(date +\%Y-\%m-\%d)_men_new_game_detail.log
+0 17 * 1,2,3,4,11,12 * cd /home/michael/QuantHoops/scrapers && python scheduler.py -g women -t new -p game_detail >> ../Logs/$(date +\%Y-\%m-\%d)_women_new_game_detail.log
