@@ -17,16 +17,13 @@ def create_engine(gender, user=None, password=None, host=None, echo=False):
         logger, which defaults to sys.stdout.
     :return: SQLAlchemy `Engine` instance
     """
-    if user is None:
-        user = "root"
-    if password is None:
-        password = "QuantH00p!"
-    if host is None:
-        host = "localhost"
+    user = "linhao"
+    password = "IPepsi"
+    host = "192.169.234.41"
     if gender == "men":
-        database = "NCAA_Men"
+        database = "linhao_ncaa_men"
     elif gender == "women":
-        database = "NCAA_Women"
+        database = "linhao_ncaa_Women"
     else:
         print "No database specified or gender wrong..."
         sys.exit()

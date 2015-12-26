@@ -27,11 +27,13 @@ def soupify(url):
         request.add_header("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5")
         html = urllib2.urlopen(request).read()
         soup = BeautifulSoup(html)
+        if not soup:
+            print html
 
         return soup
     except (urllib2.URLError, socket.error):
         try:
-            # If didn't get the information, try a second time
+            print "Didn't get the information, try a second time"
             urllib2.urlopen(url)
             url_connection = urllib.urlopen(url)
             html = url_connection.read()

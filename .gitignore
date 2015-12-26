@@ -1,5 +1,10 @@
+Logs/
+_templates/
+Makefile
+make.bat
 *.pyc
 *.log
+*.out
 *.xml
 .*
-!/.gitignore
+.gitignore
