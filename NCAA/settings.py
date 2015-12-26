@@ -28,7 +28,7 @@ def create_engine(gender, user=None, password=None, host=None, echo=False):
         print "No database specified or gender wrong..."
         sys.exit()
 
-    engine = sqlalchemy.create_engine('mysql://'+user+':'+password+'@'+host+'/'+database, echo=echo)
+    engine = sqlalchemy.create_engine('mysql+pymysql://'+user+':'+password+'@'+host+'/'+database, echo=echo)
     return engine
 
 
